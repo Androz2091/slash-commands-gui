@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+    background-color: #2f3136;
+    color: white;
+}
+
+nav {
+    background-color: #202225;
+}
+
+.btn-settings {
+    background-color: #292b2f;
+    color: white
+}

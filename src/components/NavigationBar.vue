@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-gray-800">
+    <nav class="bg-2f3136">
         <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-16">
                 <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start flex-shrink-0">
@@ -28,7 +28,7 @@
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                         /></svg>
                     </button>
-                    <button class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white hidden md:block">
+                    <button class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white hidden md:block btn-settings">
                         Settings
                     </button>
                 </div>

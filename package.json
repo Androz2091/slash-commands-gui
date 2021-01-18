@@ -6,6 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "v-tooltip": "paulshen/v-tooltip#vue3",
     "vue": "^3.0.4"
   },
   "devDependencies": {
