@@ -9,12 +9,13 @@
     "vue": "^3.0.4"
   },
   "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.2",
     "@vue/compiler-sfc": "^3.0.4",
-    "autoprefixer": "^10.2.1",
+    "autoprefixer": "^9",
     "eslint": "^7.18.0",
     "eslint-plugin-vue": "^7.0.0-beta.4",
-    "postcss": "^8.2.4",
-    "tailwindcss": "^2.0.2",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vite": "^1.0.0-rc.13"
   }
 }
