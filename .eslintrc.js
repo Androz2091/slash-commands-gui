@@ -9,6 +9,8 @@ module.exports = {
     ],
     rules: {
         indent: ['error', 4],
-        'vue/html-indent': ['error', 4]
+        'max-len': 0,
+        'vue/html-indent': ['error', 4],
+        'vue/max-len': 0
     }
 };
