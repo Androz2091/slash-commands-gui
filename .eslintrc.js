@@ -4,6 +4,7 @@ module.exports = {
         "plugin:vue/vue3-recommended",
     ],
     rules: {
-        indent: ['error', 4]
+        indent: ['error', 4],
+        'vue/html-indent': ['error', 4]
     }
 };
