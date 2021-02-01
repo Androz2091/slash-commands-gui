@@ -1,8 +1,14 @@
 <template>
-    <div class="text-center px-4 my-12 mx-auto">
-        <h1 class="text-1xl md:text-3xl">
+    <div class="px-4 my-12 space-y-6">
+        <h1 class="text-center text-2xl md:text-3xl">
             Configuration of /{{ command.name }}
         </h1>
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-1xl">
+                Actions
+            </h1>
+            <button>Delete</button>
+        </div>
     </div>
 </template>
 

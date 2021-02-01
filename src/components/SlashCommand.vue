@@ -33,11 +33,13 @@ export default {
     padding: 20px;
     border-radius: 25px;
     cursor: pointer;
+    border-width: 1px;
+    border-color: transparent;
 }
 .cmd-card:focus {
-    border-width: 1px;
+    border-color: white;
 }
 .cmd-card:hover {
-    text-decoration: underline;
+    border-color: white;
 }
 </style>

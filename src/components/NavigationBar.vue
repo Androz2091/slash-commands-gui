@@ -3,12 +3,19 @@
         <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-16">
                 <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start flex-shrink-0">
-                    <h2 class="text-white">
+                    <h2
+                        class="text-white cursor-pointer"
+                        @click="$router.push('/')"
+                    >
                         Slash Commands GUI
                     </h2>
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <button class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white md:hidden">
+                    <router-link
+                        to="/settings"
+                        tag="button"
+                        class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white md:hidden"
+                    >
                         <span class="sr-only">Settings</span>
                         <svg
                             class="w-6 h-6"
@@ -27,7 +34,7 @@
                             stroke-width="2"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                         /></svg>
-                    </button>
+                    </router-link>
                     <router-link
                         tag="button"
                         to="/settings"
