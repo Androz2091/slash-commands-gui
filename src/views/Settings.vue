@@ -87,14 +87,14 @@ export default {
     },
     mounted () {
         this.token = this.$store.state.token;
-        this.guildID = this.$store.state.guildID;
+        this.guildID = this.$store.state.selectedGuildID;
         this.proxyURL = this.$store.state.proxyURL;
     },
     methods: {
         onSubmit () {
             this.$store.dispatch('updateSettings', {
                 token: this.token,
-                guildID: this.guildID,
+                selectedGuildID: this.guildID,
                 proxyURL: this.proxyURL
             });
             fetchApplication(this.token, this.proxyURL, this.guildID).then((application) => {

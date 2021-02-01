@@ -1,7 +1,7 @@
 <template>
     <div
-        class="cmd-card"
-        tabindex="1"
+        class="cmd-card focus:outline-none focus:border-white"
+        tabindex="0"
         :onclick="test"
         @keyup.enter="test"
     >
@@ -12,6 +12,8 @@
 <script>
 export default {
     name: 'SlashCommand',
+    props: {
+    },
     methods: {
         test () {
             alert('coucou')
@@ -27,7 +29,9 @@ export default {
     padding: 20px;
     border-radius: 25px;
     cursor: pointer;
-    border-color: white;
+}
+.cmd-card:focus {
+    border-width: 1px;
 }
 .cmd-card:hover {
     text-decoration: underline;

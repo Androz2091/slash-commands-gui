@@ -15,11 +15,17 @@
         v-else
         class="container mx-auto"
     >
-        <SlashCommand />
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <SlashCommand
+                v-for="command in commands"
+                :key="command.name"
+            />
+        </div>
     </div>
 </template>
 
 <script>
+import { fetchCommands } from '../api';
 import SlashCommand from '../components/SlashCommand.vue'
 
 export default {
@@ -28,22 +34,31 @@ export default {
     },
     data() {
         return {
-            loading: true
+            loading: true,
+            commands: null
+        }
+    },
+    beforeCreate () {
+        if (this.$store.getters.logged) {
+            fetchCommands(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID).then((commands) => {
+                this.commands = commands;
+                this.loading = false;
+            });
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.ball-pulse>div:first-child {
+.ball-pulse > div:first-child {
     -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.24s infinite;
     animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.24s infinite;
 }
-.ball-pulse>div:nth-child(2) {
+.ball-pulse > div:nth-child(2) {
     -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.12s infinite;
     animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.12s infinite;
 }
-.ball-pulse>div:nth-child(3) {
+.ball-pulse > div:nth-child(3) {
     -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) 0s infinite;
     animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) 0s infinite;
 }

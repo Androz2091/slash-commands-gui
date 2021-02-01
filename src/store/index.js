@@ -16,6 +16,9 @@ export default createStore({
         }
     },
     getters: {
+        logged (state) {
+            return state.token && state.proxyURL;
+        },
         applicationID (state) {
             const encodedApplicationID = state.token.match(/([A-Za-z\d]{24})\.[\w-]{6}\.[\w-]{27}/);
             return atob(encodedApplicationID[1]);
