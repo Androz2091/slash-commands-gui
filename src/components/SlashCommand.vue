@@ -162,7 +162,7 @@ li {
     text-decoration: underline;
 }
 ul {
-    padding-left: 3em;
+    padding-left: 0em;
     line-height: 1.5em;
     list-style-type: dot;
 }

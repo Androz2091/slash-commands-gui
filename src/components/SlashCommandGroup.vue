@@ -1,17 +1,17 @@
 <template>
     <li>
         <div
-            class="els"
+            class="els  grid grid-cols-3 gap-4"
             :class="{bold: isFolder}"
             @click="toggle"
             @dblclick="makeFolder"
         >
-            {{ item.name }}
-            <p class="italic">
+            <div>
+                {{ item.name }}
+            </div>
+            <div class="italic">
                 {{ item.description }}
-            </p>
-            <b>SubGROUP</b>
-            <p>[New]</p>
+            </div>
         </div>
         <ul v-if="item.subcommands && item.subcommands.length > 0">
             <SlashCommand
