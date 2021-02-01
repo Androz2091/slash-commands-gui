@@ -38,7 +38,7 @@
                     <router-link
                         tag="button"
                         to="/settings"
-                        class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white hidden md:block btn-settings"
+                        class="bg-darkone p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white hidden md:block btn-settings py-2 px-4"
                     >
                         Settings
                     </router-link>
