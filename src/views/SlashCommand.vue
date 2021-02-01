@@ -85,13 +85,27 @@
                 </button>
             </div>
         </form>
+        <div class="max-w-3xl mx-auto bg-gray-700 py-4 px-4 rounded">
+            <h1 class="text-2xl my-4">
+                Command Parameters
+            </h1>
+            <SlashCommandOption
+                v-for="option in command.options"
+                :key="option.name"
+                :option="option"
+            />
+        </div>
     </div>
 </template>
 
 <script>
 import { deleteCommand, updateCommand } from '../api';
+import SlashCommandOption from '../components/SlashCommandOption.vue';
 export default {
     name: 'SlashCommand',
+    components: {
+        SlashCommandOption
+    },
     data () {
         return {
             description: '',

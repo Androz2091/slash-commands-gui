@@ -26,7 +26,7 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
 .cmd-card {
     background-color: #202225;
     max-width: 200px;
