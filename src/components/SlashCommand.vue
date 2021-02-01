@@ -2,10 +2,10 @@
     <div
         class="cmd-card focus:outline-none focus:border-white"
         tabindex="0"
-        :onclick="test"
-        @keyup.enter="test"
+        :onclick="open"
+        @keyup.enter="open"
     >
-        /coucou
+        /{{ command.name }}
     </div>
 </template>
 
@@ -13,10 +13,14 @@
 export default {
     name: 'SlashCommand',
     props: {
+        command: {
+            type: Object,
+            required: true
+        }
     },
     methods: {
-        test () {
-            alert('coucou')
+        open () {
+            this.$router.push(`/command/${this.command.id}`)
         }
     }
 }

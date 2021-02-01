@@ -2,7 +2,7 @@
     <h1 class="text-center text-3xl p-10">
         Slash Commands
     </h1>
-    <b-container v-if="loading">
+    <div v-if="loading">
         <div
             class="ball-pulse smallBall vertical-center text-center"
         >
@@ -10,7 +10,7 @@
             <div />
             <div />
         </div>
-    </b-container>
+    </div>
     <div
         v-else
         class="container mx-auto"
@@ -19,6 +19,7 @@
             <SlashCommand
                 v-for="command in commands"
                 :key="command.name"
+                :command="command"
             />
         </div>
     </div>
