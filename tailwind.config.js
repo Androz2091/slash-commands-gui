@@ -3,7 +3,8 @@ const { colors: defaultColors } = require('tailwindcss/defaultTheme')
 const colors = {
     ...defaultColors,
     ...{
-        discord: '#7289DA'
+        discord: '#7289DA',
+        darkone: '#292b2f'
     }
 };
 

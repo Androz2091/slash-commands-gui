@@ -4,7 +4,7 @@
             Configuration of /{{ command.name }}
         </h1>
         <form
-            class="max-w-3xl mx-auto bg-gray-700 py-4 px-4 rounded"
+            class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
             @submit.prevent="updateCommand"
         >
             <h1 class="text-2xl my-4">
@@ -85,7 +85,7 @@
                 </button>
             </div>
         </form>
-        <div class="max-w-3xl mx-auto bg-gray-700 py-4 px-4 rounded">
+        <div class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded">
             <h1 class="text-2xl my-4">
                 Command Parameters
             </h1>
@@ -157,9 +157,5 @@ export default {
 input {
     background-color: #373c42;
     width: 100%;
-}
-
-form {
-    background-color: #292b2f;
 }
 </style>
