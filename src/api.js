@@ -36,3 +36,8 @@ export function updateCommand (token, proxyURL, applicationID, guildID, command)
     const url = `applications/${applicationID}/${guildID ? `guilds/${guildID}/commands` : 'commands'}`;
     return request(token, proxyURL, url, 'POST', command);
 }
+
+export function deleteCommand (token, proxyURL, applicationID, guildID, commandID) {
+    const url = `applications/${applicationID}/${guildID ? `guilds/${guildID}/commands/${commandID}` : 'commands'}`;
+    return request(token, proxyURL, url, 'DELETE');
+}
