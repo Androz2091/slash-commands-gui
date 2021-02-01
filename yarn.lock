@@ -2841,6 +2841,11 @@ vue@^3.0.3, vue@^3.0.4:
     "@vue/runtime-dom" "3.0.5"
     "@vue/shared" "3.0.5"
 
+vuex@^4.0.0-rc.2:
+  version "4.0.0-rc.2"
+  resolved "https://registry.npmjs.org/vuex/-/vuex-4.0.0-rc.2.tgz#3681c84eb6f5171b039edaa17cc78105e20724f3"
+  integrity sha512-HCPzYGea1xL7fMpDoMiHKujC1Bi/HM9LS5ML0Kv55zQtZJvOl0Lq7eWvJoen+SI4Lf7p9V5AqcVsoLPXNBywjg==
+
 wcwidth@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/wcwidth/-/wcwidth-1.0.1.tgz"

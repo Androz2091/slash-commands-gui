@@ -10,6 +10,9 @@ export default {
     name: 'App',
     components: {
         NavigationBar
+    },
+    beforeCreate () {
+        this.$store.dispatch('loadSettingsCache');
     }
 }
 </script>

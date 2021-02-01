@@ -7,7 +7,8 @@
   },
   "dependencies": {
     "v-tooltip": "paulshen/v-tooltip#vue3",
-    "vue": "^3.0.4"
+    "vue": "^3.0.4",
+    "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.2",
