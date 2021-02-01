@@ -51,7 +51,30 @@
         <button
             type="submit"
             class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white"
+            :class="submitButtonClass"
+            :disabled="loading"
         >
+            <svg
+                v-if="loading"
+                class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+            >
+                <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                />
+                <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+            </svg>
             Submit
         </button>
     </form>
@@ -71,10 +94,15 @@ export default {
 
             invalidTokens: new Set(),
             invalidProxyURLs: new Set(),
-            invalidGuildIDs: new Set()
+            invalidGuildIDs: new Set(),
+
+            loading: false
         }
     },
     computed: {
+        submitButtonClass () {
+            return this.loading ? 'inline-flex items-center cursor-not-allowed' : '';
+        },
         incorrectToken () {
             return !(this.token && /[A-Za-z\d]{24}\.[\w-]{6}\.[\w-]{27}/.test(this.token) && !this.invalidTokens.has(this.token));
         },
@@ -92,6 +120,7 @@ export default {
     },
     methods: {
         onSubmit () {
+            this.loading = true;
             this.$store.dispatch('updateSettings', {
                 token: this.token,
                 selectedGuildID: this.guildID,
@@ -109,6 +138,7 @@ export default {
                             // TODO: add the toast once https://github.com/MeForma/vue-toaster/issues/12 is fixed
                             // this.$toast.show(`Logged as ${application.username}!`);
                             this.$router.push('/');
+                            this.loading = false;
                         }
                     });
                 }
