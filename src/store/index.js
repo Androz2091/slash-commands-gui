@@ -50,6 +50,9 @@ export default createStore({
         },
         UPDATE_GUILD (state, guild) {
             state.guild = guild;
+        },
+        SET_COMMANDS (state, commands) {
+            state.commands = commands;
         }
     }
 });

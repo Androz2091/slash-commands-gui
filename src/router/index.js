@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import Settings from "../views/Settings.vue";
+import SlashCommand from "../views/SlashCommand.vue";
 
 const routes = [
     {
@@ -12,6 +13,11 @@ const routes = [
         path: "/settings",
         name: "Settings",
         component: Settings
+    },
+    {
+        path: "/command/:commandID",
+        name: "Command",
+        component: SlashCommand
     }
 ];
 

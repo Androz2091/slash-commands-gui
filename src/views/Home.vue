@@ -2,22 +2,10 @@
     <h1 class="text-center text-3xl p-10">
         Slash Commands
     </h1>
-    <div v-if="loading">
-        <div
-            class="ball-pulse smallBall vertical-center text-center"
-        >
-            <div />
-            <div />
-            <div />
-        </div>
-    </div>
-    <div
-        v-else
-        class="container mx-auto"
-    >
+    <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
             <SlashCommand
-                v-for="command in commands"
+                v-for="command in this.$store.state.commands"
                 :key="command.name"
                 :command="command"
             />
@@ -26,107 +14,11 @@
 </template>
 
 <script>
-import { fetchCommands } from '../api';
 import SlashCommand from '../components/SlashCommand.vue'
 
 export default {
     components: {
         SlashCommand
-    },
-    data() {
-        return {
-            loading: true,
-            commands: null
-        }
-    },
-    beforeCreate () {
-        if (this.$store.getters.logged) {
-            fetchCommands(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID).then((commands) => {
-                this.commands = commands;
-                this.loading = false;
-            });
-        }
     }
 }
 </script>
-
-<style lang="scss" scoped>
-.ball-pulse > div:first-child {
-    -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.24s infinite;
-    animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.24s infinite;
-}
-.ball-pulse > div:nth-child(2) {
-    -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.12s infinite;
-    animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.12s infinite;
-}
-.ball-pulse > div:nth-child(3) {
-    -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) 0s infinite;
-    animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) 0s infinite;
-}
-.ball-pulse > div {
-    background-color: #fff;
-    width: 15px;
-    height: 15px;
-    border-radius: 100%;
-    margin: 2px;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-    display: inline-block;
-    margin-top: 0;
-    margin-bottom: -.2rem
-}
-.vertical-center {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-.smallBall > div {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-    margin: 1px
-}
-@-webkit-keyframes scale {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-        -ms-filter: none;
-        filter: none
-    }
-    45% {
-        transform: scale(.1);
-        opacity: .7;
-        -ms-filter: "alpha(opacity=70)";
-        filter: alpha(opacity=70)
-    }
-    80% {
-        transform: scale(1);
-        opacity: 1;
-        -ms-filter: none;
-        filter: none
-    }
-}
-@keyframes scale {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-        -ms-filter: none;
-        filter: none
-    }
-    45% {
-        transform: scale(.1);
-        opacity: .7;
-        -ms-filter: "alpha(opacity=70)";
-        filter: alpha(opacity=70)
-    }
-    80% {
-        transform: scale(1);
-        opacity: 1;
-        -ms-filter: none;
-        filter: none
-    }
-}
-</style>
