@@ -118,6 +118,9 @@ export default {
         updateCommandButtonClass () {
             return this.updateCommandLoading ? 'inline-flex items-center cursor-not-allowed' : '';
         },
+        deleteCommandButtonClass () {
+            return this.deleteCommandLoading ? 'inline-flex items-center cursor-not-allowed' : '';
+        },
         incorrectDescription () {
             return !(this.description);
         },
