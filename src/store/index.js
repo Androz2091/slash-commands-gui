@@ -25,6 +25,12 @@ export default createStore({
         }
     },
     actions: {
+        updateCommand ({ commit, state }, command) {
+            const commands = state.commands;
+            const newCommands = commands.filter((cmd) => cmd.id !== command.id);
+            newCommands.push(command);
+            commit('SET_COMMANDS', newCommands);
+        },
         updateSettings ({ commit }, settings) {
             localStorage.setItem('token', settings.token);
             localStorage.setItem('proxyURL', settings.proxyURL);
