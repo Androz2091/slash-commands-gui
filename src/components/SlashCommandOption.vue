@@ -17,7 +17,7 @@
 
 <script>
 import dataTypes from '../util/data-types';
-import SlashLabel from './SlashLabe.vue';
+import SlashLabel from './SlashLabel.vue';
 
 export default {
     name: 'SlashCommandOption',
