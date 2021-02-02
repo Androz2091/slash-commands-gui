@@ -5,22 +5,31 @@
         :onclick="open"
         @keyup.enter="open"
     >
-        /{{ command.name }} {{ subcommandgroup ? subcommandgroup.name : '' }} {{ subcommand.name }}
+        /{{ command.name }} {{ subcommandgroup.name }}
+        <SlashLabel
+            v-for="subcommand in subcommandgroup.options"
+            :key="subcommand.name"
+            :content="subcommand.name"
+        />
     </div>
 </template>
 
 <script>
+import SlashLabel from './SlashLabel.vue';
+
 export default {
     name: 'SlashCommand',
+    components: {
+        SlashLabel
+    },
     props: {
         command: {
             type: Object,
             required: true
         },
         subcommandgroup: {
-            type: String,
-            required: false,
-            default: null
+            type: Object,
+            required: true
         }
     },
     methods: {

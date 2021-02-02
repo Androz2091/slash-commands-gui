@@ -100,7 +100,7 @@
             />
         </div>
         <div
-            v-else-if="subcommandgroups.length > 0"
+            v-if="subcommandgroups.length > 0"
             class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
         >
             <h1 class="text-2xl my-4">
@@ -114,7 +114,7 @@
             />
         </div>
         <div
-            v-else
+            v-if="subcommandgroups.length === 0 && subcommands.length === 0"
             class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
         >
             <h1 class="text-2xl my-4">

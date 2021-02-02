@@ -8,20 +8,22 @@
         {{ option.name }}
         <br>
         <small class="text-gray-400">{{ option.description }}</small>
-        <span
-            class="text-xs font-semibold inline-block py-1 px-2 rounded-full uppercase last:mr-0 mr-1 ml-2"
-            :class="getSpanTypeClass"
-        >
-            {{ type.name }}
-        </span>
+        <SlashLabel
+            :content="type.name"
+            :color="type.color"
+        />
     </div>
 </template>
 
 <script>
 import dataTypes from '../util/data-types';
+import SlashLabel from './SlashLabe.vue';
 
 export default {
     name: 'SlashCommandOption',
+    components: {
+        SlashLabel
+    },
     props: {
         option: {
             type: Object,
@@ -31,10 +33,6 @@ export default {
     computed: {
         type () {
             return dataTypes.find((t) => t.type === this.option.type);
-        },
-        getSpanTypeClass () {
-            const color = this.type.color;
-            return `bg-${color}-200 text-${color}-600`;
         }
     },
     methods: {
