@@ -85,7 +85,38 @@
                 </button>
             </div>
         </form>
-        <div class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded">
+        <div
+            v-if="subcommands.length > 0"
+            class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
+        >
+            <h1 class="text-2xl my-4">
+                Subcommands
+            </h1>
+            <SubCommand
+                v-for="subcommand in subcommands"
+                :key="subcommand.name"
+                :subcommand="subcommand"
+                :command="command"
+            />
+        </div>
+        <div
+            v-else-if="subcommandgroups.length > 0"
+            class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
+        >
+            <h1 class="text-2xl my-4">
+                Subcommand Groups
+            </h1>
+            <SubCommandGroup
+                v-for="subcommandgroup in subcommandgroups"
+                :key="subcommandgroup.name"
+                :subcommandgroup="subcommandgroup"
+                :command="command"
+            />
+        </div>
+        <div
+            v-else
+            class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
+        >
             <h1 class="text-2xl my-4">
                 Command Parameters
             </h1>
@@ -104,10 +135,15 @@
 <script>
 import { deleteCommand, updateCommand } from '../api';
 import SlashCommandOption from '../components/SlashCommandOption.vue';
+import SubCommand from '../components/SubCommand.vue';
+import SubCommandGroup from '../components/SubCommandGroup.vue';
+
 export default {
     name: 'SlashCommand',
     components: {
-        SlashCommandOption
+        SlashCommandOption,
+        SubCommand,
+        SubCommandGroup
     },
     data () {
         return {
@@ -120,6 +156,12 @@ export default {
     computed: {
         params () {
             return (this.command.options || []).filter((o) => o.type > 2);
+        },
+        subcommands () {
+            return (this.command.options || []).filter((o) => o.type === 1);
+        },
+        subcommandgroups () {
+            return (this.command.options || []).filter((o) => o.type === 2);
         },
         updateCommandButtonClass () {
             return this.updateCommandLoading ? 'inline-flex items-center cursor-not-allowed' : '';
