@@ -90,10 +90,13 @@
                 Command Parameters
             </h1>
             <SlashCommandOption
-                v-for="option in command.options"
+                v-for="option in params"
                 :key="option.name"
                 :option="option"
             />
+            <h1 v-if="params.length === 0">
+                No parameters
+            </h1>
         </div>
     </div>
 </template>
@@ -115,6 +118,9 @@ export default {
         }
     },
     computed: {
+        params () {
+            return (this.command.options || []).filter((o) => o.type > 2);
+        },
         updateCommandButtonClass () {
             return this.updateCommandLoading ? 'inline-flex items-center cursor-not-allowed' : '';
         },
