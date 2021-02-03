@@ -9,7 +9,6 @@ import Toaster from "@meforma/vue-toaster";
 import longClickDirective from './directives/longclick';
 
 const longClickInstance = longClickDirective({ delay: 2000, interval: 0 });
-console.log(longClickInstance);
 
 createApp(App)
     .use(router)
