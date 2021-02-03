@@ -1,6 +1,18 @@
 <template>
     <NavigationBar />
-    <div v-if="loading">
+    <div
+        v-if="!$store.getters.logged && $route.name !== 'Settings'"
+        class="text-center mt-28"
+    >
+        You are not logged. Go to the <router-link
+            to="/settings"
+            tag="a"
+            class="hover:underline text-discord"
+        >
+            settings page
+        </router-link> to start exploring Slash Commands of your bot!
+    </div>
+    <div v-else-if="loading">
         <div class="ball-pulse smallBall vertical-center text-center">
             <div />
             <div />
