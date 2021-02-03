@@ -55,7 +55,7 @@
             type="submit"
             class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white"
             :class="submitButtonClass"
-            :disabled="loading"
+            :disabled="loading || (incorrectToken || incorrectGuildID || incorrectProxyURL)"
         >
             <svg
                 v-if="loading"
