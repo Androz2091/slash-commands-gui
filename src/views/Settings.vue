@@ -20,7 +20,7 @@
                 This token is not valid!
             </span>
             <p class="text-gray-400 leading-tight text-xs">
-                Required to access and edit your bot's slash commands. It is only saved in your browser.
+                Required to access and edit your bot's slash commands, only used to make calls to the API when you click somewhere.
             </p>
         </div>
         <div class="space-y-2">
