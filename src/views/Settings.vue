@@ -89,7 +89,7 @@ import { fetchApplication, fetchGuild } from '../api';
 
 export default {
     name: 'Settings',
-    emits: ['update-commands'],
+    emits: ['load-commands'],
     data () {
         return {
             token: '',
@@ -152,7 +152,7 @@ export default {
                             // this.$toast.show(`Logged as ${application.username}!`);
                             this.$router.push('/');
                             this.loading = false;
-                            this.$emit('update-commands');
+                            this.$emit('load-commands');
                         }
                     });
                 }
