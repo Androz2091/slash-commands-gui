@@ -36,6 +36,8 @@
                         /></svg>
                     </router-link>
                     <router-link
+                        id="settings"
+                        ref="settingsBtn"
                         v-longclick="showProxyURLInput"
                         tag="button"
                         to="/settings"
@@ -52,6 +54,13 @@
 <script>
 export default {
     name: 'NavigationBar',
+    created () {
+        window.addEventListener("contextmenu", (e) => {
+            if (e.target.id === 'settings') {
+                e.preventDefault();
+            }
+        });
+    },
     methods: {
         showProxyURLInput () {
             this.$store.dispatch('showProxyURLInput');
