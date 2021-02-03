@@ -46,6 +46,7 @@ export default {
     },
     methods: {
         loadCommands () {
+            this.loading = true;
             if (!this.$store.getters.logged) {
                 this.loading = false;
                 this.$router.push('/settings');
