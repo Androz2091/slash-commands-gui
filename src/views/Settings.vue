@@ -7,7 +7,7 @@
             Slash Commands GUI Settings
         </h1>
         <div class="space-y-2">
-            <label for="token">Token</label>
+            <label for="token">Discord Bot Token</label>
             <input
                 v-model="token"
                 class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
@@ -19,6 +19,9 @@
             >
                 This token is not valid!
             </span>
+            <p class="text-gray-400 leading-tight text-xs">
+                Required to access and edit your bot's slash commands. It is only saved in your browser.
+            </p>
         </div>
         <div class="space-y-2">
             <label for="guildid">Guild ID</label>
@@ -33,6 +36,9 @@
             >
                 This ID is not valid!
             </span>
+            <p class="text-gray-400 leading-tight text-xs">
+                Fill this value if you want to access the slash commands of a specific guild.
+            </p>
         </div>
         <div
             ref="proxyURLInput"
@@ -50,6 +56,9 @@
             >
                 This proxy URL is not valid!
             </span>
+            <p class="text-gray-400 leading-tight text-xs">
+                Discord does not allow API calls from the browser. We need to use a CORS Proxy so all the calls are made by it and it returns a response. You can host your own cors proxy (cors-anywhere) and enter the URL here.
+            </p>
         </div>
         <button
             type="submit"
