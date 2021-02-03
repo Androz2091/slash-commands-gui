@@ -1,11 +1,11 @@
 <template>
     <div class="px-4 my-12 space-y-10">
         <h1 class="text-center text-2xl md:text-3xl font-semibold">
-            Configuration of /{{ command.name }}
+            Configuration of /{{ command.name }} {{ subgroup ? subgroup.name : '' }} {{ subcommand.name }}
         </h1>
         <form
             class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
-            @submit.prevent="updateCommand"
+            @submit.prevent="updateSubCommand"
         >
             <h1 class="text-2xl my-4">
                 Command Settings
@@ -29,11 +29,11 @@
                 <button
                     type="submit"
                     class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white w-full md:w-auto"
-                    :class="updateCommandButtonClass"
-                    :disabled="updateCommandLoading"
+                    :class="updateSubCommandButtonClass"
+                    :disabled="updateSubCommandLoading"
                 >
                     <svg
-                        v-if="updateCommandLoading"
+                        v-if="updateSubCommandLoading"
                         class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -57,11 +57,11 @@
                 </button>
                 <button
                     class="bg-red-600 rounded py-2 px-4 focus:outline-none focus:border-white w-full my-1 md:my-0 md:w-auto md:mx-4"
-                    :class="deleteCommandButtonClass"
-                    :disabled="deleteCommandLoading"
+                    :class="deleteSubCommandButtonClass"
+                    :disabled="deleteSubCommandLoading"
                 >
                     <svg
-                        v-if="deleteCommandLoading"
+                        v-if="deleteSubCommandLoading"
                         class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -86,35 +86,6 @@
             </div>
         </form>
         <div
-            v-if="subcommands.length > 0"
-            class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
-        >
-            <h1 class="text-2xl my-4">
-                Subcommands
-            </h1>
-            <SubCommand
-                v-for="subcommand in subcommands"
-                :key="subcommand.name"
-                :subcommand="subcommand"
-                :command="command"
-            />
-        </div>
-        <div
-            v-if="subcommandgroups.length > 0"
-            class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
-        >
-            <h1 class="text-2xl my-4">
-                Subcommand Groups
-            </h1>
-            <SubCommandGroup
-                v-for="subcommandgroup in subcommandgroups"
-                :key="subcommandgroup.name"
-                :subcommandgroup="subcommandgroup"
-                :command="command"
-            />
-        </div>
-        <div
-            v-if="subcommandgroups.length === 0 && subcommands.length === 0"
             class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
         >
             <h1 class="text-2xl my-4">
@@ -133,69 +104,92 @@
 </template>
 
 <script>
-import { deleteCommand, updateCommand } from '../api';
+import { updateCommand } from '../api';
 import SlashCommandOption from '../components/SlashCommandOption.vue';
-import SubCommand from '../components/SubCommand.vue';
-import SubCommandGroup from '../components/SubCommandGroup.vue';
 import { cloneObject } from '../util/helpers';
 
 export default {
     name: 'SlashCommand',
     components: {
         SlashCommandOption,
-        SubCommand,
-        SubCommandGroup
     },
     data () {
         return {
             description: '',
 
-            updateCommandLoading: false,
-            deleteCommandLoading: false
+            updateSubCommandLoading: false,
+            deleteSubCommandLoading: false
         }
     },
     computed: {
         params () {
-            return (this.command.options || []).filter((o) => o.type > 2);
+            return (this.subcommand.options || []).filter((o) => o.type > 2);
         },
         subcommands () {
-            return (this.command.options || []).filter((o) => o.type === 1);
+            return (this.subcommand.options || []).filter((o) => o.type === 1);
         },
         subcommandgroups () {
-            return (this.command.options || []).filter((o) => o.type === 2);
+            return (this.subcommand.options || []).filter((o) => o.type === 2);
         },
-        updateCommandButtonClass () {
-            return this.updateCommandLoading ? 'inline-flex items-center cursor-not-allowed' : '';
+        updateSubCommandButtonClass () {
+            return this.updateSubCommandLoading ? 'inline-flex items-center cursor-not-allowed' : '';
         },
-        deleteCommandButtonClass () {
-            return this.deleteCommandLoading ? 'inline-flex items-center cursor-not-allowed' : '';
+        deleteSubCommandButtonClass () {
+            return this.deleteSubCommandLoading ? 'inline-flex items-center cursor-not-allowed' : '';
         },
         incorrectDescription () {
             return !(this.description);
         },
         command () {
             return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID)
+        },
+        subcommand () {
+            return this.subgroup ? this.subgroup.options.find((opt) => opt.name === this.$route.params.commandName) : this.command.options.find((opt) => opt.name === this.$route.params.commandName);
+        },
+        subgroup () {
+            return this.$route.params.groupName ? this.command.options.find((opt) => opt.name === this.$route.params.groupName) : null;
         }
     },
     mounted () {
-        this.description = this.command.description;
+        this.description = this.subcommand.description;
     },
     methods: {
-        updateCommand () {
-            this.updateCommandLoading = true;
+        updateSubCommand () {
+            this.updateSubCommandLoading = true;
             const newCommand = cloneObject(this.command);
-            newCommand.description = this.description;
+            const newSubCommand = cloneObject(this.subcommand);
+            if (this.subgroup) {
+                const newGroup = cloneObject(this.subgroup);
+                newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subgroup.name);
+                newGroup.options = newGroup.options.filter((opt) => opt.name !== this.subcommand.name);
+                newSubCommand.description = this.description;
+                newGroup.options.push(newSubCommand);
+                newCommand.options.push(newGroup);
+            } else {
+                newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
+                newSubCommand.description = this.description;
+                newCommand.options.push(newSubCommand);
+            }
             updateCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
-                this.updateCommandLoading = false;
+                this.updateSubCommandLoading = false;
             });
         },
-        deleteCommand () {
-            this.deleteCommandLoading = true;
-            deleteCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, this.command.id).then(() => {
-                this.$store.dispatch('deleteCommand', this.command.id);
-                this.deleteCommandLoading = false;
-                this.$router.push('/');
+        deleteSubCommand () {
+            this.updateSubCommandLoading = true;
+            const newCommand = this.command;
+            if (this.subgroup) {
+                newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subgroup.name);
+                const newGroup = this.subgroup;
+                newGroup.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
+                newCommand.options.push(newGroup);
+            } else {
+                newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
+            }
+            updateCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, newCommand).then(() => {
+                this.$store.dispatch('updateCommand', newCommand);
+                this.updateSubCommandLoading = false;
+                this.$router.push(`/command/${this.command.id}${this.subgroup ? `group-${this.subgroup.name}/` : ''}cmd-${this.subcommand.name}`);
             });
         }
     }

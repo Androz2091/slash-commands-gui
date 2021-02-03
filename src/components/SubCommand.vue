@@ -1,11 +1,15 @@
 <template>
     <div
-        class="cmd-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0"
+        class="cmd-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0 mt-2 text-gray-500"
         tabindex="0"
         :onclick="open"
         @keyup.enter="open"
     >
-        /{{ command.name }} {{ subcommandgroup ? subcommandgroup.name : '' }} {{ subcommand.name }}
+        <p class="inline">
+            /{{ command.name }} {{ subcommandgroup ? subcommandgroup.name : '' }}
+        </p> <p class="text-discord inline">
+            {{ subcommand.name }}
+        </p>
     </div>
 </template>
 
@@ -18,7 +22,7 @@ export default {
             required: true
         },
         subcommandgroup: {
-            type: String,
+            type: Object,
             required: false,
             default: null
         },
@@ -29,7 +33,7 @@ export default {
     },
     methods: {
         open () {
-            this.$router.push(`/command/${this.command.id}`)
+            this.$router.push(`/command/${this.command.id}/${this.subcommandgroup ? `group-${this.subcommandgroup.name}/` : ''}cmd-${this.subcommand.name}`)
         }
     }
 }

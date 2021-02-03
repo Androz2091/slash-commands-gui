@@ -22,7 +22,7 @@ export default [
     {
         type: 7,
         name: "channel",
-        color: "yellow"
+        color: "indigo"
     },
     {
         type: 8,

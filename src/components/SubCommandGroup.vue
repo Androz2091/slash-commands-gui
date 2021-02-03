@@ -1,26 +1,29 @@
 <template>
     <div
-        class="cmd-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0"
+        class="sub-cmd-group-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0 mt-2 text-gray-500"
         tabindex="0"
         :onclick="open"
         @keyup.enter="open"
     >
-        /{{ command.name }} {{ subcommandgroup.name }}
-        <SlashLabel
-            v-for="subcommand in subcommandgroup.options"
+        <p class="inline">
+            /{{ command.name }}
+        </p> <p class="inline text-discord mr-1">
+            {{ subcommandgroup.name }}
+        </p>
+        <p
+            v-for="(subcommand, index) in subcommandgroup.options"
             :key="subcommand.name"
-            :content="subcommand.name"
-        />
+            class="inline"
+        >
+            {{ index === 0 ? '(' : '' }} {{ subcommand.name }} {{ index+1 === subcommandgroup.options.length ? ')' : '/' }}
+        </p>
     </div>
 </template>
 
 <script>
-import SlashLabel from './SlashLabel.vue';
-
 export default {
     name: 'SlashCommand',
     components: {
-        SlashLabel
     },
     props: {
         command: {
@@ -34,14 +37,14 @@ export default {
     },
     methods: {
         open () {
-            this.$router.push(`/command/${this.command.id}`)
+            this.$router.push(`/command/${this.command.id}/group-${this.subcommandgroup.name}`)
         }
     }
 }
 </script>
 
 <style scoped>
-.cmd-card {
+.sub-cmd-group-card {
     background-color: #202225;
     /* max-width: 200px; */
     padding: 20px;
@@ -50,10 +53,10 @@ export default {
     border-width: 1px;
     border-color: transparent;
 }
-.cmd-card:focus {
+.sub-cmd-group-card:focus {
     border-color: white;
 }
-.cmd-card:hover {
+.sub-cmd-group-card:hover {
     border-color: white;
 }
 </style>

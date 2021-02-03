@@ -1,6 +1,6 @@
 <template>
     <div
-        class="opt-card focus:outline-none focus:border-white"
+        class="opt-card focus:outline-none focus:border-white mt-2"
         tabindex="0"
         :onclick="open"
         @keyup.enter="open"
