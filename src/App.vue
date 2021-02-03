@@ -54,6 +54,9 @@ export default {
                     this.commands = commands;
                     this.$store.commit('SET_COMMANDS', commands);
                     this.loading = false;
+                }).catch(() => {
+                    this.loading = false;
+                    this.$router.push('/settings');
                 });
             }
         }
