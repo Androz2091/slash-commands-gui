@@ -1,11 +1,14 @@
 <template>
     <div
-        class="cmd-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0"
+        class="cmd-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0 rounded-2xl"
         tabindex="0"
         :onclick="open"
         @keyup.enter="open"
     >
         /{{ command.name }}
+        <p class="text-gray-400">
+            {{ command.description }}
+        </p>
     </div>
 </template>
 
@@ -31,7 +34,6 @@ export default {
     background-color: #202225;
     /* max-width: 200px; */
     padding: 20px;
-    border-radius: 25px;
     cursor: pointer;
     border-width: 1px;
     border-color: transparent;

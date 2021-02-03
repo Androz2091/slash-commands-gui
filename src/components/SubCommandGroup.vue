@@ -1,6 +1,6 @@
 <template>
     <div
-        class="sub-cmd-group-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0 mt-2 text-gray-500"
+        class="sub-cmd-group-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0 mt-2 text-gray-500 rounded-2xl"
         tabindex="0"
         :onclick="open"
         @keyup.enter="open"
@@ -48,7 +48,6 @@ export default {
     background-color: #202225;
     /* max-width: 200px; */
     padding: 20px;
-    border-radius: 25px;
     cursor: pointer;
     border-width: 1px;
     border-color: transparent;

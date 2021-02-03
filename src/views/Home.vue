@@ -3,7 +3,7 @@
         Slash Commands
     </h1>
     <div class="container md:mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <SlashCommand
                 v-for="command in this.$store.state.commands"
                 :key="command.name"
