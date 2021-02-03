@@ -6,7 +6,7 @@
         <UpdateForm
             ref="updateForm"
             type="Group"
-            :description="subgroup.description"
+            :description="group.description"
             @update="updateGroup"
         />
         <div
