@@ -19,7 +19,11 @@
             <div />
         </div>
     </div>
-    <RouterView v-else />
+    <!-- TODO: Fix Extraneous non-emits event listeners (loadCommands) warning -->
+    <RouterView
+        v-else
+        @load-commands="loadCommands"
+    />
 </template>
 
 <script>
@@ -38,15 +42,20 @@ export default {
     },
     created () {
         this.$store.dispatch('loadSettingsCache');
-        if (!this.$store.getters.logged) {
-            this.loading = false;
-            this.$router.push('/settings');
-        } else {
-            fetchCommands(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID).then((commands) => {
-                this.commands = commands;
-                this.$store.commit('SET_COMMANDS', commands);
+        this.loadCommands();
+    },
+    methods: {
+        loadCommands () {
+            if (!this.$store.getters.logged) {
                 this.loading = false;
-            });
+                this.$router.push('/settings');
+            } else {
+                fetchCommands(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID).then((commands) => {
+                    this.commands = commands;
+                    this.$store.commit('SET_COMMANDS', commands);
+                    this.loading = false;
+                });
+            }
         }
     }
 };
