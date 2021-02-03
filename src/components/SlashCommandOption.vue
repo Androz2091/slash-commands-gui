@@ -39,7 +39,7 @@ export default {
         open () {
         }
     }
-}
+};
 </script>
 
 <style scoped>

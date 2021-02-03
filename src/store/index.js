@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
 // Create a new store instance.
 export default createStore({
@@ -14,7 +14,7 @@ export default createStore({
             // data loaded on each page load
             guild: null,
             commands: null
-        }
+        };
     },
     getters: {
         logged (state) {

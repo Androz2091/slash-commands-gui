@@ -26,5 +26,5 @@ export default {
             return `bg-${this.color}-200 text-${this.color}-600`;
         }
     }
-}
+};
 </script>

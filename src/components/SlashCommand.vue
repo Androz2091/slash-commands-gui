@@ -20,10 +20,10 @@ export default {
     },
     methods: {
         open () {
-            this.$router.push(`/command/${this.command.id}`)
+            this.$router.push(`/command/${this.command.id}`);
         }
     }
-}
+};
 </script>
 
 <style scoped>

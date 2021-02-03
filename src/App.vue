@@ -24,7 +24,7 @@
 
 <script>
 import { fetchCommands } from './api';
-import NavigationBar from './components/NavigationBar.vue'
+import NavigationBar from './components/NavigationBar.vue';
 
 export default {
     name: 'App',
@@ -34,7 +34,7 @@ export default {
     data () {
         return {
             loading: true
-        }
+        };
     },
     created () {
         this.$store.dispatch('loadSettingsCache');
@@ -49,7 +49,7 @@ export default {
             });
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

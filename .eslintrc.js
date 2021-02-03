@@ -9,8 +9,10 @@ module.exports = {
     ],
     rules: {
         indent: ['error', 4],
-        'max-len': 0,
         'vue/html-indent': ['error', 4],
+        semi: ['error', 'always'],
+        'quote-props': ['error', 'as-needed'],
+        'max-len': 0,
         'vue/max-len': 0
     }
 };

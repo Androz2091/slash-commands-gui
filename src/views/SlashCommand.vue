@@ -152,7 +152,7 @@ export default {
 
             updateCommandLoading: false,
             deleteCommandLoading: false
-        }
+        };
     },
     computed: {
         params () {
@@ -174,7 +174,7 @@ export default {
             return !(this.description);
         },
         command () {
-            return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID)
+            return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
         }
     },
     mounted () {
@@ -199,7 +199,7 @@ export default {
             });
         }
     }
-}
+};
 </script>
 
 <style scoped>

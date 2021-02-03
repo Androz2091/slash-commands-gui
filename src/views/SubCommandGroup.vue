@@ -119,7 +119,7 @@ export default {
 
             updateGroupLoading: false,
             deleteGroupLoading: false
-        }
+        };
     },
     computed: {
         subcommands () {
@@ -135,7 +135,7 @@ export default {
             return !(this.description);
         },
         command () {
-            return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID)
+            return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
         },
         group () {
             return this.command.options.find((opt) => opt.name === this.$route.params.groupName);
@@ -149,7 +149,7 @@ export default {
             this.updateGroupLoading = true;
             const newCommand = cloneObject(this.command);
             const newGroup = cloneObject(this.group);
-            newCommand.options = newCommand.options.filter((opt) => opt.name !== this.group.name)
+            newCommand.options = newCommand.options.filter((opt) => opt.name !== this.group.name);
             newGroup.description = this.description;
             newCommand.options.push(newGroup);
             updateCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, newCommand).then(() => {
@@ -160,7 +160,7 @@ export default {
         deleteGroup () {
             this.updateGroupLoading = true;
             const newCommand = this.command;
-            newCommand.options = newCommand.options.filter((opt) => opt.name !== this.group.name)
+            newCommand.options = newCommand.options.filter((opt) => opt.name !== this.group.name);
             updateCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.updateGroupLoading = false;
@@ -168,7 +168,7 @@ export default {
             });
         }
     }
-}
+};
 </script>
 
 <style scoped>

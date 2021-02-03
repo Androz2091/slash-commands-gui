@@ -33,10 +33,10 @@ export default {
     },
     methods: {
         open () {
-            this.$router.push(`/command/${this.command.id}/${this.subcommandgroup ? `group-${this.subcommandgroup.name}/` : ''}cmd-${this.subcommand.name}`)
+            this.$router.push(`/command/${this.command.id}/${this.subcommandgroup ? `group-${this.subcommandgroup.name}/` : ''}cmd-${this.subcommand.name}`);
         }
     }
-}
+};
 </script>
 
 <style scoped>

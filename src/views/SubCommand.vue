@@ -119,7 +119,7 @@ export default {
 
             updateSubCommandLoading: false,
             deleteSubCommandLoading: false
-        }
+        };
     },
     computed: {
         params () {
@@ -141,7 +141,7 @@ export default {
             return !(this.description);
         },
         command () {
-            return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID)
+            return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
         },
         subcommand () {
             return this.subgroup ? this.subgroup.options.find((opt) => opt.name === this.$route.params.commandName) : this.command.options.find((opt) => opt.name === this.$route.params.commandName);
@@ -193,7 +193,7 @@ export default {
             });
         }
     }
-}
+};
 </script>
 
 <style scoped>

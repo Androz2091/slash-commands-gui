@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import SlashCommand from '../components/SlashCommand.vue'
+import SlashCommand from '../components/SlashCommand.vue';
 
 export default {
     components: {
         SlashCommand
     }
-}
+};
 </script>

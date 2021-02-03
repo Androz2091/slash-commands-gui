@@ -100,7 +100,7 @@ export default {
             invalidGuildIDs: new Set(),
 
             loading: false
-        }
+        };
     },
     computed: {
         submitButtonClass () {
@@ -157,10 +157,10 @@ export default {
             }).catch(() => {
                 this.loading = false;
                 this.invalidProxyURLs.add(this.proxyURL);
-            })
+            });
         }
     }
-}
+};
 </script>
 
 <style scoped>
