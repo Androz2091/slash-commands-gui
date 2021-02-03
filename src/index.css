@@ -5,8 +5,24 @@
 html {
     background-color: #2f3136;
     color: white;
+    height: 100%;
 }
 
 nav {
     background-color: #202225;
+}
+
+body {
+    min-height: 100vh;
+}
+
+#app {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.footer {
+    grid-row-start: 2;
+    grid-row-end: 3;
 }
