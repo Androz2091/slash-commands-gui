@@ -9,6 +9,7 @@ export default createStore({
             token: null,
             proxyURL: null,
             selectedGuildID: null,
+            showProxyURLInput: false,
 
             // data loaded on each page load
             guild: null,
@@ -25,6 +26,10 @@ export default createStore({
         }
     },
     actions: {
+        showProxyURLInput ({ commit }) {
+            localStorage.setItem('showProxyURLInput', true);
+            commit('SHOW_PROXY_URL_INPUT');
+        },
         updateCommand ({ commit, state }, command) {
             const commands = state.commands;
             const newCommands = commands.filter((cmd) => cmd.id !== command.id);
@@ -45,18 +50,24 @@ export default createStore({
         loadSettingsCache ({ commit }) {
             const token = localStorage.getItem('token');
             const proxyURL = localStorage.getItem('proxyURL') ?? 'https://cors-anywhere.androz2091.fr';
+            const showProxyURLInput = Boolean(localStorage.getItem('showProxyURLInput')) || false;
             const selectedGuildID = localStorage.getItem('selectedGuildID');
             commit('UPDATE_SETTINGS', {
                 token,
                 proxyURL,
+                showProxyURLInput,
                 selectedGuildID
             });
         }
     },
     mutations: {
+        SHOW_PROXY_URL_INPUT (state) {
+            state.showProxyURLInput = true;
+        },
         UPDATE_SETTINGS (state, settings) {
             state.token = settings.token;
             state.proxyURL = settings.proxyURL;
+            state.showProxyURLInput = settings.showProxyURLInput;
             state.selectedGuildID = settings.selectedGuildID;
         },
         UPDATE_GUILD (state, guild) {

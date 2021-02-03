@@ -34,7 +34,10 @@
                 This ID is not valid!
             </span>
         </div>
-        <div class="space-y-2">
+        <div
+            ref="proxyURLInput"
+            class="space-y-2 hidden"
+        >
             <label for="token">Proxy URL</label>
             <input
                 v-model="proxyURL"
@@ -113,10 +116,18 @@ export default {
             return !(this.proxyURL && /^https:\/\//.test(this.proxyURL) && !this.invalidProxyURLs.has(this.proxyURL));
         }
     },
+    watch: {
+        '$store.state.showProxyURLInput' (newValue) {
+            if (newValue) {
+                this.$refs.proxyURLInput.classList.remove('hidden');
+            }
+        }
+    },
     mounted () {
         this.token = this.$store.state.token;
         this.guildID = this.$store.state.selectedGuildID;
         this.proxyURL = this.$store.state.proxyURL;
+        if (this.$store.state.showProxyURLInput) this.$refs.proxyURLInput.classList.remove('hidden');
     },
     methods: {
         onSubmit () {
