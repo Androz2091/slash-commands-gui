@@ -24,9 +24,10 @@ export default {
             loading: true
         }
     },
-    beforeCreate () {
+    created () {
         this.$store.dispatch('loadSettingsCache');
         if (!this.$store.getters.logged) {
+            this.loading = false;
             this.$router.push('/settings');
         } else {
             fetchCommands(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID).then((commands) => {
