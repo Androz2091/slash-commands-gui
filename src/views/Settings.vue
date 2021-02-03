@@ -132,6 +132,7 @@ export default {
                     const fetchGuildPromise = this.guildID ? fetchGuild(this.token, this.proxyURL, this.guildID) : fakePromise();
                     fetchGuildPromise.then((guild) => {
                         if (this.guildID && !guild) {
+                            this.loading = false;
                             this.invalidGuildIDs.add(this.guildID);
                         } else {
                             this.$store.commit('UPDATE_GUILD', guild);
@@ -143,6 +144,7 @@ export default {
                     });
                 }
             }).catch(() => {
+                this.loading = false;
                 this.invalidProxyURLs.add(this.proxyURL);
             })
         }
