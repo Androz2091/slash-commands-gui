@@ -37,7 +37,7 @@
                 This ID is not valid!
             </span>
             <p class="text-gray-400 leading-tight text-xs">
-                Fill this value if you want to access the slash commands of a specific guild.
+                Fill this field if you want to access the slash commands of a specific guild.
             </p>
         </div>
         <div
