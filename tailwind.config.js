@@ -1,10 +1,11 @@
-const { colors: defaultColors } = require('tailwindcss/defaultTheme')
+const { colors: defaultColors } = require('tailwindcss/defaultTheme');
 
 const colors = {
     ...defaultColors,
     ...{
         discord: '#7289DA',
-        darkone: '#292b2f'
+        darkone: '#292b2f',
+        darktwo: '#202225'
     }
 };
 
@@ -19,4 +20,4 @@ module.exports = {
         extend: {},
     },
     plugins: []
-}
+};
