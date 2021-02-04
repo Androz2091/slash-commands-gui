@@ -37,3 +37,8 @@ The goal is to cover all the Discord Slash Commands API 🎯
 * Start `vite` using `npm run dev` or `yarn dev`!
 
 👋 Contributions to the project are appreciated so feel free to try to add cool stuff!
+
+## CORS Proxy
+
+Slash Commands GUI relies on a CORS proxy to make requests to the Discord API. This proxy is a simple [cors-anywhere proxy](https://github.com/Androz2091/androz2091-cors-anywhere). It is necessary because the Discord API does not send the CORS header.  
+**Important note**: if you want to add an extra security level, you can host your own CORS proxy on your own machine. Press the **Settings** button during 3 seconds, and a new field will appear, allowing you to enter your proxy URL.
