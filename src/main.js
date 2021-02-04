@@ -6,7 +6,7 @@ import './assets/css/tooltip.css';
 import router from './router';
 import VTooltip from 'v-tooltip';
 import Toaster from "@meforma/vue-toaster";
-import longClickDirective from './directives/longclick';
+import longClickDirective from './directives/long-click';
 
 const longClickInstance = longClickDirective({ delay: 2000, interval: 0 });
 
