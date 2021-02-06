@@ -170,7 +170,7 @@ export default {
                     this.loading = false;
                 } else {
                     this.$store.dispatch('saveToken', {
-                        expiresAt: Date.now() + tokenData.expires_in,
+                        expiresAt: Date.now() + (tokenData.expires_in * 1000),
                         value: tokenData.access_token
                     });
                     const fetchGuildPromise = this.guildID ? checkGuild(this.$store.state.clientID, this.$store.state.token.value, this.proxyURL, this.guildID) : fakePromise();
