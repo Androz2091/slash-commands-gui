@@ -79,7 +79,7 @@ export default {
                 newSubCommand.description = description;
                 newCommand.options.push(newSubCommand);
             }
-            updateCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setUpdateLoading(false);
             });
@@ -95,7 +95,7 @@ export default {
             } else {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
             }
-            updateCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setDeleteLoading(false);
                 this.$router.push(`/command/${this.command.id}${this.subgroup ? `group-${this.subgroup.name}/` : ''}cmd-${this.subcommand.name}`);

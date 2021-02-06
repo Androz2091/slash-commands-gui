@@ -85,7 +85,7 @@ export default {
                 this.loading = false;
                 this.$router.push('/settings');
             } else {
-                fetchCommands(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID).then((commands) => {
+                fetchCommands(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID).then((commands) => {
                     this.commands = commands;
                     this.$store.commit('SET_COMMANDS', commands);
                     this.loading = false;

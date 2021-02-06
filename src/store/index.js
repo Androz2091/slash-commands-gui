@@ -6,23 +6,28 @@ export default createStore({
         return {
 
             // settings. they will be cached in the local storage
-            token: null,
-            proxyURL: null,
+            clientID: null,
+            clientSecret: null,
+            proxyURL: 'https://cors-anywhere.androz2091.fr',
             selectedGuildID: null,
             showProxyURLInput: false,
 
-            // data loaded on each page load
-            guild: null,
+            // token
+            token: {
+                value: null,
+                expiresAt: null
+            },
+
+            // data loaded on each reload
             commands: null
         };
     },
     getters: {
         logged (state) {
-            return state.token && state.proxyURL;
+            return state.clientID && state.clientSecret && state.proxyURL;
         },
-        applicationID (state) {
-            const encodedApplicationID = state.token.match(/([A-Za-z\d]{24})\.[\w-]{6}\.[\w-]{27}/);
-            return atob(encodedApplicationID[1]);
+        ready (state) {
+            return state.token && (state.token.expiresAt > Date.now());
         }
     },
     actions: {
@@ -42,22 +47,43 @@ export default createStore({
             commit('SET_COMMANDS', newCommands);
         },
         updateSettings ({ commit }, settings) {
-            localStorage.setItem('token', settings.token);
+            localStorage.setItem('clientID', settings.clientID);
+            localStorage.setItem('clientSecret', settings.clientSecret);
             localStorage.setItem('proxyURL', settings.proxyURL);
             localStorage.setItem('selectedGuildID', settings.selectedGuildID);
             commit('UPDATE_SETTINGS', settings);
         },
         loadSettingsCache ({ commit }) {
-            const token = localStorage.getItem('token');
-            const proxyURL = localStorage.getItem('proxyURL') ?? 'https://cors-anywhere.androz2091.fr';
-            const showProxyURLInput = Boolean(localStorage.getItem('showProxyURLInput')) || false;
-            const selectedGuildID = localStorage.getItem('selectedGuildID');
-            commit('UPDATE_SETTINGS', {
-                token,
-                proxyURL,
-                showProxyURLInput,
-                selectedGuildID
-            });
+            const clientID = localStorage.getItem('clientID');
+            const clientSecret = localStorage.getItem('clientSecret');
+            if (clientID && clientSecret) {
+                const proxyURL = localStorage.getItem('proxyURL') ?? 'https://cors-anywhere.androz2091.fr';
+                const showProxyURLInput = Boolean(localStorage.getItem('showProxyURLInput')) || false;
+                const selectedGuildID = localStorage.getItem('selectedGuildID');
+                commit('UPDATE_SETTINGS', {
+                    clientID,
+                    clientSecret,
+                    proxyURL,
+                    showProxyURLInput,
+                    selectedGuildID
+                });
+                const token = localStorage.getItem('token');
+                let tokenData;
+                try {
+                    tokenData = JSON.parse(token);
+                    commit('UPDATE_TOKEN', tokenData);
+                } catch (e) {
+                    console.log('Settings loaded but bearer token not be retrieved.');
+                }
+            }
+        },
+        saveToken ({ commit }, tokenData) {
+            localStorage.setItem('token', JSON.stringify(tokenData));
+            commit('UPDATE_TOKEN', tokenData);
+        },
+        deleteToken ({ commit }) {
+            localStorage.removeItem('token');
+            commit('UPDATE_TOKEN', null);
         }
     },
     mutations: {
@@ -65,16 +91,17 @@ export default createStore({
             state.showProxyURLInput = true;
         },
         UPDATE_SETTINGS (state, settings) {
-            state.token = settings.token;
+            state.clientID = settings.clientID;
+            state.clientSecret = settings.clientSecret;
             state.proxyURL = settings.proxyURL;
             state.showProxyURLInput = settings.showProxyURLInput;
             state.selectedGuildID = settings.selectedGuildID;
         },
-        UPDATE_GUILD (state, guild) {
-            state.guild = guild;
-        },
         SET_COMMANDS (state, commands) {
             state.commands = commands;
+        },
+        UPDATE_TOKEN (state, token) {
+            state.token = token;
         }
     }
 });

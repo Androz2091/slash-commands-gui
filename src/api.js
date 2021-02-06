@@ -8,7 +8,7 @@ export function request (token, proxyURL, url, method, data) {
             data: method === 'POST' ? JSON.stringify(data) : undefined,
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bot ${token}`
+                Authorization: `Bearer ${token}`
             }
         }).then((value) => {
             resolve(value.data);
@@ -18,26 +18,56 @@ export function request (token, proxyURL, url, method, data) {
     });
 }
 
-export function fetchApplication (token, proxyURL) {
-    return request(token, proxyURL, 'users/@me', 'GET');
+/**
+ * Obtain an Oauth2 token from a client ID and a client secret
+ * @param {string} clientID 
+ * @param {string} clientSecret 
+ * @param {string} proxyURL 
+ * @returns {Promise<Object>}
+ */
+export function getToken (clientID, clientSecret, proxyURL) {
+    return new Promise((resolve) => {
+        const data = new URLSearchParams();
+        data.append('grant_type', 'client_credentials');
+        data.append('scope', 'applications.commands.update');
+        axios({
+            url: `${proxyURL}/https://discord.com/api/oauth2/token`,
+            method: 'POST',
+            data: data.toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${btoa(`${clientID}:${clientSecret}`)}`
+            }
+        }).then((value) => {
+            resolve(value.data);
+        }).catch(() => {
+            resolve(null);
+        });
+    });
 }
 
-export function fetchGuild (token, proxyURL, guildID) {
-    if (!guildID) return new Promise((resolve) => resolve(true));
-    return request(token, proxyURL, `guilds/${guildID}`);
+/**
+ * Check if the bot has access to this guild
+ * @param {string} clientID
+ * @param {string} token 
+ * @param {string} proxyURL 
+ * @param {string} guildID 
+ */
+export function checkGuild (clientID, token, proxyURL, guildID) {
+    return request(token, proxyURL, `applications/${clientID}/guilds/${guildID}/commands`);
 }
 
-export function fetchCommands (token, proxyURL, applicationID, guildID) {
-    const url = `applications/${applicationID}/${guildID ? `guilds/${guildID}/commands` : 'commands'}`;
+export function fetchCommands (clientID, token, proxyURL, guildID) {
+    const url = `applications/${clientID}/${guildID ? `guilds/${guildID}/commands` : 'commands'}`;
     return request(token, proxyURL, url, 'GET');
 }
 
-export function updateCommand (token, proxyURL, applicationID, guildID, command) {
-    const url = `applications/${applicationID}/${guildID ? `guilds/${guildID}/commands` : 'commands'}`;
+export function updateCommand (clientID, token, proxyURL, guildID, command) {
+    const url = `applications/${clientID}/${guildID ? `guilds/${guildID}/commands` : 'commands'}`;
     return request(token, proxyURL, url, 'POST', command);
 }
 
-export function deleteCommand (token, proxyURL, applicationID, guildID, commandID) {
-    const url = `applications/${applicationID}/${guildID ? `guilds/${guildID}/commands/${commandID}` : 'commands'}`;
+export function deleteCommand (clientID, token, proxyURL, guildID, commandID) {
+    const url = `applications/${clientID}/${guildID ? `guilds/${guildID}/commands/${commandID}` : 'commands'}`;
     return request(token, proxyURL, url, 'DELETE');
 }

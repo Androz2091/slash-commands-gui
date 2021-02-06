@@ -61,7 +61,7 @@ export default {
             newCommand.options = newCommand.options.filter((opt) => opt.name !== this.group.name);
             newGroup.description = description;
             newCommand.options.push(newGroup);
-            updateCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setUpdateLoading(false);
             });
@@ -70,7 +70,7 @@ export default {
             this.$refs.updateForm.setDeleteLoading(true);
             const newCommand = this.command;
             newCommand.options = newCommand.options.filter((opt) => opt.name !== this.group.name);
-            updateCommand(this.$store.state.token, this.$store.state.proxyURL, this.$store.getters.applicationID, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setDeleteLoading(false);
                 this.$router.push(`/command/${this.command.id}/group-${this.group.name}`);

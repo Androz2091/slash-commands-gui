@@ -7,21 +7,44 @@
             Slash Commands GUI Settings
         </h1>
         <div class="space-y-2">
-            <label for="token">Discord Bot Token</label>
+            <label for="clientid">Client ID</label>
             <input
-                v-model="token"
+                v-model="clientID"
                 class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
-                name="token"
+                name="clientid"
             >
             <span
-                v-if="incorrectToken"
+                v-if="incorrectClientID"
                 class="text-red-400"
             >
-                This token is not valid!
+                This client ID is not valid!
             </span>
-            <p class="text-gray-400 leading-tight text-xs">
-                Required to access and edit your bot's slash commands, only used to make calls to the API when you click somewhere.
-            </p>
+            <span
+                v-if="incorrectCredentials"
+                class="text-red-400"
+            >
+                These credentials are incorrect, please verify this field
+            </span>
+        </div>
+        <div class="space-y-2">
+            <label for="clientsecret">Client Secret</label>
+            <input
+                v-model="clientSecret"
+                class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
+                name="clientsecret"
+            >
+            <span
+                v-if="incorrectClientSecret"
+                class="text-red-400"
+            >
+                This client secret is not valid!
+            </span>
+            <span
+                v-if="incorrectCredentials"
+                class="text-red-400"
+            >
+                These credentials are incorrect, please verify this field
+            </span>
         </div>
         <div class="space-y-2">
             <label for="guildid">Guild ID</label>
@@ -64,7 +87,7 @@
             type="submit"
             class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white"
             :class="submitButtonClass"
-            :disabled="loading || (incorrectToken || incorrectGuildID || incorrectProxyURL)"
+            :disabled="loading || (incorrectClientID || incorrectClientSecret || incorrectGuildID || incorrectProxyURL)"
         >
             <LoadingAnimation v-if="loading" />
             Submit
@@ -74,7 +97,7 @@
 
 <script>
 import { fakePromise } from '../util/helpers';
-import { fetchApplication, fetchGuild } from '../api';
+import { getToken, checkGuild } from '../api';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 export default {
@@ -85,11 +108,12 @@ export default {
     emits: ['load-commands'],
     data () {
         return {
-            token: '',
+            clientID: '',
+            clientSecret: '',
             guildID: '',
             proxyURL: '',
 
-            invalidTokens: new Set(),
+            invalidClientCredentials: new Set(),
             invalidProxyURLs: new Set(),
             invalidGuildIDs: new Set(),
 
@@ -100,14 +124,20 @@ export default {
         submitButtonClass () {
             return this.loading ? 'inline-flex items-center cursor-not-allowed' : '';
         },
-        incorrectToken () {
-            return !(this.token && /[A-Za-z\d]{24}\.[\w-]{6}\.[\w-]{27}/.test(this.token) && !this.invalidTokens.has(this.token));
+        incorrectClientID () {
+            return !(this.clientID && /[0-9]{16,32}/.test(this.clientID));
+        },
+        incorrectClientSecret () {
+            return !(this.clientSecret && /([a-zA-Z0-9-_]{32})/.test(this.clientSecret));
         },
         incorrectGuildID () {
             return this.guildID && !(/[0-9]{16,32}/.test(this.guildID) && !this.invalidGuildIDs.has(this.guildID));
         },
         incorrectProxyURL () {
             return !(this.proxyURL && /^https:\/\//.test(this.proxyURL) && !this.invalidProxyURLs.has(this.proxyURL));
+        },
+        incorrectCredentials () {
+            return this.invalidClientCredentials.has(`${this.clientID}${this.clientSecret}`);
         }
     },
     watch: {
@@ -118,35 +148,41 @@ export default {
         }
     },
     mounted () {
-        this.token = this.$store.state.token;
-        this.guildID = this.$store.state.selectedGuildID;
+        this.clientID = this.$store.state.clientID;
+        this.clientSecret = this.$store.state.clientSecret;
         this.proxyURL = this.$store.state.proxyURL;
+        if (this.guildID) this.guildID = this.$store.state.selectedGuildID;
         if (this.$store.state.showProxyURLInput) this.$refs.proxyURLInput.classList.remove('hidden');
     },
     methods: {
         onSubmit () {
             this.loading = true;
+            this.$store.dispatch('deleteToken');
             this.$store.dispatch('updateSettings', {
-                token: this.token,
+                clientID: this.clientID,
+                clientSecret: this.clientSecret,
                 selectedGuildID: this.guildID,
                 proxyURL: this.proxyURL
             });
-            fetchApplication(this.token, this.proxyURL, this.guildID).then((application) => {
-                if (!application) this.invalidTokens.add(this.token);
-                else {
-                    const fetchGuildPromise = this.guildID ? fetchGuild(this.token, this.proxyURL, this.guildID) : fakePromise();
-                    fetchGuildPromise.then((guild) => {
-                        if (this.guildID && !guild) {
-                            this.loading = false;
-                            this.invalidGuildIDs.add(this.guildID);
-                        } else {
-                            this.$store.commit('UPDATE_GUILD', guild);
-                            // TODO: add the toast once https://github.com/MeForma/vue-toaster/issues/12 is fixed
-                            // this.$toast.show(`Logged as ${application.username}!`);
-                            this.$router.push('/');
-                            this.loading = false;
-                            this.$emit('load-commands');
-                        }
+            getToken(this.clientID, this.clientSecret, this.proxyURL).then((tokenData) => {
+                if (!tokenData) {
+                    this.invalidClientCredentials.add(`${this.clientID}${this.clientSecret}`);
+                    this.loading = false;
+                } else {
+                    this.$store.dispatch('saveToken', {
+                        expiresAt: Date.now() + tokenData.expires_in,
+                        value: tokenData.access_token
+                    });
+                    const fetchGuildPromise = this.guildID ? checkGuild(this.$store.state.clientID, this.$store.state.token.value, this.proxyURL, this.guildID) : fakePromise();
+                    fetchGuildPromise.then(() => {
+                        // TODO: add the toast once https://github.com/MeForma/vue-toaster/issues/12 is fixed
+                        // this.$toast.show(`Logged as ${application.username}!`);
+                        this.$router.push('/');
+                        this.loading = false;
+                        this.$emit('load-commands');
+                    }).catch(() => {
+                        this.loading = false;
+                        this.invalidGuildIDs.add(this.guildID);
                     });
                 }
             }).catch(() => {
