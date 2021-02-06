@@ -85,7 +85,6 @@ export default {
                 const startAt = Date.now();
                 fetchCommands(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID).then((commands) => {
                     setTimeout(() => {
-                        this.commands = commands;
                         this.$store.commit('SET_COMMANDS', commands);
                         this.loading = false;
                     }, (Date.now() - startAt) + 100);

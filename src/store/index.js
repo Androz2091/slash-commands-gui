@@ -96,7 +96,7 @@ export default createStore({
             state.selectedGuildID = settings.selectedGuildID;
         },
         SET_COMMANDS (state, commands) {
-            state.commands = commands;
+            state.commands = commands.sort((a, b) => a.name.localeCompare(b.name));
         },
         UPDATE_TOKEN (state, token) {
             state.token = token;

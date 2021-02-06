@@ -6,7 +6,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <CreateSlashCommand />
             <SlashCommand
-                v-for="command in this.$store.state.commands"
+                v-for="command in $store.state.commands"
                 :key="command.name"
                 :command="command"
             />
