@@ -25,6 +25,12 @@
             >
                 These credentials are incorrect, please verify this field
             </span>
+            <p class="text-gray-400 leading-tight text-xs">
+                The client ID of your application can be found on your <Link
+                    to="https://discord.dev"
+                    content="Discord developer dashboard"
+                />.
+            </p>
         </div>
         <div class="space-y-2">
             <label for="clientsecret">Client Secret</label>
@@ -45,6 +51,12 @@
             >
                 These credentials are incorrect, please verify this field
             </span>
+            <p class="text-gray-400 leading-tight text-xs">
+                The client ID of your application can be found on your <Link
+                    to="https://discord.dev"
+                    content="Discord developer dashboard"
+                />. It won't be stored in your browser and will only be used to generate an OAuth2 token.
+            </p>
         </div>
         <div class="space-y-2">
             <label for="guildid">Guild ID</label>
@@ -99,11 +111,13 @@
 import { fakePromise } from '../util/helpers';
 import { getToken, checkGuild } from '../api';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
+import Link from '../components/Link.vue';
 
 export default {
     name: 'Settings',
     components: {
-        LoadingAnimation
+        LoadingAnimation,
+        Link
     },
     emits: ['load-commands'],
     data () {
