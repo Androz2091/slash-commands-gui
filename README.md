@@ -20,7 +20,7 @@ The goal is to cover all the Discord Slash Commands API 🎯
 
 * Add a way to create and update command parameters (change choices, name and type).
 * Add a way to update command permissions once **[#2315](https://github.com/discord/discord-api-docs/issues/2315#issuecomment-761131184)** is closed.
-* Add a way to create a new top-level command (name, description and permissions).
+* ~~Add a way to create a new top-level command (name, description and permissions).~~
 * Add a way to create a new commands group on a top-level command (name, description).
 * Add a way to create a new sub command on a top-level command and on a group (name, description and permissions).
 
