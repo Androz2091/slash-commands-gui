@@ -102,7 +102,9 @@
             :disabled="loading || (incorrectClientID || incorrectClientSecret || incorrectGuildID || incorrectProxyURL)"
         >
             <LoadingAnimation v-if="loading" />
-            Submit
+            <div v-else>
+                Submit
+            </div>
         </button>
     </form>
 </template>
