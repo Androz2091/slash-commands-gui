@@ -1,6 +1,6 @@
 <template>
     <form
-        class="px-4 my-32 max-w-3xl mx-auto space-y-6"
+        class="px-4 my-10 md:my-32 max-w-3xl mx-auto space-y-6"
         @submit.prevent="onSubmit"
     >
         <h1 class="text-3xl font-semibold">
