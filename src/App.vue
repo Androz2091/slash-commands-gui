@@ -81,7 +81,7 @@ export default {
     methods: {
         loadCommands () {
             this.loading = true;
-            if (!this.$store.getters.logged) {
+            if (!this.$store.getters.logged || !this.$store.getters.isTokenActive) {
                 this.loading = false;
                 this.$router.push('/settings');
             } else {

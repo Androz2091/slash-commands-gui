@@ -7,10 +7,12 @@ export default createStore({
 
             // settings. they will be cached in the local storage
             clientID: null,
-            clientSecret: null,
             proxyURL: 'https://cors-anywhere.androz2091.fr',
             selectedGuildID: null,
             showProxyURLInput: false,
+
+            // Client Secret, used to generate the bearer token. not saved in the browser
+            clientSecret: null,
 
             // token
             token: {
@@ -24,10 +26,10 @@ export default createStore({
     },
     getters: {
         logged (state) {
-            return state.clientID && state.clientSecret && state.proxyURL;
+            return state.clientID && state.proxyURL && state.token && state.token.value;
         },
-        ready (state) {
-            return state.token && (state.token.expiresAt > Date.now());
+        isTokenActive (state) {
+            return state.token.expiresAt > Date.now();
         }
     },
     actions: {
@@ -48,21 +50,18 @@ export default createStore({
         },
         updateSettings ({ commit }, settings) {
             localStorage.setItem('clientID', settings.clientID);
-            localStorage.setItem('clientSecret', settings.clientSecret);
             localStorage.setItem('proxyURL', settings.proxyURL);
             localStorage.setItem('selectedGuildID', settings.selectedGuildID);
             commit('UPDATE_SETTINGS', settings);
         },
         loadSettingsCache ({ commit }) {
             const clientID = localStorage.getItem('clientID');
-            const clientSecret = localStorage.getItem('clientSecret');
-            if (clientID && clientSecret) {
+            if (clientID) {
                 const proxyURL = localStorage.getItem('proxyURL') ?? 'https://cors-anywhere.androz2091.fr';
                 const showProxyURLInput = Boolean(localStorage.getItem('showProxyURLInput')) || false;
                 const selectedGuildID = localStorage.getItem('selectedGuildID');
                 commit('UPDATE_SETTINGS', {
                     clientID,
-                    clientSecret,
                     proxyURL,
                     showProxyURLInput,
                     selectedGuildID
@@ -92,7 +91,6 @@ export default createStore({
         },
         UPDATE_SETTINGS (state, settings) {
             state.clientID = settings.clientID;
-            state.clientSecret = settings.clientSecret;
             state.proxyURL = settings.proxyURL;
             state.showProxyURLInput = settings.showProxyURLInput;
             state.selectedGuildID = settings.selectedGuildID;

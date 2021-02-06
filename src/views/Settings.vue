@@ -149,7 +149,6 @@ export default {
     },
     mounted () {
         this.clientID = this.$store.state.clientID;
-        this.clientSecret = this.$store.state.clientSecret;
         this.proxyURL = this.$store.state.proxyURL;
         if (this.guildID) this.guildID = this.$store.state.selectedGuildID;
         if (this.$store.state.showProxyURLInput) this.$refs.proxyURLInput.classList.remove('hidden');
@@ -160,7 +159,6 @@ export default {
             this.$store.dispatch('deleteToken');
             this.$store.dispatch('updateSettings', {
                 clientID: this.clientID,
-                clientSecret: this.clientSecret,
                 selectedGuildID: this.guildID,
                 proxyURL: this.proxyURL
             });
