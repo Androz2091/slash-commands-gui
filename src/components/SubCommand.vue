@@ -1,6 +1,6 @@
 <template>
     <div
-        class="cmd-card focus:outline-none focus:border-white ml-4 mr-4 md:ml-0 md:mr-0 mt-2 text-gray-500 rounded-2xl bg-darktwo cursor-pointer"
+        class="cmd-card focus:outline-none ml-4 mr-4 md:ml-0 md:mr-0 mt-2 text-gray-500 rounded-2xl bg-darktwo cursor-pointer"
         tabindex="0"
         :onclick="open"
         @keyup.enter="open"
@@ -42,7 +42,7 @@ export default {
 <style scoped>
 .cmd-card {
     padding: 20px;
-    border-width: 1px;
+    border-width: 2px;
     border-color: transparent;
 }
 .cmd-card:focus {

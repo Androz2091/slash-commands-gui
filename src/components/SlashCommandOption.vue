@@ -1,6 +1,6 @@
 <template>
     <div
-        class="opt-card focus:outline-none focus:border-white mt-2 rounded-2xl bg-darktwo cursor-pointer"
+        class="opt-card focus:outline-none mt-2 rounded-2xl bg-darktwo cursor-pointer"
         tabindex="0"
         :onclick="open"
         @keyup.enter="open"
@@ -45,7 +45,7 @@ export default {
 <style scoped>
 .opt-card {
     padding: 20px;
-    border-width: 1px;
+    border-width: 2px;
     border-color: transparent;
 }
 .opt-card:focus {
