@@ -163,7 +163,7 @@ export default {
     mounted () {
         this.clientID = this.$store.state.clientID;
         this.proxyURL = this.$store.state.proxyURL;
-        if (this.guildID) this.guildID = this.$store.state.selectedGuildID;
+        if (this.$store.state.selectedGuildID) this.guildID = this.$store.state.selectedGuildID;
         if (this.$store.state.showProxyURLInput) this.$refs.proxyURLInput.classList.remove('hidden');
     },
     methods: {
