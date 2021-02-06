@@ -1,5 +1,5 @@
 <template>
-    <div class="s">
+    <div>
         <NavigationBar />
         <div
             v-if="!$store.getters.logged && $route.name !== 'Settings'"
