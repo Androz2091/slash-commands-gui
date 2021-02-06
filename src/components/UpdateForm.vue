@@ -29,7 +29,9 @@
                 :disabled="updateLoading"
             >
                 <LoadingAnimation v-if="updateLoading" />
-                Update {{ type.toLowerCase() }}
+                <div v-else>
+                    Update {{ type.toLowerCase() }}
+                </div>
             </button>
             <button
                 class="bg-red-600 rounded py-2 px-4 focus:outline-none focus:border-white w-full my-1 md:my-0 md:w-auto md:mx-4"
@@ -37,7 +39,9 @@
                 :disabled="deleteLoading"
             >
                 <LoadingAnimation v-if="deleteLoading" />
-                Delete {{ type.toLowerCase() }}
+                <div v-else>
+                    Delete {{ type.toLowerCase() }}
+                </div>
             </button>
         </div>
     </form>

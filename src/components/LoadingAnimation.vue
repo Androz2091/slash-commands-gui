@@ -1,28 +1,98 @@
 <template>
-    <svg
-        class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-    >
-        <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-        />
-        <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        />
-    </svg>
+    <div class="ball-pulse smallBall text-center">
+        <div :style="getStyle" />
+        <div :style="getStyle" />
+        <div :style="getStyle" />
+    </div>
 </template>
 
 <script>
 export default {
-    name: 'LoadingAnimation'
+    name: 'LoadingAnimation',
+    props: {
+        full: {
+            type: Boolean,
+            required: true
+        }
+    },
+    computed: {
+        getStyle () {
+            return {
+                width: this.full ? '20px' : '12px',
+                height: this.full ?  '20px' : '12px'
+            };
+        }
+    }
 };
 </script>
+
+<style scoped>
+.ball-pulse > div:first-child {
+    -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.24s infinite;
+    animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.24s infinite;
+}
+.ball-pulse > div:nth-child(2) {
+    -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.12s infinite;
+    animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) -.12s infinite;
+}
+.ball-pulse > div:nth-child(3) {
+    -webkit-animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) 0s infinite;
+    animation: scale .75s cubic-bezier(.2, .68, .18, 1.08) 0s infinite;
+}
+.ball-pulse > div {
+    background-color: #fff;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    margin: 2px;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: -.2rem
+}
+.smallBall > div {
+    vertical-align: middle;
+    margin: 1px
+}
+@-webkit-keyframes scale {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        -ms-filter: none;
+        filter: none
+    }
+    45% {
+        transform: scale(.1);
+        opacity: .7;
+        -ms-filter: "alpha(opacity=70)";
+        filter: alpha(opacity=70)
+    }
+    80% {
+        transform: scale(1);
+        opacity: 1;
+        -ms-filter: none;
+        filter: none
+    }
+}
+@keyframes scale {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        -ms-filter: none;
+        filter: none
+    }
+    45% {
+        transform: scale(.1);
+        opacity: .7;
+        -ms-filter: "alpha(opacity=70)";
+        filter: alpha(opacity=70)
+    }
+    80% {
+        transform: scale(1);
+        opacity: 1;
+        -ms-filter: none;
+        filter: none
+    }
+}
+</style>
