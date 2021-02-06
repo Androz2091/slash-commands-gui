@@ -18,8 +18,8 @@ export default {
     computed: {
         getStyle () {
             return {
-                width: this.full ? '20px' : '12px',
-                height: this.full ?  '20px' : '12px'
+                width: this.full ? '20px' : '10px',
+                height: this.full ?  '20px' : '10px'
             };
         }
     }

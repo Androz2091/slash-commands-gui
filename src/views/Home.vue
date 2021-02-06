@@ -4,6 +4,7 @@
     </h1>
     <div class="container md:mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <CreateSlashCommand />
             <SlashCommand
                 v-for="command in this.$store.state.commands"
                 :key="command.name"
@@ -15,10 +16,12 @@
 
 <script>
 import SlashCommand from '../components/SlashCommand.vue';
+import CreateSlashCommand from '../components/CreateSlashCommand.vue';
 
 export default {
     components: {
-        SlashCommand
+        SlashCommand,
+        CreateSlashCommand
     }
 };
 </script>
