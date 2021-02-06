@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const getURL = (clientID, guildID, commandID) => `applications/${clientID}/${guildID ? `guilds/${guildID}/` : ''}${commandID ? `commands/${commandID}` : 'commands'}`;
+
 export function request (token, proxyURL, url, method, data) {
     return new Promise((resolve) => {
         axios({
@@ -54,20 +56,26 @@ export function getToken (clientID, clientSecret, proxyURL) {
  * @param {string} guildID 
  */
 export function checkGuild (clientID, token, proxyURL, guildID) {
-    return request(token, proxyURL, `applications/${clientID}/guilds/${guildID}/commands`);
+    const url = getURL(clientID, guildID);
+    return request(token, proxyURL, url, 'GET');
 }
 
 export function fetchCommands (clientID, token, proxyURL, guildID) {
-    const url = `applications/${clientID}/${guildID ? `guilds/${guildID}/commands` : 'commands'}`;
+    const url = getURL(clientID, guildID);
     return request(token, proxyURL, url, 'GET');
 }
 
 export function updateCommand (clientID, token, proxyURL, guildID, command) {
-    const url = `applications/${clientID}/${guildID ? `guilds/${guildID}/commands` : 'commands'}`;
+    const url = getURL(clientID, guildID);
     return request(token, proxyURL, url, 'POST', command);
 }
 
 export function deleteCommand (clientID, token, proxyURL, guildID, commandID) {
-    const url = `applications/${clientID}/${guildID ? `guilds/${guildID}/commands/${commandID}` : 'commands'}`;
+    const url = getURL(clientID, guildID, commandID);
     return request(token, proxyURL, url, 'DELETE');
+}
+
+export function createCommand (clientID, token, proxyURL, guildID, commandData) {
+    const url = getURL(clientID, guildID);
+    return request(token, proxyURL, url, 'POST', commandData);
 }
