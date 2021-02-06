@@ -22,7 +22,7 @@
                     v-if="incorrectName"
                     class="text-red-400"
                 >
-                    The command name should be at least than 3 characters!
+                    The command name length should be between 3 and 32 character!
                 </span>
             </div>
             <div class="space-y-2">
@@ -36,7 +36,7 @@
                     v-if="incorrectDescription"
                     class="text-red-400"
                 >
-                    The command description is required!
+                    The command description is required (max 100 character)!
                 </span>
             </div>
         </div>
@@ -100,10 +100,10 @@ export default {
             return this.$store.state.commands.some((cmd) => cmd.name === this.name);
         },
         incorrectName () {
-            return !(this.name && this.name.length >= 3);
+            return !(this.name && this.name.length >= 3 && this.name.length <= 32);
         },
         incorrectDescription () {
-            return !(this.description);
+            return !(this.description && this.description.length <= 100);
         }
     },
     methods: {
