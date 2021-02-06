@@ -19,11 +19,7 @@
                 class="vertical-center"
             />
         </div>
-        <!-- TODO: Fix Extraneous non-emits event listeners (loadCommands) warning -->
-        <RouterView
-            v-else
-            @load-commands="loadCommands"
-        />
+        <RouterView v-else />
     </div>
     <footer class="footer bg-darktwo py-4">
         <p class="ml-2">

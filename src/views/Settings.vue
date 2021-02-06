@@ -119,7 +119,6 @@ export default {
         LoadingAnimation,
         Link
     },
-    emits: ['load-commands'],
     data () {
         return {
             clientID: '',
@@ -191,7 +190,7 @@ export default {
                         // this.$toast.show(`Logged as ${application.username}!`);
                         this.$router.push('/');
                         this.loading = false;
-                        this.$emit('load-commands');
+                        this.$root.loadCommands();
                     }).catch(() => {
                         this.loading = false;
                         this.invalidGuildIDs.add(this.guildID);
