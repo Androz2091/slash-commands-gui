@@ -26,3 +26,8 @@ body {
     grid-row-start: 2;
     grid-row-end: 3;
 }
+
+input {
+    background-color: #373c42;
+    width: 100%;
+}

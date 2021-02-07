@@ -142,11 +142,3 @@ export default {
     border-color: #7289DA;
 }
 </style>
-
-<style scoped>
-input {
-    background-color: #373c42;
-    width: 100%;
-}
-</style>
-

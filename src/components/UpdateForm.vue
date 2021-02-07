@@ -99,11 +99,3 @@ export default {
     }
 };
 </script>
-
-
-<style scoped>
-input {
-    background-color: #373c42;
-    width: 100%;
-}
-</style>
