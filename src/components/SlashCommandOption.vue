@@ -1,9 +1,72 @@
 <template>
+    <Modal
+        :open="modalOpen"
+        title="Update the option"
+        @close="closeModal"
+    >
+        <div class="space-y-6 mb-4">
+            <div class="space-y-2">
+                <label for="clientid">Command Name</label>
+                <input
+                    v-model="name"
+                    class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
+                    name="clientid"
+                >
+                <span
+                    v-if="commandExists"
+                    class="text-red-400"
+                >
+                    There is already a command with that name!
+                </span>
+                <span
+                    v-if="incorrectName"
+                    class="text-red-400"
+                >
+                    The command name length should be between 3 and 32 character!
+                </span>
+            </div>
+            <div class="space-y-2">
+                <label for="clientid">Command Description</label>
+                <input
+                    v-model="description"
+                    class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
+                    name="clientid"
+                >
+                <span
+                    v-if="incorrectDescription"
+                    class="text-red-400"
+                >
+                    The command description is required (max 100 character)!
+                </span>
+            </div>
+        </div>
+        <template #footer>
+            <div class="flex justify-end pt-2">
+                <button
+                    class="px-4 bg-transparent p-3 rounded text-discord hover:text-discord mr-2 hover:underline focus:outline-none"
+                    @click="closeModal"
+                >
+                    Cancel
+                </button>
+                <button
+                    class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
+                    @click="onSubmit"
+                >
+                    <div v-if="modalLoading">
+                        <LoadingAnimation v-if="modalLoading" />
+                    </div>
+                    <div v-else>
+                        Create
+                    </div>
+                </button>
+            </div>
+        </template>
+    </Modal>
     <div
         class="opt-card focus:outline-none mt-2 rounded-2xl bg-darktwo cursor-pointer"
         tabindex="0"
-        :onclick="open"
-        @keyup.enter="open"
+        :onclick="openModal"
+        @keyup.enter="openModal"
     >
         {{ option.name }}
         <br>
@@ -18,11 +81,13 @@
 <script>
 import dataTypes from '../util/data-types';
 import SlashLabel from './SlashLabel.vue';
+import Modal from './Modal.vue';
 
 export default {
     name: 'SlashCommandOption',
     components: {
-        SlashLabel
+        SlashLabel,
+        Modal
     },
     props: {
         option: {
@@ -30,13 +95,22 @@ export default {
             required: true
         }
     },
+    data () {
+        return {
+            modalOpen: false
+        };
+    },
     computed: {
         type () {
             return dataTypes.find((t) => t.type === this.option.type);
         }
     },
     methods: {
-        open () {
+        openModal () {
+            this.modalOpen = true;
+        },
+        closeModal () {
+            this.modalOpen = false;
         }
     }
 };

@@ -79,3 +79,12 @@ export function createCommand (clientID, token, proxyURL, guildID, commandData) 
     const url = getURL(clientID, guildID);
     return request(token, proxyURL, url, 'POST', commandData);
 }
+
+export function fetchApplication (clientID) {
+    const url = `https://diswho.androz2091.fr/user/${clientID}`;
+    return axios({
+        url
+    }).then((value) => {
+        return value.data;
+    });
+}

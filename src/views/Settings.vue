@@ -111,7 +111,7 @@
 
 <script>
 import { fakePromise } from '../util/helpers';
-import { getToken, checkGuild } from '../api';
+import { getToken, checkGuild, fetchApplication } from '../api';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 import Link from '../components/Link.vue';
 
@@ -188,9 +188,14 @@ export default {
                     });
                     const fetchGuildPromise = this.guildID ? checkGuild(this.$store.state.clientID, this.$store.state.token.value, this.proxyURL, this.guildID) : fakePromise();
                     fetchGuildPromise.then(() => {
-                        // TODO: add the toast once https://github.com/MeForma/vue-toaster/issues/12 is fixed
-                        // this.$toast.show(`Logged as ${application.username}!`);
-                        this.$router.push('/');
+                        fetchApplication(this.$store.state.clientID).then((application) => {
+                            // TODO: use official repository in dependencies once https://github.com/MeForma/vue-toaster/pull/18 is merged.
+                            this.$toast.success(`Successfully logged in as ${application.username}!`, {
+                                duration: 10000,
+                                pauseOnHover: true
+                            });
+                            this.$router.push('/');
+                        });
                         this.loading = false;
                         this.$root.loadCommands();
                     }).catch(() => {
@@ -206,10 +211,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-input {
-    background-color: #373c42;
-    width: 100%;
-}
-</style>
