@@ -99,10 +99,6 @@ export default {
         options: {
             type: Array,
             required: true
-        },
-        update: {
-            type: Function,
-            required: true
         }
     },
     emits: ['update'],
