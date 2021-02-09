@@ -19,13 +19,13 @@ The goal is to cover all the Discord Slash Commands API 🎯
 ### v1.0.0 - Everything covered
 
 * Add a way to create and update command parameters (change choices, name and type).
-* Add a way to update command permissions once **[#2315](https://github.com/discord/discord-api-docs/issues/2315#issuecomment-761131184)** is closed.
 * ~~Add a way to create a new top-level command (name, description and permissions).~~
-* Add a way to create a new commands group on a top-level command (name, description).
-* Add a way to create a new sub command on a top-level command and on a group (name, description and permissions).
+* ~~Add a way to create a new commands group on a top-level command (name, description).~~
+* ~~Add a way to create a new sub command on a top-level command and on a group (name and description).~~
 
 ### v1.x.x - An Awesome tool
 
+* Add a way to update command permissions once **[#2315](https://github.com/discord/discord-api-docs/issues/2315#issuecomment-761131184)** is closed.
 * Add a way to duplicate commands.
 * Export commands to CURL (to create them on another guild for example).
 * Generate a commands tree using canvas so we can easily see all the commands, their parameters, etc.
