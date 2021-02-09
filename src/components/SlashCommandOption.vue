@@ -5,6 +5,10 @@
         @close="closeModal"
     >
         <div class="space-y-6 mb-4">
+            <SelectForm
+                :default="typeName"
+                :options="options"
+            />
             <div class="space-y-2">
                 <label for="clientid">Command Name</label>
                 <input
@@ -56,7 +60,7 @@
                         <LoadingAnimation v-if="modalLoading" />
                     </div>
                     <div v-else>
-                        Create
+                        Update
                     </div>
                 </button>
             </div>
@@ -79,15 +83,18 @@
 </template>
 
 <script>
+import { formatString } from '../util/helpers';
 import dataTypes from '../util/data-types';
 import SlashLabel from './SlashLabel.vue';
 import Modal from './Modal.vue';
+import SelectForm from './SelectForm.vue';
 
 export default {
     name: 'SlashCommandOption',
     components: {
         SlashLabel,
-        Modal
+        Modal,
+        SelectForm
     },
     props: {
         option: {
@@ -97,12 +104,19 @@ export default {
     },
     data () {
         return {
-            modalOpen: false
+            modalOpen: false,
+            modalLoading: false
         };
     },
     computed: {
         type () {
             return dataTypes.find((t) => t.type === this.option.type);
+        },
+        typeName () {
+            return formatString(this.type.name);
+        },
+        options () {
+            return dataTypes.map((t) => t.name).map((name) => formatString(name));
         }
     },
     methods: {
