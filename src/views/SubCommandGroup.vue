@@ -22,6 +22,7 @@
                 :subcommandgroup="group"
                 :command="command"
             />
+            <CreateSubCommand />
         </div>
     </div>
 </template>
@@ -32,12 +33,14 @@ import { updateCommand } from '../api';
 import SubCommand from '../components/SubCommand.vue';
 import { cloneObject } from '../util/helpers';
 import UpdateForm from '../components/UpdateForm.vue';
+import CreateSubCommand from '../components/CreateSubCommand.vue';
 
 export default {
     name: 'SlashCommand',
     components: {
         SubCommand,
-        UpdateForm
+        UpdateForm,
+        CreateSubCommand
     },
     computed: {
         subcommands () {

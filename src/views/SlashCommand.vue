@@ -39,6 +39,9 @@
                 :subcommandgroup="subcommandgroup"
                 :command="command"
             />
+            <div v-if="params.length === 0">
+                <CreateSubGroup />
+            </div>
         </div>
         <div
             v-if="subcommandgroups.length === 0 && subcommands.length === 0"
@@ -67,6 +70,7 @@ import SubCommandGroup from '../components/SubCommandGroup.vue';
 import UpdateForm from '../components/UpdateForm.vue';
 import { cloneObject } from '../util/helpers';
 import CreateSubCommand from '../components/CreateSubCommand.vue';
+import CreateSubGroup from '../components/CreateSubGroup.vue';
 
 export default {
     name: 'SlashCommand',
@@ -75,7 +79,8 @@ export default {
         SubCommand,
         SubCommandGroup,
         UpdateForm,
-        CreateSubCommand
+        CreateSubCommand,
+        CreateSubGroup
     },
     computed: {
         params () {

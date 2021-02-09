@@ -1,22 +1,22 @@
 <template>
     <Modal
         :open="modalOpen"
-        title="Create a sub command"
+        title="Create a sub group"
         @close="closeModal"
     >
         <div class="space-y-6 mb-4">
             <div class="space-y-2">
-                <label for="cmdname">Command Name</label>
+                <label for="cmdname">Group Name</label>
                 <input
                     v-model="name"
                     class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
                     name="cmdname"
                 >
                 <span
-                    v-if="commandExists"
+                    v-if="groupExists"
                     class="text-red-400"
                 >
-                    There is already a command with that name!
+                    There is already a group with that name!
                 </span>
                 <span
                     v-if="incorrectName"
@@ -26,7 +26,7 @@
                 </span>
             </div>
             <div class="space-y-2">
-                <label for="cmddesc">Command Description</label>
+                <label for="cmddesc">Group Description</label>
                 <input
                     v-model="description"
                     class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
@@ -36,7 +36,7 @@
                     v-if="incorrectDescription"
                     class="text-red-400"
                 >
-                    The command description is required (max 100 character)!
+                    The group description is required (max 100 character)!
                 </span>
             </div>
         </div>
@@ -68,7 +68,7 @@
         :onclick="openModal"
         @keyup.enter="openModal"
     >
-        Create a new sub command
+        Create a new sub group
     </div>
 </template>
 
@@ -78,7 +78,7 @@ import Modal from './Modal.vue';
 import LoadingAnimation from './LoadingAnimation.vue';
 
 export default {
-    name: 'CreateSubCommand',
+    name: 'CreateSubGroup',
     components: {
         Modal,
         LoadingAnimation
@@ -93,8 +93,8 @@ export default {
         };
     },
     computed: {
-        commandExists () {
-            return this.subgroup ? this.subgroup.options?.some((cmd) => cmd.name === this.name) : this.command.options?.some((cmd) => cmd.name === this.name);
+        groupExists () {
+            return this.command.options?.some((opt) => opt.name === this.name);
         },
         incorrectName () {
             return !(this.name && this.name.length >= 3 && this.name.length <= 32);
@@ -104,9 +104,6 @@ export default {
         },
         command () {
             return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
-        },
-        subgroup () {
-            return this.$route.params.groupName ? this.command.options.find((opt) => opt.name === this.$route.params.groupName) : null;
         }
     },
     methods: {
@@ -119,22 +116,12 @@ export default {
         onSubmit () {
             this.modalLoading = true;
             if (!this.command.options) this.command.options = [];
-            if (this.subgroup) {
-                if (!this.command.options.find((opt) => opt.name === this.subgroup.name).options) {
-                    this.command.options.find((opt) => opt.name === this.subgroup.name).options = [];
-                }
-                this.command.options.find((opt) => opt.name === this.subgroup.name).options.push({
-                    name: this.name,
-                    description: this.description,
-                    type: 1
-                });
-            } else {
-                this.command.options.push({
-                    name: this.name,
-                    description: this.description,
-                    type: 1
-                });
-            }
+            this.command.options.push({
+                name: this.name,
+                description: this.description,
+                type: 2,
+                options: []
+            });
             updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, this.command).then(() => {
                 this.$store.dispatch('updateCommand', this.command);
                 this.modalLoading = false;
