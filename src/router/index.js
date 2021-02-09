@@ -23,18 +23,18 @@ const routes = [
         component: SlashCommand
     },
     {
-        path: "/command/:commandID/cmd-:commandName",
+        path: "/command/:commandID/subs/:commandName",
         name: "SubCommand",
         component: SubCommand
     },
     {
-        path: "/command/:commandID/group-:groupName",
+        path: "/command/:commandID/groups/:groupName",
         name: "SubGroup",
         component: SubCommandGroup
     },
     {
-        path: "/command/:commandID/group-:groupName/cmd-:commandName",
-        name: "SubCommand",
+        path: "/command/:commandID/groups/:groupName/subs/:commandName",
+        name: "SubCommandInGroup",
         component: SubCommand
     },
     {

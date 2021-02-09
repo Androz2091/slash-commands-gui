@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         open () {
-            this.$router.push(`/command/${this.command.id}/${this.subcommandgroup ? `group-${this.subcommandgroup.name}/` : ''}cmd-${this.subcommand.name}`);
+            this.$router.push(`/command/${this.command.id}/${this.subcommandgroup ? `groups/${this.subcommandgroup.name}/` : ''}subs/${this.subcommand.name}`);
         }
     }
 };

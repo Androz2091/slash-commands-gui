@@ -73,7 +73,7 @@ export default {
             updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setDeleteLoading(false);
-                this.$router.push(`/command/${this.command.id}/group-${this.group.name}`);
+                this.$router.push(`/command/${this.command.id}/groups/${this.group.name}`);
             });
         }
     }

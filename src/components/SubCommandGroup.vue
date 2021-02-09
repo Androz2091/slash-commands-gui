@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         open () {
-            this.$router.push(`/command/${this.command.id}/group-${this.subcommandgroup.name}`);
+            this.$router.push(`/command/${this.command.id}/groups/${this.subcommandgroup.name}`);
         }
     }
 };
