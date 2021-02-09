@@ -124,8 +124,10 @@ export default {
             });
             updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, this.command).then(() => {
                 this.$store.dispatch('updateCommand', this.command);
-                this.modalLoading = false;
                 this.closeModal();
+                this.modalLoading = false;
+                this.name = '';
+                this.description = '';
             });
         }
     }

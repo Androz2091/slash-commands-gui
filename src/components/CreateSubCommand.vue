@@ -140,6 +140,8 @@ export default {
                 this.$store.dispatch('updateCommand', this.command);
                 this.closeModal();
                 this.modalLoading = false;
+                this.name = '';
+                this.description = '';
             });
         }
     }

@@ -122,7 +122,10 @@ export default {
                 options: []
             }).then(() => {
                 this.$root.loadCommands();
-                this.modalLoading = false; 
+                this.modalLoading = false;
+                this.closeModal();
+                this.name = '';
+                this.description = '';
             });
         }
     }
