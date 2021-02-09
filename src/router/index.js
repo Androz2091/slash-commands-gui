@@ -4,6 +4,7 @@ import Settings from "../views/Settings.vue";
 import SlashCommand from "../views/SlashCommand.vue";
 import SubCommandGroup from "../views/SubCommandGroup.vue";
 import SubCommand from "../views/SubCommand.vue";
+import NotFound from "../views/404.vue";
 
 const routes = [
     {
@@ -35,6 +36,11 @@ const routes = [
         path: "/command/:commandID/group-:groupName/cmd-:commandName",
         name: "SubCommand",
         component: SubCommand
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "404",
+        component: NotFound
     }
 ];
 
