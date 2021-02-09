@@ -69,9 +69,6 @@
         @keyup.enter="openModal"
     >
         Create a new sub command
-        <p class="text-gray-400">
-            Click here to create a new sub command
-        </p>
     </div>
 </template>
 
