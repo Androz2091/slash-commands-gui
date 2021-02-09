@@ -9,7 +9,7 @@
     "@meforma/vue-toaster": "Androz2091/vue-toaster#patch-1",
     "axios": "^0.21.1",
     "v-tooltip": "paulshen/v-tooltip#vue3",
-    "vue": "^3.0.4",
+    "vue": "^3.0.5",
     "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
@@ -24,7 +24,8 @@
     "stylus": "^0.54.8",
     "stylus-loader": "3",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
-    "vite": "^1.0.0-rc.13",
+    "vite": "^2.0.0-beta.66",
+    "@vitejs/plugin-vue": "^1.1.4",
     "vite-aliases": "^0.2.0",
     "vue-router": "^4.0.3"
   }
