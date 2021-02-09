@@ -1,7 +1,7 @@
 <template>
     <Modal
         :open="modalOpen"
-        title="Create a command"
+        title="Create a sub command"
         @close="closeModal"
     >
         <div class="space-y-6 mb-4">
@@ -63,25 +63,25 @@
         </template>
     </Modal>
     <div
-        class="cmd-card focus:outline-none ml-4 mr-4 md:ml-0 md:mr-0 rounded-2xl bg-darkthree cursor-pointer"
+        class="cmd-card focus:outline-none ml-4 mr-4 md:ml-0 md:mr-0 mt-2 rounded-2xl bg-darkthree cursor-pointer"
         tabindex="0"
         :onclick="openModal"
         @keyup.enter="openModal"
     >
-        Create a new command
+        Create a new sub command
         <p class="text-gray-400">
-            Click here to create a new command
+            Click here to create a new sub command
         </p>
     </div>
 </template>
 
 <script>
-import { createCommand } from '../api';
+import { updateCommand } from '../api';
 import Modal from './Modal.vue';
 import LoadingAnimation from './LoadingAnimation.vue';
 
 export default {
-    name: 'CreateSlashCommand',
+    name: 'CreateSubCommand',
     components: {
         Modal,
         LoadingAnimation
@@ -97,13 +97,19 @@ export default {
     },
     computed: {
         commandExists () {
-            return this.$store.state.commands.some((cmd) => cmd.name === this.name);
+            return this.subgroup ? this.subgroup.options.some((cmd) => cmd.name === this.name) : this.command.options?.some((cmd) => cmd.name === this.name);
         },
         incorrectName () {
             return !(this.name && this.name.length >= 3 && this.name.length <= 32);
         },
         incorrectDescription () {
             return !(this.description && this.description.length <= 100);
+        },
+        command () {
+            return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
+        },
+        subgroup () {
+            return this.$route.params.groupName ? this.command.options.find((opt) => opt.name === this.$route.params.groupName) : null;
         }
     },
     methods: {
@@ -115,14 +121,23 @@ export default {
         },
         onSubmit () {
             this.modalLoading = true;
-            this.closeModal();
-            createCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, {
-                name: this.name,
-                description: this.description,
-                options: []
-            }).then(() => {
-                this.$root.loadCommands();
-                this.modalLoading = false; 
+            if (!this.command.options) this.command.options = [];
+            if (this.subgroup) {
+                this.command.options.find((opt) => opt.name !== this.subgroup.name).push({
+                    name: this.name,
+                    description: this.description
+                });
+            } else {
+                this.command.options.push({
+                    name: this.name,
+                    description: this.description,
+                    type: 1
+                });
+            }
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, this.command).then(() => {
+                this.$store.dispatch('updateCommand', this.command);
+                this.modalLoading = false;
+                this.closeModal();
             });
         }
     }

@@ -86,10 +86,10 @@ export default {
         },
         deleteSubCommand () {
             this.$refs.updateForm.setDeleteLoading(true);
-            const newCommand = this.command;
+            const newCommand = cloneObject(this.command);
             if (this.subgroup) {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subgroup.name);
-                const newGroup = this.subgroup;
+                const newGroup = cloneObject(this.subgroup);
                 newGroup.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
                 newCommand.options.push(newGroup);
             } else {

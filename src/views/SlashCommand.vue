@@ -10,7 +10,7 @@
             @update="updateCommand"
         />
         <div
-            v-if="subcommands.length > 0"
+            v-if="subcommands.length > 0 || params.length === 0"
             class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
         >
             <h1 class="text-2xl my-4">
@@ -22,9 +22,12 @@
                 :subcommand="subcommand"
                 :command="command"
             />
+            <div v-if="params.length === 0">
+                <CreateSubCommand />
+            </div>
         </div>
         <div
-            v-if="subcommandgroups.length > 0"
+            v-if="subcommandgroups.length > 0 || params.length === 0"
             class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
         >
             <h1 class="text-2xl my-4">
@@ -63,6 +66,7 @@ import SubCommand from '../components/SubCommand.vue';
 import SubCommandGroup from '../components/SubCommandGroup.vue';
 import UpdateForm from '../components/UpdateForm.vue';
 import { cloneObject } from '../util/helpers';
+import CreateSubCommand from '../components/CreateSubCommand.vue';
 
 export default {
     name: 'SlashCommand',
@@ -70,7 +74,8 @@ export default {
         SlashCommandOption,
         SubCommand,
         SubCommandGroup,
-        UpdateForm
+        UpdateForm,
+        CreateSubCommand
     },
     computed: {
         params () {
