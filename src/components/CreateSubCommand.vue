@@ -50,6 +50,7 @@
                 </button>
                 <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
+                    :disabled="modalLoading"
                     @click="onSubmit"
                 >
                     <div v-if="modalLoading">
@@ -94,7 +95,7 @@ export default {
     },
     computed: {
         commandExists () {
-            return this.subgroup ? this.subgroup.options?.some((cmd) => cmd.name === this.name) : this.command.options?.some((cmd) => cmd.name === this.name);
+            return !this.modalLoading && (this.subgroup ? this.subgroup.options?.some((cmd) => cmd.name === this.name) : this.command.options?.some((cmd) => cmd.name === this.name));
         },
         incorrectName () {
             return !(this.name && this.name.length >= 3 && this.name.length <= 32);
@@ -137,8 +138,8 @@ export default {
             }
             updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, this.command).then(() => {
                 this.$store.dispatch('updateCommand', this.command);
-                this.modalLoading = false;
                 this.closeModal();
+                this.modalLoading = false;
             });
         }
     }

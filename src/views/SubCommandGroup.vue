@@ -8,6 +8,7 @@
             type="Group"
             :description="group.description"
             @update="updateGroup"
+            @delete="deleteGroup"
         />
         <div
             class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"

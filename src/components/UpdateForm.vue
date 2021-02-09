@@ -1,7 +1,6 @@
 <template>
-    <form
+    <div
         class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
-        @submit.prevent="$emit('update', newDescription)"
     >
         <h1 class="text-2xl my-4">
             {{ type }} Settings
@@ -27,6 +26,7 @@
                 class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white w-full md:w-auto"
                 :class="updateButtonClass"
                 :disabled="updateLoading"
+                @click="$emit('update', newDescription)"
             >
                 <LoadingAnimation v-if="updateLoading" />
                 <div v-else>
@@ -37,6 +37,7 @@
                 class="bg-red-600 rounded py-2 px-4 focus:outline-none focus:border-white w-full my-1 md:my-0 md:w-auto md:mx-4"
                 :class="deleteButtonClass"
                 :disabled="deleteLoading"
+                @click="$emit('delete')"
             >
                 <LoadingAnimation v-if="deleteLoading" />
                 <div v-else>
@@ -44,7 +45,7 @@
                 </div>
             </button>
         </div>
-    </form>
+    </div>
 </template>
 
 <script>
@@ -66,7 +67,7 @@ export default {
             required: true
         }
     },
-    emits: ['update'],
+    emits: ['update', 'delete'],
     data () {
         return {
             newDescription: '',

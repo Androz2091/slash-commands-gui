@@ -8,6 +8,7 @@
             type="Command"
             :description="subcommand.description"
             @update="updateSubCommand"
+            @delete="deleteSubCommand"
         />
         <div
             class="max-w-3xl mx-auto bg-darkone py-4 px-4 rounded"
@@ -98,7 +99,7 @@ export default {
             updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setDeleteLoading(false);
-                this.$router.push(`/command/${this.command.id}${this.subgroup ? `groups/${this.subgroup.name}/` : ''}subs/${this.subcommand.name}`);
+                this.$router.push(`/command/${this.command.id}${this.subgroup ? `groups/${this.subgroup.name}/` : ''}`);
             });
         }
     }

@@ -8,6 +8,7 @@
             type="Command"
             :description="command.description"
             @update="updateCommand"
+            @delete="deleteCommand"
         />
         <div
             v-if="subcommands.length > 0 || params.length === 0"
