@@ -49,6 +49,23 @@
                 class="space-y-2"
             >
                 <label for="optiondesc">Choices</label>
+                <div
+                    v-if="newChoices[0] !== ''"
+                    style="margin-bottom: 15px;"
+                >
+                    <div
+                        v-for="choice in newChoices"
+                        :key="choice"
+                        class="bg-darkthree rounded p-2 mr-2 inline-block mb-2"
+                        style="max-width: 150px"
+                    >
+                        {{ choice }}
+                    </div>
+                </div>
+                <input
+                    v-model="rawChoices"
+                    class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
+                >
             </div>
         </div>
         <template #footer>
@@ -119,7 +136,7 @@ export default {
             newName: this.option.name,
             newDescription: this.option.description,
             newType: '',
-            newChoices: []
+            rawChoices: ''
         };
     },
     computed: {
@@ -140,7 +157,14 @@ export default {
         },
         options () {
             return dataTypes.map((t) => t.name).map((name) => formatString(name));
+        },
+        newChoices () {
+            return this.rawChoices.split(',');
         }
+    },
+    mounted () {
+        this.newType = this.typeName;
+        this.rawChoices = this.option.choices.map((c) => c.name).join(',');
     },
     methods: {
         openModal () {
