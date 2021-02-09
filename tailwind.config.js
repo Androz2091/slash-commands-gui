@@ -6,7 +6,8 @@ const colors = {
         discord: '#7289DA',
         darkone: '#292b2f',
         darktwo: '#202225',
-        darkthree: '#18191c'
+        darkthree: '#18191c',
+        darkinput: '#373c42'
     }
 };
 
