@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .link {
+        @apply hover:underline text-discord;
+    }
+}
+
 html {
     background-color: #2f3136;
     color: white;

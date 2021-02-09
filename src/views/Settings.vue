@@ -26,10 +26,11 @@
                 These credentials are incorrect, please verify this field
             </span>
             <p class="text-gray-400 leading-tight text-xs">
-                The client ID of your application can be found on your <Link
-                    to="https://discord.dev"
-                    content="Discord developer dashboard"
-                />.
+                The client ID of your application can be found on your <a
+                    href="https://discord.dev/applications"
+                    class="link"
+                    target="_blank"
+                >Discord developer dashboard</a>.
             </p>
         </div>
         <div class="space-y-2">
@@ -113,13 +114,11 @@
 import { fakePromise } from '../util/helpers';
 import { getToken, checkGuild, fetchApplication } from '../api';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
-import Link from '../components/Link.vue';
 
 export default {
     name: 'Settings',
     components: {
-        LoadingAnimation,
-        Link
+        LoadingAnimation
     },
     data () {
         return {

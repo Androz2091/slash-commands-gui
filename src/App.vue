@@ -34,21 +34,24 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            /></svg> by <Link
-                to="https://github.com/Androz2091"
-                content="Androz2091"
-            /> using <Link
-                :color="false"
-                to="https://v3.vuejs.org"
-                content="Vue.js 3"
-            /> and  <Link
-                :color="false"
-                to="https://tailwindcss.com"
-                content="TailwindCSS"
-            />. The code is publicly available on <Link
-                to="https://github.com/Androz2091/slash-commands-gui"
-                content="GitHub"
-            />.
+            /></svg> by
+            <a
+                class="link"
+                href="https://github.com/Androz2091"
+                target="_blank"
+            >Androz2091</a> using <a
+                class="hover:underline"
+                href="https://v3.vuejs.org"
+                target="_blank"
+            >Vue.js 3</a> <a
+                class="hover:underline"
+                href="https://tailwindcss.com"
+                target="_blank"
+            >TailwindCSS</a>. The code is publicly available on <a
+                class="link"
+                href="https://github.com/Androz2091/slash-commands-gui"
+                target="_blank"
+            >GitHub</a>.
         </p>
     </footer>
 </template>
@@ -56,14 +59,12 @@
 <script>
 import { fetchCommands } from './api';
 import NavigationBar from './components/NavigationBar.vue';
-import Link from './components/Link.vue';
 import LoadingAnimation from './components/LoadingAnimation.vue';
 
 export default {
     name: 'App',
     components: {
         NavigationBar,
-        Link,
         LoadingAnimation
     },
     data () {
