@@ -8,40 +8,47 @@
             <SelectForm
                 :default="typeName"
                 :options="options"
+                @update="newTypeSelectUpdate"
             />
             <div class="space-y-2">
-                <label for="clientid">Command Name</label>
+                <label for="optionname">Option Name</label>
                 <input
-                    v-model="name"
+                    v-model="newName"
                     class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
-                    name="clientid"
+                    name="optionname"
                 >
                 <span
-                    v-if="commandExists"
+                    v-if="paramExists"
                     class="text-red-400"
                 >
-                    There is already a command with that name!
+                    There is already a parameter with that name!
                 </span>
                 <span
                     v-if="incorrectName"
                     class="text-red-400"
                 >
-                    The command name length should be between 3 and 32 character!
+                    The parameter name length should be between 3 and 32 character!
                 </span>
             </div>
             <div class="space-y-2">
-                <label for="clientid">Command Description</label>
+                <label for="optiondesc">Option Description</label>
                 <input
-                    v-model="description"
+                    v-model="newDescription"
                     class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
-                    name="clientid"
+                    name="optiondesc"
                 >
                 <span
                     v-if="incorrectDescription"
                     class="text-red-400"
                 >
-                    The command description is required (max 100 character)!
+                    The parameter description is required (max 100 character)!
                 </span>
+            </div>
+            <div
+                v-if="newType === 'String'"
+                class="space-y-2"
+            >
+                <label for="optiondesc">Choices</label>
             </div>
         </div>
         <template #footer>
@@ -88,13 +95,15 @@ import dataTypes from '../util/data-types';
 import SlashLabel from './SlashLabel.vue';
 import Modal from './Modal.vue';
 import SelectForm from './SelectForm.vue';
+import LoadingAnimation from './LoadingAnimation.vue';
 
 export default {
     name: 'SlashCommandOption',
     components: {
         SlashLabel,
         Modal,
-        SelectForm
+        SelectForm,
+        LoadingAnimation
     },
     props: {
         option: {
@@ -105,10 +114,24 @@ export default {
     data () {
         return {
             modalOpen: false,
-            modalLoading: false
+            modalLoading: false,
+
+            newName: this.option.name,
+            newDescription: this.option.description,
+            newType: '',
+            newChoices: []
         };
     },
     computed: {
+        incorrectName () {
+            return false; // TODO: add this check
+        },
+        incorrectDescription () {
+            return false; // TODO: add this check
+        },
+        paramExists () {
+            return false; // TODO: add this check
+        },
         type () {
             return dataTypes.find((t) => t.type === this.option.type);
         },
@@ -125,6 +148,9 @@ export default {
         },
         closeModal () {
             this.modalOpen = false;
+        },
+        newTypeSelectUpdate (newValue) {
+            this.newType = newValue;
         }
     }
 };

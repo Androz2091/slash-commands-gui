@@ -53,7 +53,7 @@
                         :key="option"
                         role="option"
                         class="cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-darkone"
-                        @click="selected = option; opened = false;"
+                        @click="updateValue(option)"
                     >
                         <div class="flex items-center">
                             <span
@@ -99,8 +99,13 @@ export default {
         options: {
             type: Array,
             required: true
+        },
+        update: {
+            type: Function,
+            required: true
         }
     },
+    emits: ['update'],
     data () {
         return {
             opened: false,
@@ -110,6 +115,13 @@ export default {
     computed: {
         selectedOptionName () {
             return this.selected || this.default;
+        }
+    },
+    methods: {
+        updateValue (option) {
+            this.selected = option;
+            this.opened = false;
+            this.$emit('update', option);
         }
     }
 };
