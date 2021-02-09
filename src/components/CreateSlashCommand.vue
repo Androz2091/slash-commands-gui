@@ -6,11 +6,11 @@
     >
         <div class="space-y-6 mb-4">
             <div class="space-y-2">
-                <label for="clientid">Command Name</label>
+                <label for="cmdname">Command Name</label>
                 <input
                     v-model="name"
                     class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
-                    name="clientid"
+                    name="cmdname"
                 >
                 <span
                     v-if="commandExists"
@@ -26,11 +26,11 @@
                 </span>
             </div>
             <div class="space-y-2">
-                <label for="clientid">Command Description</label>
+                <label for="cmddesc">Command Description</label>
                 <input
                     v-model="description"
                     class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
-                    name="clientid"
+                    name="cmddesc"
                 >
                 <span
                     v-if="incorrectDescription"
