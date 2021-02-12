@@ -27,7 +27,7 @@
                 :disabled="updateLoading"
                 @click="$emit('update', newDescription)"
             >
-                <LoadingAnimation v-if="updateLoading" />
+                <LoadingAnimation v-if="updateLoading" class="ml-auto mr-auto" />
                 <div v-else>
                     Update {{ type.toLowerCase() }}
                 </div>
@@ -38,7 +38,7 @@
                 :disabled="deleteLoading"
                 @click="$emit('delete')"
             >
-                <LoadingAnimation v-if="deleteLoading" />
+                <LoadingAnimation v-if="deleteLoading" class="ml-auto mr-auto" />
                 <div v-else>
                     Delete {{ type.toLowerCase() }}
                 </div>
