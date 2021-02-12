@@ -10,7 +10,7 @@
         <div
             class="modal-container w-11/12 md:max-w-lg mx-auto rounded-2xl shadow-lg z-50 overflow-y-auto bg-darkone border-darktwo border-2"
         >
-            <div class="absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+            <div class="absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50 opacity-0 md:opacity-100">
                 <svg
                     class="fill-current text-white"
                     xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@
                         {{ title }}
                     </p>
                     <div
-                        class="cursor-pointer z-50"
+                        class="cursor-pointer z-50 opacity-0 md:opacity-100"
                     >
                         <svg
                             class="fill-current text-white"
