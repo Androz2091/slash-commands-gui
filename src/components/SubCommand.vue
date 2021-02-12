@@ -1,8 +1,8 @@
 <template>
     <div
-        class="cmd-card focus:outline-none ml-4 mr-4 md:ml-0 md:mr-0 mt-2 text-gray-500 rounded-2xl bg-darktwo cursor-pointer"
+        class="card bg-darktwo"
         tabindex="0"
-        :onclick="open"
+        @click="open"
         @keyup.enter="open"
     >
         <p class="inline">
@@ -38,17 +38,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-.cmd-card {
-    padding: 20px;
-    border-width: 2px;
-    border-color: transparent;
-}
-.cmd-card:focus {
-    border-color: white;
-}
-.cmd-card:hover {
-    border-color: white;
-}
-</style>

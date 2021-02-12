@@ -1,6 +1,6 @@
 <template>
     <div
-        class="opt-card focus:outline-none mt-2 rounded-2xl bg-darktwo cursor-pointer"
+        class="card bg-darktwo"
         tabindex="0"
         @click="openModal"
         @keyup.enter="openModal"
@@ -65,17 +65,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-.opt-card {
-    padding: 20px;
-    border-width: 2px;
-    border-color: transparent;
-}
-.opt-card:focus {
-    border-color: white;
-}
-.opt-card:hover {
-    border-color: white;
-}
-</style>

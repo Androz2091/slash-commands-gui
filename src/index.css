@@ -6,6 +6,12 @@
     .link {
         @apply hover:underline text-discord;
     }
+    .card {
+        @apply focus:outline-none mt-2 rounded-2xl cursor-pointer text-white;
+    }
+    .cmd-card {
+        @apply ml-4 mr-4 md:ml-0 md:mr-0;
+    }
 }
 
 html {
@@ -36,4 +42,16 @@ body {
 input {
     background-color: #373c42;
     width: 100%;
+}
+
+.card {
+    padding: 20px;
+    border-width: 2px;
+    border-color: transparent;
+}
+.card:focus {
+    border-color: white;
+}
+.card:hover {
+    border-color: white;
 }
