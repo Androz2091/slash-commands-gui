@@ -147,7 +147,7 @@ export default {
         return {
             name: '',
             description: '',
-            type: '',
+            type: 'String',
             rawChoices: '',
 
             maxChoicesReached: false,

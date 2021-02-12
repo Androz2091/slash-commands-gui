@@ -56,9 +56,18 @@
                 :key="option.name"
                 :option="option"
             />
-            <h1 v-if="params.length === 0">
-                No parameters
-            </h1>
+            <div>
+                <SlashCommandOptionForm
+                    action="Create"
+                    :open="createFormOpen"
+                    :modal-loading="modalLoading"
+                    @close="closeModal"
+                    @submit="createCommandOption"
+                />
+                <CreateSlashCommandOption
+                    @submit="createFormOpen = true;"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -72,6 +81,8 @@ import UpdateForm from '../components/UpdateForm.vue';
 import { cloneObject } from '../util/helpers';
 import CreateSubCommand from '../components/CreateSubCommand.vue';
 import CreateSubGroup from '../components/CreateSubGroup.vue';
+import SlashCommandOptionForm from '../components/SlashCommandOptionForm.vue';
+import CreateSlashCommandOption from '../components/CreateSlashCommandOption.vue';
 
 export default {
     name: 'SlashCommand',
@@ -81,7 +92,15 @@ export default {
         SubCommandGroup,
         UpdateForm,
         CreateSubCommand,
-        CreateSubGroup
+        CreateSubGroup,
+        SlashCommandOptionForm,
+        CreateSlashCommandOption
+    },
+    data () {
+        return {
+            createFormOpen: false,
+            modalLoading: false
+        };
     },
     computed: {
         params () {
@@ -120,6 +139,12 @@ export default {
                 this.$refs.updateForm.setDeleteLoading(false);
                 this.$router.push('/');
             });
+        },
+        closeModal () {
+            this.createFormOpen = false;
+        },
+        createCommandOption () {
+            alert('create');
         }
     }
 };

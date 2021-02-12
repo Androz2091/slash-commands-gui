@@ -2,7 +2,7 @@
     <div
         class="opt-card focus:outline-none mt-2 rounded-2xl bg-darktwo cursor-pointer"
         tabindex="0"
-        :onclick="openModal"
+        @click="openModal"
         @keyup.enter="openModal"
     >
         {{ option.name }}
@@ -44,7 +44,9 @@ export default {
     data () {
         return {
             updateFormOpen: false,
-            modalLoading: false
+            modalLoading: false,
+
+            preventClose: false
         };
     },
     computed: {
@@ -54,10 +56,12 @@ export default {
     },
     methods: {
         openModal () {
-            this.updateFormOpen = true;
+            if (!this.preventClose) this.updateFormOpen = true;
+            else this.preventClose = false;
         },
         closeModal () {
             this.updateFormOpen = false;
+            this.preventClose = true;
         },
         updateCommandOption () {
             alert('updated');
