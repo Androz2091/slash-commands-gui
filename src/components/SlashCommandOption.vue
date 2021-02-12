@@ -12,16 +12,16 @@
             :content="type.name"
             :color="type.color"
         />
-        <SlashCommandOptionForm
-            :open="updateFormOpen"
-            :reset-on-submit="false"
-            action="Update"
-            :modal-loading="modalLoading"
-            :option="option"
-            @close="closeModal"
-            @submit="updateCommandOption"
-        />
     </div>
+    <SlashCommandOptionForm
+        :open="updateFormOpen"
+        :reset-on-submit="false"
+        action="Update"
+        :modal-loading="modalLoading"
+        :option="option"
+        @close="closeModal"
+        @submit="updateCommandOption"
+    />
 </template>
 
 <script>
@@ -44,9 +44,7 @@ export default {
     data () {
         return {
             updateFormOpen: false,
-            modalLoading: false,
-
-            preventClose: false
+            modalLoading: false
         };
     },
     computed: {
@@ -56,12 +54,10 @@ export default {
     },
     methods: {
         openModal () {
-            if (!this.preventClose) this.updateFormOpen = true;
-            else this.preventClose = false;
+            this.updateFormOpen = true;
         },
         closeModal () {
             this.updateFormOpen = false;
-            this.preventClose = true;
         },
         updateCommandOption () {
             alert('updated');
