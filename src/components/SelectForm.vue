@@ -11,7 +11,7 @@
                 aria-haspopup="listbox"
                 aria-expanded="true"
                 aria-labelledby="listbox-label"
-                class="text-white relative w-full bg-darkinput border border-gray-300 rounded-md shadow-sm pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-discord sm:text-sm"
+                class="text-white relative w-full bg-darkinput border border-gray-300 rounded-md shadow-sm pr-10 py-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-discord sm:text-sm"
                 @click="opened = !opened"
             >
                 <span class="flex items-center">
