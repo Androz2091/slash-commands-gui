@@ -20,7 +20,6 @@
             </span>
         </div>
         <div>
-            <!-- TODO: fix difference of height between both buttons when loading -->
             <button
                 type="submit"
                 class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white w-full md:w-auto"
