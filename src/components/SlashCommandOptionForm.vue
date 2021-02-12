@@ -92,6 +92,7 @@
                 <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
                     @click="onSubmit"
+                    :disabled="modalLoading || incorrectName || incorrectDescription || paramExists"
                 >
                     <div v-if="modalLoading">
                         <LoadingAnimation v-if="modalLoading" />

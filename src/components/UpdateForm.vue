@@ -24,7 +24,7 @@
                 type="submit"
                 class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white w-full md:w-auto"
                 :class="updateButtonClass"
-                :disabled="updateLoading"
+                :disabled="updateLoading || incorrectDescription"
                 @click="$emit('update', newDescription)"
             >
                 <LoadingAnimation v-if="updateLoading" class="ml-auto mr-auto" />
