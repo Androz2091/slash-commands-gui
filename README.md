@@ -42,3 +42,7 @@ The goal is to cover all the Discord Slash Commands API 🎯
 
 Slash Commands GUI relies on a CORS proxy to make requests to the Discord API. This proxy is a simple [cors-anywhere proxy](https://github.com/Androz2091/androz2091-cors-anywhere). It is necessary because the Discord API does not send the CORS header.  
 **Important note**: if you want to add an extra security level, you can host your own CORS proxy on your own machine. Press the **Settings** button during 3 seconds, and a new field will appear, allowing you to enter your proxy URL.
+
+## Security
+
+Authentication was one of the difficult things to do in this application. In version 0.0.1, users had to enter their bot tokens. After talking with API contributors to get their opinion, it was removed in favor of authentication using client ID and client secrecy. This allows the application to generate and store an oAuth2 token with the scope `applications.commands.update` only, without having to store the bot token.
