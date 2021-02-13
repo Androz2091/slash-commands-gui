@@ -43,7 +43,7 @@
                 class="hover:underline"
                 href="https://v3.vuejs.org"
                 target="_blank"
-            >Vue.js 3</a> <a
+            >Vue.js 3</a> and <a
                 class="hover:underline"
                 href="https://tailwindcss.com"
                 target="_blank"
