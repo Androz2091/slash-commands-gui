@@ -2,27 +2,11 @@
 
 Graphical User Interface to explore Slash Commands of your bot, built on **[Vue 3](https://v3.vuejs.org/)** and **[TailwindCSS](https://tailwindcss.com/)** 🚀
 
-## Features
+## Example
 
-The goal is to cover all the Discord Slash Commands API 🎯
-
-### v0.0.1 - The beginning
-
-* ~~Add a way to explore (read-only) slash commands of a bot~~
-* ~~Add a way to explore (read-only) guild-specific slash commands of a bot~~
-* ~~Add a way to specify a custom proxy URL~~
-* ~~Add a way to explore sub commands and commands groups~~
-* ~~Add a way to explore commands and sub commands parameters~~
-* ~~Add a way to update commands, sub commands and commands groups descriptions~~
-* ~~Add a way to delete commands, sub commands and commands groups~~
-
-### v1.0.0 - Everything covered
-
-* ~~Add a way to create and update command parameters (change choices, name and type)~~.
-* ~~Add a way to create a new top-level command (name, description and permissions).~~
-* ~~Add a way to create a new commands group on a top-level command (name, description).~~
-* ~~Add a way to create a new sub command on a top-level command and on a group (name and description).~~
-
+![Home](./examples/example-home.png)
+![Command](./examples/example-command.png)
+![Option](./examples/example-option-create.png)
 ### v1.x.x - An Awesome tool
 
 * Add popups once commands are deleted or added.
