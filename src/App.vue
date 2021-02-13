@@ -14,7 +14,7 @@
             </router-link> to start exploring Slash Commands of your bot!
         </div>
         <div
-            v-if="missingScope && $route.name !== 'Settings'"
+            v-else-if="missingScope && $route.name !== 'Settings'"
             class="text-center mt-28"
         >
             You selected a guild (<code>{{ $store.state.selectedGuildID }}</code>) on which your bot can't create Slash Commands. You can authorize it by clicking <a
