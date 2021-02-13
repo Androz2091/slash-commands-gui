@@ -13,6 +13,16 @@
                 settings page
             </router-link> to start exploring Slash Commands of your bot!
         </div>
+        <div
+            v-if="missingScope && $route.name !== 'Settings'"
+            class="text-center mt-28"
+        >
+            You selected a guild (<code>{{ $store.state.selectedGuildID }}</code>) on which your bot can't create Slash Commands. You can authorize it by clicking <a
+                :href="`https://discord.com/api/oauth2/authorize?client_id=${$store.state.clientID}&scope=applications.commands&guild_id=${$store.state.selectedGuildID}&disable_guild_select=true`"
+                class="link"
+                target="_blank"
+            >here</a>, then refresh the page.
+        </div>
         <div v-else-if="loading">
             <LoadingAnimation
                 :full="true"
@@ -69,7 +79,8 @@ export default {
     },
     data () {
         return {
-            loading: true
+            loading: true,
+            missingScope: false
         };
     },
     created () {
@@ -85,10 +96,15 @@ export default {
             } else {
                 const startAt = Date.now();
                 fetchCommands(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID).then((commands) => {
-                    setTimeout(() => {
-                        this.$store.commit('SET_COMMANDS', commands);
+                    if (!commands) {
                         this.loading = false;
-                    }, (Date.now() - startAt) + 100);
+                        this.missingScope = true;
+                    } else {
+                        setTimeout(() => {
+                            this.$store.commit('SET_COMMANDS', commands);
+                            this.loading = false;
+                        }, (Date.now() - startAt) + 100);
+                    }
                 }).catch(() => {
                     this.loading = false;
                     this.$router.push('/settings');
