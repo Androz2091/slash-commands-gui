@@ -90,8 +90,21 @@
                     Cancel
                 </button>
                 <button
+                    v-if="action === 'Update'"
+                    class="px-4 bg-red-600 p-3 rounded text-white mr-4 focus:outline-none leading-none"
+                    :disabled="deleteModalLoading || modalLoading"
+                    @click="onDelete"
+                >
+                    <div v-if="deleteModalLoading">
+                        <LoadingAnimation v-if="deleteModalLoading" />
+                    </div>
+                    <div v-else>
+                        Delete
+                    </div>
+                </button>
+                <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
-                    :disabled="modalLoading || incorrectName || incorrectDescription || paramExists"
+                    :disabled="deleteModalLoading || modalLoading || incorrectName || incorrectDescription || paramExists"
                     @click="onSubmit"
                 >
                     <div v-if="modalLoading">
@@ -141,9 +154,13 @@ export default {
         modalLoading: {
             type: Boolean,
             required: true
+        },
+        deleteModalLoading: {
+            type: Boolean,
+            required: true
         }
     },
-    emits: ['submit', 'close'],
+    emits: ['submit', 'close', 'delete'],
     data () {
         return {
             name: '',
@@ -199,6 +216,9 @@ export default {
         }
     },
     methods: {
+        onDelete () {
+            this.$emit('delete');
+        },
         onSubmit () {
             this.$emit('submit', {
                 name: this.name,
