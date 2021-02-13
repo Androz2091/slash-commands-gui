@@ -15,6 +15,16 @@
     button:disabled {
         @apply opacity-50 cursor-not-allowed;
     }
+    .toggle-checkbox:checked {
+        @apply right-0 border-discord;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+        @apply bg-discord;
+    }
+}
+
+.toggle-checkbox {
+    outline: none;
 }
 
 html {

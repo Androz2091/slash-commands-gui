@@ -44,6 +44,26 @@
                     The parameter description is required (max 100 character)!
                 </span>
             </div>
+            <div class="space-y-2">
+                <label
+                    for="toggle"
+                >Required Option</label>
+                <div
+                    class="relative w-10 mr-2 align-middle select-none transition duration-200 ease-in"
+                >
+                    <input
+                        id="toggle"
+                        v-model="required"
+                        type="checkbox"
+                        name="toggle"
+                        class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                    >
+                    <label
+                        for="toggle"
+                        class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    />
+                </div>
+            </div>
             <div
                 v-if="type === 'String'"
                 class="space-y-2"
@@ -167,6 +187,7 @@ export default {
             description: '',
             type: 'String',
             rawChoices: '',
+            required: false,
 
             maxChoicesReached: false,
             emptyChoice: false,
@@ -213,6 +234,7 @@ export default {
             this.description = this.option.description;
             this.rawChoices = this.option.choices?.map((c) => c.name).join(',') || '';
             this.type = formatString(dataTypes.find((t) => t.type === this.option.type).name);
+            this.required = this.option.required || false;
         }
     },
     methods: {
@@ -224,7 +246,8 @@ export default {
                 name: this.name,
                 description: this.description,
                 type: dataTypes.find((t) => formatString(t.name) === this.type).type,
-                choices: this.type === 'String' && this.rawChoices.length > 0 ? this.rawChoices.split(',').map((choice) => ({ name: choice, value: choice })) : undefined
+                choices: this.type === 'String' && this.rawChoices.length > 0 ? this.rawChoices.split(',').map((choice) => ({ name: choice, value: choice })) : undefined,
+                required: this.required
             });
         },
         closeModal () {
