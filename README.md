@@ -2,12 +2,19 @@
 
 Graphical User Interface to explore Slash Commands of your bot, built on **[Vue 3](https://v3.vuejs.org/)** and **[TailwindCSS](https://tailwindcss.com/)** 🚀
 
-## Example
+## Features
+
+**Everything you can do with HTTP requests you can also do with Slash Commands GUI.**  
+
+Its goal is to provide a simple interface that allows you to better understand Slash Commands and modify them simply, without going through requests, sometimes complex. 
+
+## Examples
 
 ![Home](./examples/example-home.png)
 ![Command](./examples/example-command.png)
 ![Option](./examples/example-option-create.png)
-### v1.x.x - An Awesome tool
+
+### SlashCommandsGUI@next
 
 * Add popups once commands are deleted or added.
 * Add a way to update command permissions once **[#2315](https://github.com/discord/discord-api-docs/issues/2315#issuecomment-761131184)** is closed.
