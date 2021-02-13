@@ -91,8 +91,8 @@
                 </button>
                 <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
-                    @click="onSubmit"
                     :disabled="modalLoading || incorrectName || incorrectDescription || paramExists"
+                    @click="onSubmit"
                 >
                     <div v-if="modalLoading">
                         <LoadingAnimation v-if="modalLoading" />
@@ -203,8 +203,8 @@ export default {
             this.$emit('submit', {
                 name: this.name,
                 description: this.description,
-                type: this.type,
-                rawChoices: this.rawChoices
+                type: dataTypes.find((t) => formatString(t.name) === this.type).type,
+                choices: this.type === 'String' && this.rawChoices.length > 0 ? this.rawChoices.split(',').map((choice) => ({ name: choice, value: choice })) : undefined
             });
         },
         closeModal () {

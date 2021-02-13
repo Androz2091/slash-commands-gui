@@ -21,9 +21,18 @@
                 :key="option.name"
                 :option="option"
             />
-            <h1 v-if="params.length === 0">
-                No parameters
-            </h1>
+            <div>
+                <SlashCommandOptionForm
+                    action="Create"
+                    :open="createFormOpen"
+                    :modal-loading="modalLoading"
+                    @close="closeModal"
+                    @submit="createCommandOption"
+                />
+                <CreateSlashCommandOption
+                    @submit="createFormOpen = true;"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -33,12 +42,22 @@ import { updateCommand } from '../api';
 import SlashCommandOption from '../components/SlashCommandOption.vue';
 import UpdateForm from '../components/UpdateForm.vue';
 import { cloneObject } from '../util/helpers';
+import SlashCommandOptionForm from '../components/SlashCommandOptionForm.vue';
+import CreateSlashCommandOption from '../components/CreateSlashCommandOption.vue';
 
 export default {
     name: 'SlashCommand',
     components: {
         SlashCommandOption,
-        UpdateForm
+        UpdateForm,
+        SlashCommandOptionForm,
+        CreateSlashCommandOption
+    },
+    data () {
+        return {
+            createFormOpen: false,
+            modalLoading: false
+        };
     },
     computed: {
         params () {
@@ -100,6 +119,29 @@ export default {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setDeleteLoading(false);
                 this.$router.push(`/command/${this.command.id}${this.subgroup ? `groups/${this.subgroup.name}/` : ''}`);
+            });
+        },
+        openModal () {
+            this.createFormOpen = true;
+        },
+        closeModal () {
+            this.createFormOpen = false;
+        },
+        createCommandOption (optionData) {
+            this.modalLoading = true;
+            const newCommand = cloneObject(this.command);
+            const newSubCommand = cloneObject(this.subcommand);
+            const newGroup = cloneObject(this.subgroup);
+            newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subgroup.name);
+            newGroup.options = newGroup.options.filter((opt) => opt.name !== this.subcommand.name);
+            if (!newSubCommand.options) newSubCommand.options = [];
+            newSubCommand.options.push(optionData);
+            newGroup.options.push(newSubCommand);
+            newCommand.options.push(newGroup);
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
+                this.$store.dispatch('updateCommand', newCommand);
+                this.closeModal();
+                this.modalLoading = false;
             });
         }
     }
