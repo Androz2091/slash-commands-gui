@@ -25,6 +25,7 @@ The goal is to cover all the Discord Slash Commands API 🎯
 
 ### v1.x.x - An Awesome tool
 
+* Add popups once commands are deleted or added.
 * Add a way to update command permissions once **[#2315](https://github.com/discord/discord-api-docs/issues/2315#issuecomment-761131184)** is closed.
 * Add a way to duplicate commands.
 * Export commands to CURL (to create them on another guild for example).
