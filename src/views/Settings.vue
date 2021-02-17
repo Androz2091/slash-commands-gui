@@ -174,7 +174,7 @@ export default {
             this.$store.dispatch('deleteToken');
             this.$store.dispatch('updateSettings', {
                 clientID: this.clientID,
-                selectedGuildID: this.guildID && this.guildID.length ? this.guildID : null,
+                selectedGuildID: this.guildID,
                 proxyURL: this.proxyURL
             });
             getToken(this.clientID, this.clientSecret, this.proxyURL).then((tokenData) => {
