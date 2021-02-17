@@ -17,6 +17,7 @@ Its goal is to provide a simple interface that allows you to better understand S
 ### SlashCommandsGUI@next
 
 * Add popups once commands are deleted or added.
+* Add a way to configure both choice name and choice value (at this time the name is the same as the value).
 * Add a way to update command permissions once **[#2315](https://github.com/discord/discord-api-docs/issues/2315#issuecomment-761131184)** is closed.
 * Add a way to duplicate commands.
 * Export commands to CURL (to create them on another guild for example).
