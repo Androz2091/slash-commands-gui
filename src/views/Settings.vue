@@ -189,7 +189,6 @@ export default {
                     const fetchGuildPromise = this.guildID ? checkGuild(this.$store.state.clientID, this.$store.state.token.value, this.proxyURL, this.guildID) : fakePromise();
                     fetchGuildPromise.then(() => {
                         fetchApplication(this.$store.state.clientID).then((application) => {
-                            // TODO: use official repository in dependencies once https://github.com/MeForma/vue-toaster/pull/18 is merged.
                             this.$toast.success(`Successfully logged in as ${application.username}!`, {
                                 duration: 10000,
                                 pauseOnHover: true

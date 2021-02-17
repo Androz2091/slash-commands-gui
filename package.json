@@ -6,7 +6,7 @@
     "build": "vite build --assetsDir assets"
   },
   "dependencies": {
-    "@meforma/vue-toaster": "Androz2091/vue-toaster#patch-1",
+    "@meforma/vue-toaster": "^1.2.2",
     "axios": "^0.21.1",
     "v-tooltip": "paulshen/v-tooltip#vue3",
     "vue": "^3.0.5",

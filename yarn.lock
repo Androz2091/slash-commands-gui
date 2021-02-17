@@ -60,9 +60,10 @@
   dependencies:
     purgecss "^3.1.3"
 
-"@meforma/vue-toaster@Androz2091/vue-toaster#patch-1":
-  version "1.2.1"
-  resolved "https://codeload.github.com/Androz2091/vue-toaster/tar.gz/ceb4f3412d5a682bf5128ea6de79a439f37fbd50"
+"@meforma/vue-toaster@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/@meforma/vue-toaster/-/vue-toaster-1.2.2.tgz#7d0ee9504a68f856c29bc6f53b8dbb7b5bfbea55"
+  integrity sha512-J/UKmqi2BLgiYrex4OclWvID5QDZO2IHGn9ZJZF+HjnLG1TgR4VvWnHGTeyr2/EUQfFc64qC78Jd66TAp9zvzg==
   dependencies:
     stylus "~0.54.8"
     stylus-loader "~3.0.2"
