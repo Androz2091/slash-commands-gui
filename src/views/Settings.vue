@@ -112,8 +112,7 @@
 </template>
 
 <script>
-import { fakePromise } from '../util/helpers';
-import { getToken, checkGuild, fetchApplication } from '../api';
+import { getToken, fetchApplication } from '../api';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 export default {
@@ -186,21 +185,15 @@ export default {
                         expiresAt: Date.now() + (tokenData.expires_in * 1000),
                         value: tokenData.access_token
                     });
-                    const fetchGuildPromise = this.guildID ? checkGuild(this.$store.state.clientID, this.$store.state.token.value, this.proxyURL, this.guildID) : fakePromise();
-                    fetchGuildPromise.then(() => {
-                        fetchApplication(this.$store.state.clientID).then((application) => {
-                            this.$toast.success(`Successfully logged in as ${application.username}!`, {
-                                duration: 10000,
-                                pauseOnHover: true
-                            });
-                            this.$router.push('/');
+                    fetchApplication(this.$store.state.clientID).then((application) => {
+                        this.$toast.success(`Successfully logged in as ${application.username}!`, {
+                            duration: 10000,
+                            pauseOnHover: true
                         });
-                        this.loading = false;
-                        this.$root.loadCommands();
-                    }).catch(() => {
-                        this.loading = false;
-                        this.invalidGuildIDs.add(this.guildID);
+                        this.$router.push('/');
                     });
+                    this.loading = false;
+                    this.$root.loadCommands();
                 }
             }).catch(() => {
                 this.loading = false;

@@ -48,23 +48,6 @@ export function getToken (clientID, clientSecret, proxyURL) {
     });
 }
 
-/**
- * Check if the bot has access to this guild
- * @param {string} clientID
- * @param {string} token 
- * @param {string} proxyURL 
- * @param {string} guildID 
- */
-export function checkGuild (clientID, token, proxyURL, guildID) {
-    return new Promise((resolve, reject) => {
-        const url = getURL(clientID, guildID);
-        request(token, proxyURL, url, 'GET').then((value) => {
-            if (value) resolve();
-            else reject();
-        });
-    });
-}
-
 export function fetchCommands (clientID, token, proxyURL, guildID) {
     const url = getURL(clientID, guildID);
     return request(token, proxyURL, url, 'GET');

@@ -17,7 +17,7 @@
             v-else-if="missingScope && $route.name !== 'Settings'"
             class="text-center mt-28"
         >
-            You selected a guild (<code>{{ $store.state.selectedGuildID }}</code>) on which your bot can't create Slash Commands. You can authorize it by clicking <a
+            You selected a guild (<code>{{ $store.state.selectedGuildID }}</code>) on which your bot can't create Slash Commands OR the guild doesn't exist. You can authorize it by clicking <a
                 :href="`https://discord.com/api/oauth2/authorize?client_id=${$store.state.clientID}&scope=applications.commands&guild_id=${$store.state.selectedGuildID}&disable_guild_select=true`"
                 class="link"
                 target="_blank"
