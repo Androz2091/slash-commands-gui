@@ -13,16 +13,10 @@
                     name="cmdname"
                 >
                 <span
-                    v-if="commandExists"
+                    v-if="commandNameInputError"
                     class="text-red-400"
                 >
-                    There is already a command with that name!
-                </span>
-                <span
-                    v-if="incorrectName"
-                    class="text-red-400"
-                >
-                    The command name length should be between 3 and 32 character!
+                    {{ commandNameInputError }}
                 </span>
             </div>
             <div class="space-y-2">
@@ -33,10 +27,10 @@
                     name="cmddesc"
                 >
                 <span
-                    v-if="incorrectDescription"
+                    v-if="commandDescriptionInputError"
                     class="text-red-400"
                 >
-                    The command description is required (max 100 character)!
+                    {{ commandDescriptionInputError }}
                 </span>
             </div>
         </div>
@@ -50,8 +44,8 @@
                 </button>
                 <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
+                    :disabled="modalLoading || commandNameInputError || commandDescriptionInputError"
                     @click="onSubmit"
-                    :disabled="modalLoading || incorrectName || incorrectDescription"
                 >
                     <div v-if="modalLoading">
                         <LoadingAnimation v-if="modalLoading" />
@@ -97,14 +91,23 @@ export default {
         };
     },
     computed: {
-        commandExists () {
-            return this.$store.state.commands.some((cmd) => cmd.name === this.name);
+        commandNameInputError () {
+            const commandNameEmpty = this.name.length === 0;
+            if (commandNameEmpty) return 'Name is required!';
+            const commandExists = this.$store.state.commands.some((cmd) => cmd.name === this.name);
+            if (commandExists) return 'There is already a command with that name!';
+            const commandNameMinLength = this.name.length < 3;
+            if (commandNameMinLength) return 'Name can not be shorter than 3 characters.';
+            const commandNameMaxLength = this.name.length > 32;
+            if (commandNameMaxLength) return 'Name can not be longer than 32 characters.';
+            else return null;
         },
-        incorrectName () {
-            return !(this.name && this.name.length >= 3 && this.name.length <= 32);
-        },
-        incorrectDescription () {
-            return !(this.description && this.description.length <= 100);
+        commandDescriptionInputError () {
+            const commandDescriptionEmpty = this.name.length === 0;
+            if (commandDescriptionEmpty) return 'Description is required!';
+            const commandDescriptionMaxLength = this.name.length > 100;
+            if (commandDescriptionMaxLength) return 'Description can not be longer than 32 characters.';
+            else return null;
         }
     },
     methods: {
