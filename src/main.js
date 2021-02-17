@@ -3,7 +3,7 @@ import store from './store';
 import App from './App.vue';
 import './index.css';
 import router from './router';
-import Toaster from "@meforma/vue-toaster";
+import Toaster from '@meforma/vue-toaster';
 import longClickDirective from './directives/long-click';
 import disableMenu from './directives/disable-menu';
 

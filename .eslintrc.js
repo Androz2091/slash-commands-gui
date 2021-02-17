@@ -5,7 +5,7 @@ module.exports = {
     },
     extends: [
         'eslint:recommended',
-        "plugin:vue/vue3-recommended"
+        'plugin:vue/vue3-recommended'
     ],
     rules: {
         indent: ['error', 4],
@@ -13,6 +13,7 @@ module.exports = {
         semi: ['error', 'always'],
         'quote-props': ['error', 'as-needed'],
         'max-len': 0,
-        'vue/max-len': 0
+        'vue/max-len': 0,
+        quotes: ['error', 'single']
     }
 };
