@@ -56,8 +56,13 @@ export function getToken (clientID, clientSecret, proxyURL) {
  * @param {string} guildID 
  */
 export function checkGuild (clientID, token, proxyURL, guildID) {
-    const url = getURL(clientID, guildID);
-    return request(token, proxyURL, url, 'GET');
+    return new Promise((resolve, reject) => {
+        const url = getURL(clientID, guildID);
+        request(token, proxyURL, url, 'GET').then((value) => {
+            if (value) resolve();
+            else reject();
+        });
+    });
 }
 
 export function fetchCommands (clientID, token, proxyURL, guildID) {
