@@ -106,7 +106,7 @@ export default {
             const commandDescriptionEmpty = this.name.length === 0;
             if (commandDescriptionEmpty) return 'Description is required!';
             const commandDescriptionMaxLength = this.name.length > 100;
-            if (commandDescriptionMaxLength) return 'Description can not be longer than 32 characters.';
+            if (commandDescriptionMaxLength) return 'Description can not be longer than 100 characters.';
             return null;
         }
     },

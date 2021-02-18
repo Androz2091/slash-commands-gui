@@ -18,16 +18,10 @@
                     name="optionname"
                 >
                 <span
-                    v-if="paramExists"
+                    v-if="nameInputError"
                     class="text-red-400"
                 >
-                    There is already a parameter with that name!
-                </span>
-                <span
-                    v-if="incorrectName"
-                    class="text-red-400"
-                >
-                    The parameter name length should be between 3 and 32 character!
+                    {{ nameInputError }}
                 </span>
             </div>
             <div class="space-y-2">
@@ -38,10 +32,10 @@
                     name="optiondesc"
                 >
                 <span
-                    v-if="incorrectDescription"
+                    v-if="descriptionInputError"
                     class="text-red-400"
                 >
-                    The parameter description is required (max 100 character)!
+                    {{ descriptionInputError }}
                 </span>
             </div>
             <div class="space-y-2">
@@ -124,7 +118,7 @@
                 </button>
                 <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
-                    :disabled="deleteModalLoading || modalLoading || incorrectName || incorrectDescription || paramExists"
+                    :disabled="deleteModalLoading || modalLoading || nameInputError || descriptionInputError"
                     @click="onSubmit"
                 >
                     <div v-if="modalLoading">
@@ -195,20 +189,38 @@ export default {
         };
     },
     computed: {
-        incorrectName () {
-            return false; // TODO: add this check
+        nameInputError () {
+            const nameEmpty = this.name.length === 0;
+            if (nameEmpty) return 'The option name is required!';
+            const optionExists = (this.subcommand || this.command).options?.some((opt) => opt.name === this.name);
+            if (optionExists) return 'There is already an option with this name!';
+            const nameMinLength = this.name.length < 3;
+            if (nameMinLength) return 'The option name can not be shorter than 3 characters!';
+            const nameMaxLength = this.name.length > 32;
+            if (nameMaxLength) return 'The option name can not be longer than 32 characters!';
+            return null;
         },
         incorrectDescription () {
-            return false; // TODO: add this check
-        },
-        paramExists () {
-            return false; // TODO: add this check
+            const descriptionEmpty = this.description.length === 0;
+            if (descriptionEmpty) return 'The option description is required!';
+            const descriptionMaxLength = this.description.length > 100;
+            if (descriptionMaxLength) return 'The option description can not be longer than 100 characters.';
+            return null;
         },
         options () {
             return dataTypes.map((t) => t.name).map((name) => formatString(name));
         },
         choices () {
             return this.rawChoices.split(',');
+        },
+        command () {
+            return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
+        },
+        subcommand () {
+            return this.subgroup ? this.subgroup.options.find((opt) => opt.name === this.$route.params.commandName) : this.command.options.find((opt) => opt.name === this.$route.params.commandName);
+        },
+        subgroup () {
+            return this.$route.params.groupName ? this.command.options.find((opt) => opt.name === this.$route.params.groupName) : null;
         }
     },
     watch: {

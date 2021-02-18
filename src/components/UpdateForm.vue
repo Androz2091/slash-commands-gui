@@ -13,10 +13,10 @@
                 name="description"
             >
             <span
-                v-if="incorrectDescription"
+                v-if="descriptionInputError"
                 class="text-red-400"
             >
-                {{ type }} description is required!
+                {{ descriptionInputError }}
             </span>
         </div>
         <div>
@@ -24,10 +24,13 @@
                 type="submit"
                 class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white w-full md:w-auto"
                 :class="updateButtonClass"
-                :disabled="updateLoading || incorrectDescription"
+                :disabled="updateLoading || descriptionInputError"
                 @click="$emit('update', newDescription)"
             >
-                <LoadingAnimation v-if="updateLoading" class="ml-auto mr-auto" />
+                <LoadingAnimation
+                    v-if="updateLoading"
+                    class="ml-auto mr-auto"
+                />
                 <div v-else>
                     Update {{ type.toLowerCase() }}
                 </div>
@@ -38,7 +41,10 @@
                 :disabled="deleteLoading"
                 @click="$emit('delete')"
             >
-                <LoadingAnimation v-if="deleteLoading" class="ml-auto mr-auto" />
+                <LoadingAnimation
+                    v-if="deleteLoading"
+                    class="ml-auto mr-auto"
+                />
                 <div v-else>
                     Delete {{ type.toLowerCase() }}
                 </div>
@@ -76,8 +82,12 @@ export default {
         };
     },
     computed: {
-        incorrectDescription () {
-            return !(this.description);
+        descriptionInputError () {
+            const descriptionEmpty = this.newDescription.length === 0;
+            if (descriptionEmpty) return `The ${this.type.toLowerCase()} description is required!`;
+            const descriptionMaxLength = this.newDescription.length > 100;
+            if (descriptionMaxLength) return 'The ${this.type.toLowerCase()} description can not be longer than 100 characters.';
+            return null;
         },
         updateButtonClass () {
             return this.updateLoading ? 'inline-flex items-center cursor-not-allowed' : '';
