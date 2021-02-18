@@ -13,16 +13,10 @@
                     name="cmdname"
                 >
                 <span
-                    v-if="commandExists"
+                    v-if="nameInputError"
                     class="text-red-400"
                 >
-                    There is already a command with that name!
-                </span>
-                <span
-                    v-if="incorrectName"
-                    class="text-red-400"
-                >
-                    The command name length should be between 3 and 32 character!
+                    {{ nameInputError }}
                 </span>
             </div>
             <div class="space-y-2">
@@ -33,10 +27,10 @@
                     name="cmddesc"
                 >
                 <span
-                    v-if="incorrectDescription"
+                    v-if="descriptionInputError"
                     class="text-red-400"
                 >
-                    The command description is required (max 100 character)!
+                    {{ descriptionInputError }}
                 </span>
             </div>
         </div>
@@ -50,8 +44,8 @@
                 </button>
                 <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
+                    :disabled="modalLoading || nameInputError || descriptionInputError"
                     @click="onSubmit"
-                    :disabled="modalLoading || incorrectName || incorrectDescription || commandExists"
                 >
                     <div v-if="modalLoading">
                         <LoadingAnimation v-if="modalLoading" />
@@ -94,14 +88,23 @@ export default {
         };
     },
     computed: {
-        commandExists () {
-            return !this.modalLoading && (this.subgroup ? this.subgroup.options?.some((cmd) => cmd.name === this.name) : this.command.options?.some((cmd) => cmd.name === this.name));
+        nameInputError () {
+            const nameEmpty = this.name.length === 0;
+            if (nameEmpty) return 'The sub command name is required!';
+            const commandExists = !this.modalLoading && (this.subgroup || this.command).options?.some((opt) => opt.name === this.name);
+            if (commandExists) return 'There is already a sub command or a sub group with this name!';
+            const nameMinLength = this.name.length < 3;
+            if (nameMinLength) return 'The sub command name can not be shorter than 3 characters!';
+            const nameMaxLength = this.name.length > 32;
+            if (nameMaxLength) return 'The sub command name can not be longer than 32 characters!';
+            return null;
         },
-        incorrectName () {
-            return !(this.name && this.name.length >= 3 && this.name.length <= 32);
-        },
-        incorrectDescription () {
-            return !(this.description && this.description.length <= 100);
+        descriptionInputError () {
+            const descriptionEmpty = this.description.length === 0;
+            if (descriptionEmpty) return 'The sub command description is required!';
+            const descriptionMaxLength = this.description.length > 100;
+            if (descriptionMaxLength) return 'The sub command description can not be longer than 100 characters!';
+            return null;
         },
         command () {
             return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
