@@ -76,3 +76,9 @@ input:-webkit-autofill:active  {
   transition: background-color 5000s;
   -webkit-text-fill-color: #fff !important;
 }
+
+.ps {
+    height: calc(90%);
+    display: grid;
+    width: 100%;
+}

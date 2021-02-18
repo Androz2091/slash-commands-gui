@@ -62,37 +62,42 @@
                 v-if="type === 'String'"
                 class="space-y-2"
             >
-                <label for="optiondesc">Choices</label>
+                <label class="block">Choices</label>
                 <div
-                    v-if="choices[0] !== ''"
-                    style="margin-bottom: 15px;"
+                    v-for="(choice, index) in choices"
+                    :key="index"
                 >
-                    <div
-                        v-for="choice in choices"
-                        :key="choice"
-                        class="bg-darkthree rounded p-2 mr-2 inline-block mb-2"
-                        style="max-width: 150px"
+                    <input
+                        v-model="choice.name"
+                        placeholder="What the user will see"
+                        class="border inline py-2 px-4 rounded focus:outline-none focus:border-discord mr-4 text-sm w-4/12 md:w-5/12"
                     >
-                        {{ choice }}
-                    </div>
+                    <input
+                        v-model="choice.value"
+                        placeholder="The value sent to you"
+                        class="border inline py-2 px-4 rounded focus:outline-none focus:border-discord text-sm w-4/12 md:w-5/12"
+                    >
+                    <svg
+                        class="w-6 h-6 inline ml-4 pointer cursor-pointer"
+                        fill="none"
+                        stroke="#ff6666"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                        @click="choices.splice(index, 1)"
+                    ><path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    /></svg>
                 </div>
-                <input
-                    v-model="rawChoices"
-                    class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
-                    placeholder="available choices (separated by a comma)"
+                <button
+                    class="bg-discord px-2 p-2 text-white rounded focus:outline-none text-sm"
+                    :disabled="choices.length === 10"
+                    @click="choices.push({ name: '', value: '' })"
                 >
-                <span
-                    v-if="maxChoicesReached"
-                    class="text-red-400"
-                >
-                    You can only add 10 choices!
-                </span>
-                <span
-                    v-if="emptyChoice"
-                    class="text-red-400"
-                >
-                    You can't add an empty choice!
-                </span>
+                    Add a new choice
+                </button>
             </div>
         </div>
         <template #footer>
@@ -118,7 +123,7 @@
                 </button>
                 <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
-                    :disabled="deleteModalLoading || modalLoading || nameInputError || descriptionInputError"
+                    :disabled="deleteModalLoading || modalLoading || nameInputError || descriptionInputError || (choices.some((c) => !c.name.length || !c.value.length))"
                     @click="onSubmit"
                 >
                     <div v-if="modalLoading">
@@ -180,7 +185,7 @@ export default {
             name: '',
             description: '',
             type: 'String',
-            rawChoices: '',
+            choices: [],
             required: false,
 
             maxChoicesReached: false,
@@ -192,7 +197,7 @@ export default {
         nameInputError () {
             const nameEmpty = this.name.length === 0;
             if (nameEmpty) return 'The option name is required!';
-            const optionExists = (this.subcommand || this.command).options?.some((opt) => opt.name === this.name);
+            const optionExists = this.action !== 'Update' && (this.subcommand || this.command).options?.some((opt) => opt.name === this.name);
             if (optionExists) return 'There is already an option with this name!';
             const nameMinLength = this.name.length < 3;
             if (nameMinLength) return 'The option name can not be shorter than 3 characters!';
@@ -210,14 +215,11 @@ export default {
         options () {
             return dataTypes.map((t) => t.name).map((name) => formatString(name));
         },
-        choices () {
-            return this.rawChoices.split(',');
-        },
         command () {
             return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
         },
         subcommand () {
-            return this.subgroup ? this.subgroup.options.find((opt) => opt.name === this.$route.params.commandName) : this.command.options.find((opt) => opt.name === this.$route.params.commandName);
+            return this.subgroup ? this.subgroup.options.find((opt) => opt.name === this.$route.params.commandName) : this.command.options?.find((opt) => opt.name === this.$route.params.commandName);
         },
         subgroup () {
             return this.$route.params.groupName ? this.command.options.find((opt) => opt.name === this.$route.params.groupName) : null;
@@ -244,21 +246,21 @@ export default {
         if (this.option) {
             this.name = this.option.name;
             this.description = this.option.description;
-            this.rawChoices = this.option.choices?.map((c) => c.name).join(',') || '';
+            this.choices = this.option.choices || [];
             this.type = formatString(dataTypes.find((t) => t.type === this.option.type).name);
             this.required = this.option.required || false;
         }
     },
     methods: {
         onDelete () {
-            this.$emit('delete');
+            this.$emit('delete', this.name);
         },
         onSubmit () {
             this.$emit('submit', {
                 name: this.name,
                 description: this.description,
                 type: dataTypes.find((t) => formatString(t.name) === this.type).type,
-                choices: this.type === 'String' && this.rawChoices.length > 0 ? this.rawChoices.split(',').map((choice) => ({ name: choice, value: choice })) : undefined,
+                choices: this.type === 'String' ? this.choices : null,
                 required: this.required
             });
         },
