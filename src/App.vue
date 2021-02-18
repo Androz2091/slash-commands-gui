@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { fetchCommands } from './api';
+import { fetchApplication, fetchCommands } from './api';
 import NavigationBar from './components/NavigationBar.vue';
 import LoadingAnimation from './components/LoadingAnimation.vue';
 
@@ -98,7 +98,9 @@ export default {
                 this.$router.push('/settings');
             } else {
                 const startAt = Date.now();
-                fetchCommands(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID).then((commands) => {
+                fetchCommands(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID).then(async (commands) => {
+                    const app = await fetchApplication(this.$store.state.clientID).catch(() => {});
+                    if (app) this.$store.commit('SET_APPLICATION_NAME', app.username);
                     setTimeout(() => {
                         this.$store.commit('SET_COMMANDS', commands);
                         this.loading = false;

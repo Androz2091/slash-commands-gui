@@ -21,7 +21,8 @@ export default createStore({
             },
 
             // data loaded on each reload
-            commands: null
+            commands: null,
+            applicationName: null
         };
     },
     getters: {
@@ -99,6 +100,9 @@ export default createStore({
         },
         UPDATE_TOKEN (state, token) {
             state.token = token;
+        },
+        SET_APPLICATION_NAME (state, name) {
+            state.applicationName = name;
         }
     }
 });
