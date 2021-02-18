@@ -91,6 +91,7 @@ export default {
     },
     methods: {
         loadCommands () {
+            this.missingScope = false;
             this.loading = true;
             if (!this.$store.getters.logged || !this.$store.getters.isTokenActive) {
                 this.loading = false;
