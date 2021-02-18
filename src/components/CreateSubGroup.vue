@@ -13,16 +13,10 @@
                     name="cmdname"
                 >
                 <span
-                    v-if="groupExists"
+                    v-if="nameInputError"
                     class="text-red-400"
                 >
-                    There is already a group with that name!
-                </span>
-                <span
-                    v-if="incorrectName"
-                    class="text-red-400"
-                >
-                    The command name length should be between 3 and 32 character!
+                    {{ nameInputError }}
                 </span>
             </div>
             <div class="space-y-2">
@@ -33,10 +27,10 @@
                     name="cmddesc"
                 >
                 <span
-                    v-if="incorrectDescription"
+                    v-if="descriptionInputError"
                     class="text-red-400"
                 >
-                    The group description is required (max 100 character)!
+                    {{ descriptionInputError }}
                 </span>
             </div>
         </div>
@@ -50,8 +44,8 @@
                 </button>
                 <button
                     class="px-4 bg-discord p-3 rounded text-white hover:bg-discord focus:outline-none leading-none"
+                    :disabled="modalLoading || nameInputError || descriptionInputError"
                     @click="onSubmit"
-                    :disabled="modalLoading || incorrectName || incorrectDescription || groupExists"
                 >
                     <div v-if="modalLoading">
                         <LoadingAnimation v-if="modalLoading" />
@@ -69,7 +63,7 @@
         @click="openModal"
         @keyup.enter="openModal"
     >
-        Create a new sub group
+        Create a new subcommands group
     </div>
 </template>
 
@@ -94,14 +88,23 @@ export default {
         };
     },
     computed: {
-        groupExists () {
-            return this.command.options?.some((opt) => opt.name === this.name);
+        nameInputError () {
+            const nameEmpty = this.name.length === 0;
+            if (nameEmpty) return 'The group name is required!';
+            const commandExists = !this.modalLoading && this.command.options?.some((opt) => opt.name === this.name);
+            if (commandExists) return 'There is already a sub command or a group with this name!';
+            const nameMinLength = this.name.length < 3;
+            if (nameMinLength) return 'The group name can not be shorter than 3 characters!';
+            const nameMaxLength = this.name.length > 32;
+            if (nameMaxLength) return 'The group name can not be longer than 32 characters!';
+            return null;
         },
-        incorrectName () {
-            return !(this.name && this.name.length >= 3 && this.name.length <= 32);
-        },
-        incorrectDescription () {
-            return !(this.description && this.description.length <= 100);
+        descriptionInputError () {
+            const descriptionEmpty = this.description.length === 0;
+            if (descriptionEmpty) return 'The group description is required!';
+            const descriptionMaxLength = this.description.length > 100;
+            if (descriptionMaxLength) return 'The group description can not be longer than 100 characters!';
+            return null;
         },
         command () {
             return this.$store.state.commands.find((cmd) => cmd.id === this.$route.params.commandID);
