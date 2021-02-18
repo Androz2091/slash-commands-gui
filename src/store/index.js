@@ -92,7 +92,6 @@ export default createStore({
         UPDATE_SETTINGS (state, settings) {
             state.clientID = settings.clientID;
             state.proxyURL = settings.proxyURL;
-            state.showProxyURLInput = settings.showProxyURLInput;
             state.selectedGuildID = settings.selectedGuildID;
         },
         SET_COMMANDS (state, commands) {
