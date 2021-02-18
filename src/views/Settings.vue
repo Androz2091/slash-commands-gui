@@ -14,16 +14,10 @@
                 name="clientid"
             >
             <span
-                v-if="incorrectClientID"
+                v-if="clientIDInputError"
                 class="text-red-400"
             >
-                This client ID is not valid!
-            </span>
-            <span
-                v-if="incorrectCredentials"
-                class="text-red-400"
-            >
-                These credentials are incorrect, please verify this field
+                {{ clientIDInputError }}
             </span>
             <p class="text-gray-400 leading-tight text-xs">
                 The client ID of your application can be found on your <a
@@ -41,16 +35,10 @@
                 name="clientsecret"
             >
             <span
-                v-if="incorrectClientSecret"
+                v-if="clientSecretInputError"
                 class="text-red-400"
             >
-                This client secret is not valid!
-            </span>
-            <span
-                v-if="incorrectCredentials"
-                class="text-red-400"
-            >
-                These credentials are incorrect, please verify this field
+                {{ clientSecretInputError }}
             </span>
             <p class="text-gray-400 leading-tight text-xs">
                 The client secret of your application can be found on your <a
@@ -68,10 +56,10 @@
                 name="guildid"
             >
             <span
-                v-if="incorrectGuildID"
+                v-if="guildIDInputError"
                 class="text-red-400"
             >
-                This ID is not valid!
+                {{ guildIDInputError }}
             </span>
             <p class="text-gray-400 leading-tight text-xs">
                 Fill this field if you want to access the slash commands of a specific guild.
@@ -88,10 +76,10 @@
                 name="proxyURL"
             >
             <span
-                v-if="incorrectProxyURL"
+                v-if="proxyURLInputError"
                 class="text-red-400"
             >
-                This proxy URL is not valid!
+                {{ proxyURLInputError }}
             </span>
             <p class="text-gray-400 leading-tight text-xs">
                 Discord does not allow API calls from the browser. We need to use a CORS Proxy so all the calls are made by it and it returns a response. You can host your own cors proxy (cors-anywhere) and enter the URL here.
@@ -101,7 +89,7 @@
             type="submit"
             class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white"
             :class="submitButtonClass"
-            :disabled="loading || (incorrectClientID || incorrectClientSecret || incorrectGuildID || incorrectProxyURL)"
+            :disabled="loading || clientIDInputError || clientSecretInputError || guildIDInputError || proxyURLInputError"
         >
             <LoadingAnimation v-if="loading" />
             <div v-else>
@@ -129,7 +117,6 @@ export default {
 
             invalidClientCredentials: new Set(),
             invalidProxyURLs: new Set(),
-            invalidGuildIDs: new Set(),
 
             loading: false
         };
@@ -138,17 +125,34 @@ export default {
         submitButtonClass () {
             return this.loading ? 'inline-flex items-center cursor-not-allowed' : '';
         },
-        incorrectClientID () {
-            return !(this.clientID && /[0-9]{16,32}/.test(this.clientID));
+        clientIDInputError () {
+            const clientIDEmpty = this.clientID.length === 0;
+            if (clientIDEmpty) return 'The client ID field is required!';
+            const invalidClientID = !(/[0-9]{16,32}/.test(this.clientID));
+            if (invalidClientID) return 'This client ID is not invalid!';
+            if (this.incorrectCredentials) return 'These credentials are invalid, please verify this field!';
+            return null;
         },
-        incorrectClientSecret () {
-            return !(this.clientSecret && /([a-zA-Z0-9-_]{32})/.test(this.clientSecret));
+        clientSecretInputError () {
+            const clientSecretEmpty = this.clientSecret.length === 0;
+            if (clientSecretEmpty) return 'The client secret field is required!';
+            const invalidClientSecret = !(/([a-zA-Z0-9-_]{32})/.test(this.clientSecret));
+            if (invalidClientSecret) return 'This client secret is not valid!';
+            if (this.incorrectCredentials) return 'These credentials are invalid, please verify this field!';
+            return null;
         },
-        incorrectGuildID () {
-            return this.guildID && !(/[0-9]{16,32}/.test(this.guildID) && !this.invalidGuildIDs.has(this.guildID));
+        guildIDInputError () {
+            if (!this.guildID) return null;
+            const invalidGuildID = !(/[0-9]{16,32}/.test(this.guildID));
+            if (invalidGuildID) return 'This guild ID is not valid!';
+            return null;
         },
-        incorrectProxyURL () {
-            return !(this.proxyURL && /^https:\/\//.test(this.proxyURL) && !this.invalidProxyURLs.has(this.proxyURL));
+        proxyURLInputError () {
+            const proxyURLEmpty = this.proxyURL.length === 0;
+            if (proxyURLEmpty) return 'The proxy URL is required!';
+            const invalidProxyURL = !(/^https:\/\//.test(this.proxyURL)) || this.invalidProxyURLs.has(this.proxyURL);
+            if (invalidProxyURL) return 'This proxy URL is not valid!';
+            return null;
         },
         incorrectCredentials () {
             return this.invalidClientCredentials.has(`${this.clientID}${this.clientSecret}`);

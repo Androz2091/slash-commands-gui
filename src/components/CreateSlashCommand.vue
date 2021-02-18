@@ -100,14 +100,14 @@ export default {
             if (commandNameMinLength) return 'Name can not be shorter than 3 characters.';
             const commandNameMaxLength = this.name.length > 32;
             if (commandNameMaxLength) return 'Name can not be longer than 32 characters.';
-            else return null;
+            return null;
         },
         commandDescriptionInputError () {
             const commandDescriptionEmpty = this.name.length === 0;
             if (commandDescriptionEmpty) return 'Description is required!';
             const commandDescriptionMaxLength = this.name.length > 100;
             if (commandDescriptionMaxLength) return 'Description can not be longer than 32 characters.';
-            else return null;
+            return null;
         }
     },
     methods: {
