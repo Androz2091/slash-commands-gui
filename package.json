@@ -1,6 +1,6 @@
 {
   "name": "slash-commands-gui",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build --assetsDir assets"
