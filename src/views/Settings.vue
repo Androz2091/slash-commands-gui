@@ -181,27 +181,23 @@ export default {
                 proxyURL: this.proxyURL
             });
             getToken(this.clientID, this.clientSecret, this.proxyURL).then((tokenData) => {
-                if (!tokenData) {
-                    this.invalidClientCredentials.add(`${this.clientID}${this.clientSecret}`);
-                    this.loading = false;
-                } else {
-                    this.$store.dispatch('saveToken', {
-                        expiresAt: Date.now() + (tokenData.expires_in * 1000),
-                        value: tokenData.access_token
+                this.$store.dispatch('saveToken', {
+                    expiresAt: Date.now() + (tokenData.expires_in * 1000),
+                    value: tokenData.access_token
+                });
+                fetchApplication(this.$store.state.clientID).then((application) => {
+                    this.$toast.success(`Successfully logged in as ${application.username}!`, {
+                        duration: 10000,
+                        pauseOnHover: true
                     });
-                    fetchApplication(this.$store.state.clientID).then((application) => {
-                        this.$toast.success(`Successfully logged in as ${application.username}!`, {
-                            duration: 10000,
-                            pauseOnHover: true
-                        });
-                        this.$router.push('/');
-                    });
-                    this.loading = false;
-                    this.$root.loadCommands();
-                }
-            }).catch(() => {
+                    this.$router.push('/');
+                });
                 this.loading = false;
-                this.invalidProxyURLs.add(this.proxyURL);
+                this.$root.loadCommands();
+            }).catch((err) => {
+                this.loading = false;
+                if (!err.response) this.invalidProxyURLs.add(this.proxyURL);
+                else this.invalidClientCredentials.add(`${this.clientID}${this.clientSecret}`);
             });
         }
     }

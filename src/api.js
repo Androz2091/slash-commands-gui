@@ -3,7 +3,7 @@ import axios from 'axios';
 const getURL = (clientID, guildID, commandID) => `applications/${clientID}/${guildID ? `guilds/${guildID}/` : ''}${commandID ? `commands/${commandID}` : 'commands'}`;
 
 export function request (token, proxyURL, url, method, data) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         axios({
             url: `${proxyURL}/https://discord.com/api/v8/${url}`,
             method,
@@ -14,8 +14,8 @@ export function request (token, proxyURL, url, method, data) {
             }
         }).then((value) => {
             resolve(value.data);
-        }).catch(() => {
-            resolve(null);
+        }).catch((err) => {
+            reject(err);
         });
     });
 }
@@ -28,7 +28,7 @@ export function request (token, proxyURL, url, method, data) {
  * @returns {Promise<Object>}
  */
 export function getToken (clientID, clientSecret, proxyURL) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         const data = new URLSearchParams();
         data.append('grant_type', 'client_credentials');
         data.append('scope', 'applications.commands.update');
@@ -42,8 +42,8 @@ export function getToken (clientID, clientSecret, proxyURL) {
             }
         }).then((value) => {
             resolve(value.data);
-        }).catch(() => {
-            resolve(null);
+        }).catch((err) => {
+            reject(err);
         });
     });
 }

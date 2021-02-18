@@ -99,18 +99,15 @@ export default {
             } else {
                 const startAt = Date.now();
                 fetchCommands(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID).then((commands) => {
-                    if (!commands) {
+                    setTimeout(() => {
+                        this.$store.commit('SET_COMMANDS', commands);
                         this.loading = false;
-                        this.missingScope = true;
-                    } else {
-                        setTimeout(() => {
-                            this.$store.commit('SET_COMMANDS', commands);
-                            this.loading = false;
-                        }, (Date.now() - startAt) + 100);
-                    }
-                }).catch(() => {
+                    }, (Date.now() - startAt) + 100);
+                }).catch((err) => {
+                    console.log(err.statusCode);
                     this.loading = false;
-                    this.$router.push('/settings');
+                    if (err.statusCode === 403) this.missingScope = true;
+                    else this.$router.push('/settings');
                 });
             }
         }
