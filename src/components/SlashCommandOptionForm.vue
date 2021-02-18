@@ -200,7 +200,7 @@ export default {
             if (nameMaxLength) return 'The option name can not be longer than 32 characters!';
             return null;
         },
-        incorrectDescription () {
+        descriptionInputError () {
             const descriptionEmpty = this.description.length === 0;
             if (descriptionEmpty) return 'The option description is required!';
             const descriptionMaxLength = this.description.length > 100;
