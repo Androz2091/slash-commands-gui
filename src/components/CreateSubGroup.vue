@@ -97,6 +97,8 @@ export default {
             if (nameMinLength) return 'The group name can not be shorter than 3 characters!';
             const nameMaxLength = this.name.length > 32;
             if (nameMaxLength) return 'The group name can not be longer than 32 characters!';
+            const invalidCharacters = !(/^[0-9a-zA-Z_]{3,32}$/.test(this.name));
+            if (invalidCharacters) return 'Name contains invalid characters.';
             return null;
         },
         descriptionInputError () {
