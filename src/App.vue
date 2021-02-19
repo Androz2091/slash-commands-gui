@@ -106,9 +106,8 @@ export default {
                         this.loading = false;
                     }, (Date.now() - startAt) + 100);
                 }).catch((err) => {
-                    console.log(err.statusCode);
                     this.loading = false;
-                    if (err.statusCode === 403) this.missingScope = true;
+                    if (err.response.status === 403) this.missingScope = true;
                     else this.$router.push('/settings');
                 });
             }
