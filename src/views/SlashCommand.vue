@@ -128,14 +128,14 @@ export default {
             this.$refs.updateForm.setUpdateLoading(true);
             const newCommand = cloneObject(this.command);
             newCommand.description = description;
-            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setUpdateLoading(false);
             });
         },
         deleteCommand () {
             this.$refs.updateForm.setDeleteLoading(true);
-            deleteCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, this.command.id).then(() => {
+            deleteCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, this.command.id).then(() => {
                 this.$store.dispatch('deleteCommand', this.command.id);
                 this.$refs.updateForm.setDeleteLoading(false);
                 this.$router.push('/');
@@ -148,7 +148,7 @@ export default {
             this.modalLoading = true;
             if (!this.command.options) this.command.options = [];
             this.command.options.push(optionData);
-            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, this.command).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, this.command).then(() => {
                 this.$store.dispatch('updateCommand', this.command);
                 this.closeModal();
                 this.modalLoading = false;

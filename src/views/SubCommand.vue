@@ -99,7 +99,7 @@ export default {
                 newSubCommand.description = description;
                 newCommand.options.push(newSubCommand);
             }
-            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setUpdateLoading(false);
             });
@@ -115,7 +115,7 @@ export default {
             } else {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
             }
-            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setDeleteLoading(false);
                 this.$router.push(`/command/${this.command.id}${this.subgroup ? `groups/${this.subgroup.name}/` : ''}`);
@@ -138,7 +138,7 @@ export default {
             newSubCommand.options.push(optionData);
             newGroup.options.push(newSubCommand);
             newCommand.options.push(newGroup);
-            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.closeModal();
                 this.modalLoading = false;

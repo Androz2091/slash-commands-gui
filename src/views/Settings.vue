@@ -65,31 +65,11 @@
                 Fill this field if you want to access the slash commands of a specific guild.
             </p>
         </div>
-        <div
-            ref="proxyURLInput"
-            class="space-y-2 hidden"
-        >
-            <label for="token">Proxy URL</label>
-            <input
-                v-model="proxyURL"
-                class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
-                name="proxyURL"
-            >
-            <span
-                v-if="proxyURLInputError"
-                class="text-red-400"
-            >
-                {{ proxyURLInputError }}
-            </span>
-            <p class="text-gray-400 leading-tight text-xs">
-                Discord does not allow API calls from the browser. We need to use a CORS Proxy so all the calls are made by it and it returns a response. You can host your own cors proxy (cors-anywhere) and enter the URL here.
-            </p>
-        </div>
         <button
             type="submit"
             class="bg-discord rounded py-2 px-4 focus:outline-none focus:border-white"
             :class="submitButtonClass"
-            :disabled="loading || clientIDInputError || clientSecretInputError || guildIDInputError || proxyURLInputError"
+            :disabled="loading || clientIDInputError || clientSecretInputError || guildIDInputError"
         >
             <LoadingAnimation v-if="loading" />
             <div v-else>
@@ -113,11 +93,7 @@ export default {
             clientID: '',
             clientSecret: '',
             guildID: '',
-            proxyURL: '',
-
             invalidClientCredentials: new Set(),
-            invalidProxyURLs: new Set(),
-
             loading: false
         };
     },
@@ -147,29 +123,13 @@ export default {
             if (invalidGuildID) return 'This guild ID is not valid!';
             return null;
         },
-        proxyURLInputError () {
-            const proxyURLEmpty = this.proxyURL.length === 0;
-            if (proxyURLEmpty) return 'The proxy URL is required!';
-            const invalidProxyURL = !(/^https:\/\//.test(this.proxyURL)) || this.invalidProxyURLs.has(this.proxyURL);
-            if (invalidProxyURL) return 'This proxy URL is not valid!';
-            return null;
-        },
         incorrectCredentials () {
             return this.invalidClientCredentials.has(`${this.clientID}${this.clientSecret}`);
         }
     },
-    watch: {
-        '$store.state.showProxyURLInput' (newValue) {
-            if (newValue) {
-                this.$refs.proxyURLInput.classList.remove('hidden');
-            }
-        }
-    },
     mounted () {
         this.clientID = this.$store.state.clientID || '';
-        this.proxyURL = this.$store.state.proxyURL || '';
         if (this.$store.state.selectedGuildID) this.guildID = this.$store.state.selectedGuildID;
-        if (this.$store.state.showProxyURLInput) this.$refs.proxyURLInput.classList.remove('hidden');
     },
     methods: {
         onSubmit () {
@@ -177,10 +137,9 @@ export default {
             this.$store.dispatch('deleteToken');
             this.$store.dispatch('updateSettings', {
                 clientID: this.clientID,
-                selectedGuildID: this.guildID,
-                proxyURL: this.proxyURL
+                selectedGuildID: this.guildID
             });
-            getToken(this.clientID, this.clientSecret, this.proxyURL).then((tokenData) => {
+            getToken(this.clientID, this.clientSecret).then((tokenData) => {
                 this.$store.dispatch('saveToken', {
                     expiresAt: Date.now() + (tokenData.expires_in * 1000),
                     value: tokenData.access_token
@@ -194,10 +153,9 @@ export default {
                 });
                 this.loading = false;
                 this.$root.loadCommands();
-            }).catch((err) => {
+            }).catch(() => {
                 this.loading = false;
-                if (!err.response) this.invalidProxyURLs.add(this.proxyURL);
-                else this.invalidClientCredentials.add(`${this.clientID}${this.clientSecret}`);
+                this.invalidClientCredentials.add(`${this.clientID}${this.clientSecret}`);
             });
         }
     }

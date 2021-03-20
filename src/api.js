@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const getURL = (clientID, guildID, commandID) => `applications/${clientID}/${guildID ? `guilds/${guildID}/` : ''}${commandID ? `commands/${commandID}` : 'commands'}`;
 
-export function request (token, proxyURL, url, method, data) {
+export function request (token, url, method, data) {
     return new Promise((resolve, reject) => {
         axios({
-            url: `${proxyURL}/https://discord.com/api/v8/${url}`,
+            url: `https://discord.com/api/v8/${url}`,
             method,
             data: method === 'POST' ? JSON.stringify(data) : undefined,
             headers: {
@@ -24,16 +24,15 @@ export function request (token, proxyURL, url, method, data) {
  * Obtain an Oauth2 token from a client ID and a client secret
  * @param {string} clientID 
  * @param {string} clientSecret 
- * @param {string} proxyURL 
  * @returns {Promise<Object>}
  */
-export function getToken (clientID, clientSecret, proxyURL) {
+export function getToken (clientID, clientSecret) {
     return new Promise((resolve, reject) => {
         const data = new URLSearchParams();
         data.append('grant_type', 'client_credentials');
         data.append('scope', 'applications.commands.update');
         axios({
-            url: `${proxyURL}/https://discord.com/api/oauth2/token`,
+            url: 'https://discord.com/api/oauth2/token',
             method: 'POST',
             data: data.toString(),
             headers: {
@@ -48,24 +47,24 @@ export function getToken (clientID, clientSecret, proxyURL) {
     });
 }
 
-export function fetchCommands (clientID, token, proxyURL, guildID) {
+export function fetchCommands (clientID, token, guildID) {
     const url = getURL(clientID, guildID);
-    return request(token, proxyURL, url, 'GET');
+    return request(token, url, 'GET');
 }
 
-export function updateCommand (clientID, token, proxyURL, guildID, command) {
+export function updateCommand (clientID, token, guildID, command) {
     const url = getURL(clientID, guildID);
-    return request(token, proxyURL, url, 'POST', command);
+    return request(token, url, 'POST', command);
 }
 
-export function deleteCommand (clientID, token, proxyURL, guildID, commandID) {
+export function deleteCommand (clientID, token, guildID, commandID) {
     const url = getURL(clientID, guildID, commandID);
-    return request(token, proxyURL, url, 'DELETE');
+    return request(token, url, 'DELETE');
 }
 
-export function createCommand (clientID, token, proxyURL, guildID, commandData) {
+export function createCommand (clientID, token, guildID, commandData) {
     const url = getURL(clientID, guildID);
-    return request(token, proxyURL, url, 'POST', commandData);
+    return request(token, url, 'POST', commandData);
 }
 
 export function fetchApplication (clientID) {

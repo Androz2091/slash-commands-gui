@@ -88,7 +88,7 @@ export default {
             } else {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.option.name);
             }
-            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.closeModal();
                 this.deleteModalLoading = false;
@@ -111,7 +111,7 @@ export default {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.option.name);
                 newCommand.options.push(optionData);
             }
-            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, newCommand).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.closeModal();
                 this.modalLoading = false;

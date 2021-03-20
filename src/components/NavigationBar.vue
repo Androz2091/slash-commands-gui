@@ -13,7 +13,6 @@
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <router-link
                         v-disablemenu
-                        v-longclick="showProxyURLInput"
                         to="/settings"
                         tag="button"
                         class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white md:hidden"
@@ -40,7 +39,6 @@
                     <router-link
                         ref="settingsBtn"
                         v-disablemenu
-                        v-longclick="showProxyURLInput"
                         tag="button"
                         to="/settings"
                         class="bg-darkone p-1 rounded-2xl text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white hidden md:block btn-settings py-2 px-4"
@@ -55,11 +53,6 @@
 
 <script>
 export default {
-    name: 'NavigationBar',
-    methods: {
-        showProxyURLInput () {
-            this.$store.dispatch('showProxyURLInput');
-        }
-    }
+    name: 'NavigationBar'
 };
 </script>

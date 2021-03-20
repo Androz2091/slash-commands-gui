@@ -122,7 +122,7 @@ export default {
         onSubmit () {
             this.modalLoading = true;
             this.closeModal();
-            createCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, {
+            createCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, {
                 name: this.name,
                 description: this.description,
                 options: []

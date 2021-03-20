@@ -141,7 +141,7 @@ export default {
                     type: 1
                 });
             }
-            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.proxyURL, this.$store.state.selectedGuildID, this.command).then(() => {
+            updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, this.command).then(() => {
                 this.$store.dispatch('updateCommand', this.command);
                 this.closeModal();
                 this.modalLoading = false;
