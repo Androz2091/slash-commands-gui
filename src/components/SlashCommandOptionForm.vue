@@ -93,7 +93,7 @@
                 </div>
                 <button
                     class="bg-discord px-2 p-2 text-white rounded focus:outline-none text-sm"
-                    :disabled="choices.length === 10"
+                    :disabled="choices.length === 25"
                     @click="choices.push({ name: '', value: '' })"
                 >
                     Add a new choice
@@ -203,7 +203,7 @@ export default {
             if (nameMinLength) return 'The option name can not be shorter than 3 characters!';
             const nameMaxLength = this.name.length > 32;
             if (nameMaxLength) return 'The option name can not be longer than 32 characters!';
-            const invalidCharacters = !(/^[0-9a-zA-Z_]{3,32}$/.test(this.name));
+            const invalidCharacters = !(/^[0-9a-zA-Z_]+$/.test(this.name));
             if (invalidCharacters) return 'Name contains invalid characters.';
             return null;
         },
@@ -229,7 +229,7 @@ export default {
     },
     watch: {
         rawChoices () {
-            const maxChoicesReached = this.choices.length > 10;
+            const maxChoicesReached = this.choices.length > 25;
             const emptyChoice = this.choices.filter((c) => !c).length > 1;
             if (maxChoicesReached || emptyChoice) {
                 this.rawChoices = this.rawChoices.substr(0, this.rawChoices.length - 1);
