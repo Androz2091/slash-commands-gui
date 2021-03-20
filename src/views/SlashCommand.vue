@@ -63,7 +63,6 @@
                     :modal-loading="modalLoading"
                     @close="closeModal"
                     @submit="createCommandOption"
-                    @delete="deleteCommandOption"
                 />
                 <CreateSlashCommandOption
                     @submit="createFormOpen = true;"
