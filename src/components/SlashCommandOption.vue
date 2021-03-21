@@ -98,7 +98,7 @@ export default {
             this.modalLoading = true;
             const newCommand = cloneObject(this.command);
             const newSubCommand = this.subcommand ? cloneObject(this.subcommand) : null;
-            if (this.subcommand) {
+            if (this.subgroup) {
                 const newGroup = cloneObject(this.subgroup);
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subgroup.name);
                 newGroup.options = newGroup.options.filter((opt) => opt.name !== this.subcommand.name);
@@ -107,6 +107,12 @@ export default {
                 newSubCommand.options.push(optionData);
                 newGroup.options.push(newSubCommand);
                 newCommand.options.push(newGroup);
+            } else if (this.subcommand) {
+                newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
+                if (!newSubCommand.options) newSubCommand.options = [];
+                newSubCommand.options = newSubCommand.options.filter((opt) => opt.name !== this.option.name);
+                newSubCommand.options.push(optionData);
+                newCommand.options.push(newSubCommand);
             } else {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.option.name);
                 newCommand.options.push(optionData);
