@@ -10,6 +10,11 @@
         </p> <p class="text-discord inline">
             {{ subcommand.name }}
         </p>
+        <div class="float-right">
+            <p class="inline text-center text-gray-400">
+                {{ subcommand.description }}
+            </p>
+        </div>
     </div>
 </template>
 

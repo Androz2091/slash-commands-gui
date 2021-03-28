@@ -17,6 +17,11 @@
         >
             {{ index === 0 ? '(' : '' }} {{ subcommand.name }} {{ index+1 === subcommandgroup.options.length ? ')' : '/' }}
         </p>
+        <div class="float-right">
+            <p class="inline text-center text-gray-400">
+                {{ subcommandgroup.description }}
+            </p>
+        </div>
     </div>
 </template>
 
