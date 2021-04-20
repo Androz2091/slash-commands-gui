@@ -100,7 +100,7 @@ export default {
                 const startAt = Date.now();
                 fetchCommands(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID).then(async (commands) => {
                     const app = await fetchApplication(this.$store.state.clientID).catch(() => {});
-                    if (app) this.$store.commit('SET_APPLICATION_NAME', app.username);
+                    if (app) this.$store.commit('SET_APPLICATION_NAME', app.username + "#" + app.discriminator);
                     setTimeout(() => {
                         this.$store.commit('SET_COMMANDS', commands);
                         this.loading = false;
