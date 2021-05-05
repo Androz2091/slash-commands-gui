@@ -27,6 +27,6 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vite": "^2.0.0-beta.66",
     "vite-aliases": "^0.2.0",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.6"
   }
 }
