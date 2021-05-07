@@ -13,7 +13,7 @@
     "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
-    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "@tailwindcss/postcss7-compat": "^2.1.2",
     "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.11",
     "autoprefixer": "^9.8.6",
