@@ -94,6 +94,7 @@ export default {
         commandNameInputError () {
             const commandNameEmpty = this.name.length === 0;
             if (commandNameEmpty) return 'Name is required!';
+            this.name = this.name.toLowerCase()
             const commandExists = this.$store.state.commands.some((cmd) => cmd.name === this.name);
             if (commandExists) return 'There is already a command with that name!';
             const commandNameMinLength = this.name.length < 3;
