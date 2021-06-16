@@ -94,6 +94,7 @@ export default {
         commandNameInputError () {
             const commandNameEmpty = this.name.length === 0;
             if (commandNameEmpty) return 'Name is required!';
+            this.name = this.name.toLowerCase()
             const commandExists = this.$store.state.commands.some((cmd) => cmd.name === this.name);
             if (commandExists) return 'There is already a command with that name!';
             const commandNameMinLength = this.name.length < 3;
@@ -101,8 +102,6 @@ export default {
             const commandNameMaxLength = this.name.length > 32;
             if (commandNameMaxLength) return 'Name can not be longer than 32 characters.';
             const invalidCharacters = !(/^[0-9a-zA-Z_]+$/.test(this.name));
-            const isUpperCase = (string) => /^[A-Z]*$/.test(string)
-            if (isUpperCase(this.name)) return 'Name can not contain uppercase letters!'
             if (invalidCharacters) return 'Name contains invalid characters.';
             return null;
         },
