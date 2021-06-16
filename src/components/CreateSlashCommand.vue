@@ -101,7 +101,8 @@ export default {
             const commandNameMaxLength = this.name.length > 32;
             if (commandNameMaxLength) return 'Name can not be longer than 32 characters.';
             const invalidCharacters = !(/^[0-9a-zA-Z_]+$/.test(this.name));
-            if (this.name == this.name.toUpperCase()) return 'Name can not contain uppercase letter!';
+            const isUpperCase = (string) => /^[A-Z]*$/.test(string)
+            if (isUpperCase(this.name)) return 'Name can not contain uppercase letters!'
             if (invalidCharacters) return 'Name contains invalid characters.';
             return null;
         },
