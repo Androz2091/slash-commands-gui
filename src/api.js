@@ -68,7 +68,7 @@ export function createCommand (clientID, token, guildID, commandData) {
 }
 
 export function fetchApplication (clientID) {
-    const url = `https://diswho.androz2091.fr/user/${clientID}`;
+    const url = `https://gapi.rgarlic.repl.co/v1/discord/bot/${clientID}?json`;
     return axios({
         url
     }).then((value) => {
