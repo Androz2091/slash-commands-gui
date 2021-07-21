@@ -6,7 +6,7 @@
         @keyup.enter="open"
     >
         /{{ command.name }}
-        <p class="text-gray-400">
+        <p class="text-gray-400  overflow-ellipsis overflow-hidden whitespace-nowrap">
             {{ command.description }}
         </p>
     </div>
