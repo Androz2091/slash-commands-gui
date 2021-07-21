@@ -1,4 +1,4 @@
-# [Slash Commands GUI](https://slash-commands-gui.netlify.app)
+# [Slash Commands GUI](https://slash-commands-gui.androz2091.fr)
 
 Graphical User Interface to explore Slash Commands of your bot, built on **[Vue 3](https://v3.vuejs.org/)** and **[TailwindCSS](https://tailwindcss.com/)** 🚀
 
