@@ -67,10 +67,13 @@ export function createCommand (clientID, token, guildID, commandData) {
     return request(token, url, 'POST', commandData);
 }
 
-export function fetchApplication (clientID) {
+export function fetchApplication (clientID, token) {
     const url = `https://diswho.androz2091.fr/user/${clientID}`;
     return axios({
-        url
+        url,
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
     }).then((value) => {
         return value.data;
     });
