@@ -3,9 +3,18 @@
         <h1 class="text-3xl mb-4">
             {{ $store.state.selectedGuildID ? `Slash Commands` : 'Global Slash Commands' }}
         </h1>
-        You are currently managing the {{ !$store.state.selectedGuildID ? 'Global' : '' }} Slash Commands of <p class="link inline">
+        You are currently managing the {{ !$store.state.selectedGuildID ? 'Global' : '' }} Slash Commands of <a
+            class="link inline"
+            target="_blank"
+            :href="`https://discord.com/oauth2/authorize?client_id=${$store.state.clientID}&permissions=0&scope=bot%20applications.commands`"
+        >
             {{ $store.state.applicationName }}
-        </p>
+        </a> (<a
+            class="link inline"
+            @click="this.$root.loadCommands()"
+        >
+            refresh commands
+        </a>)
         <div
             v-if="$store.state.selectedGuildID"
             class="inline"
