@@ -110,6 +110,7 @@ export default {
             this.missingScope = false;
             this.loading = true;
             if (!this.$store.getters.logged || !this.$store.getters.isTokenActive) {
+                this.loading = false;
                 this.$router.push('/settings');
             } else {
                 const startAt = Date.now();
