@@ -93,8 +93,8 @@ export default {
             paramDiswhoJwt = new URLSearchParams(window.location.search).get('diswhoJwt'),
             storeDiswhoJwt = this.$store.state.diswhoToken;
         if (paramDiswhoJwt){
-            window.history.replaceState(null, document.title, location.pathname);
             this.$store.dispatch('saveDiswhoToken', paramDiswhoJwt);
+            this.$router.replace({ path: '/', query: {} })
         } else if(
             !storeDiswhoJwt
             ||
