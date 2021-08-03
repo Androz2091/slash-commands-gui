@@ -94,7 +94,7 @@ export default {
             storeDiswhoJwt = this.$store.state.diswhoToken;
         if (paramDiswhoJwt){
             this.$store.dispatch('saveDiswhoToken', paramDiswhoJwt);
-            this.$router.replace({ path: '/', query: {} })
+            this.$router.replace({ path: '/', query: {} });
         } else if(
             !storeDiswhoJwt
             ||
