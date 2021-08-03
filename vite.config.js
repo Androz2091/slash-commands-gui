@@ -1,8 +1,7 @@
-import { getAliases } from 'vite-aliases';
+import { ViteAliases } from 'vite-aliases';
 import vue from '@vitejs/plugin-vue';
 
-
-const aliases = getAliases();
+const aliases = ViteAliases();
 
 export default {
     aliases,
