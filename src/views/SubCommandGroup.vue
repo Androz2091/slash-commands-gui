@@ -72,7 +72,7 @@ export default {
         },
         deleteGroup () {
             this.$refs.updateForm.setDeleteLoading(true);
-            const newCommand = this.command;
+            const newCommand = cloneObject(this.command);
             newCommand.options = newCommand.options.filter((opt) => opt.name !== this.group.name);
             updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
