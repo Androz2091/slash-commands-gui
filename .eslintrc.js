@@ -14,6 +14,7 @@ module.exports = {
         'quote-props': ['error', 'as-needed'],
         'max-len': 0,
         'vue/max-len': 0,
-        quotes: ['error', 'single']
+        quotes: ['error', 'single'],
+        'vue/script-setup-uses-vars': 0
     }
 };

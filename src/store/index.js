@@ -1,106 +1,62 @@
-import { createStore } from 'vuex';
+import { computed, reactive, readonly } from 'vue';
 
-// Create a new store instance.
-export default createStore({
-    state () {
-        return {
-
-            // settings. they will be cached in the local storage
-            clientID: null,
-            selectedGuildID: null,
-
-            // Client Secret, used to generate the bearer token. not saved in the browser
-            clientSecret: null,
-
-            // token
-            token: {
-                value: null,
-                expiresAt: null
-            },
-
-            // data loaded on each reload
-            commands: null,
-            applicationName: null,
-
-            diswhoToken: null
-        };
+const state = reactive({
+    clientId: null,
+    clientName: null,
+    guildId: null,
+    token: {
+        value: null,
+        expiresAt: null
     },
-    getters: {
-        logged (state) {
-            return state.clientID && state.token && state.token.value;
-        },
-        isTokenActive (state) {
-            return state.token.expiresAt > Date.now();
-        }
-    },
-    actions: {
-        updateCommand ({ commit, state }, command) {
-            const commands = state.commands;
-            const newCommands = commands.filter((cmd) => cmd.id !== command.id);
-            newCommands.push(command);
-            commit('SET_COMMANDS', newCommands);
-        },
-        deleteCommand ({ commit, state }, commandID) {
-            const commands = state.commands;
-            const newCommands = commands.filter((cmd) => cmd.id !== commandID);
-            commit('SET_COMMANDS', newCommands);
-        },
-        updateSettings ({ commit }, settings) {
-            localStorage.setItem('clientID', settings.clientID);
-            localStorage.setItem('selectedGuildID', settings.selectedGuildID);
-            commit('UPDATE_SETTINGS', settings);
-        },
-        loadSettingsCache ({ commit }) {
-            const clientID = localStorage.getItem('clientID');
-            if (clientID) {
-                const selectedGuildID = localStorage.getItem('selectedGuildID');
-                commit('UPDATE_SETTINGS', {
-                    clientID,
-                    selectedGuildID
-                });
-                const token = localStorage.getItem('token');
-                let tokenData;
-                try {
-                    tokenData = JSON.parse(token);
-                    commit('UPDATE_TOKEN', tokenData);
-                } catch (e) {
-                    console.log('Settings loaded but bearer token not be retrieved.');
-                }
-            }
-            const diswhoToken = localStorage.getItem('diswhoToken');
-            if (diswhoToken) {
-                commit('UPDATE_DISWHO_TOKEN', diswhoToken);
-            }
-        },
-        saveToken ({ commit }, tokenData) {
-            localStorage.setItem('token', JSON.stringify(tokenData));
-            commit('UPDATE_TOKEN', tokenData);
-        },
-        deleteToken ({ commit }) {
-            localStorage.removeItem('token');
-            commit('UPDATE_TOKEN', null);
-        },
-        saveDiswhoToken ({ commit }, token) {
-            localStorage.setItem('diswhoToken', token);
-            commit('UPDATE_DISWHO_TOKEN', token);
-        }
-    },
-    mutations: {
-        UPDATE_SETTINGS (state, settings) {
-            state.clientID = settings.clientID;
-            state.selectedGuildID = settings.selectedGuildID;
-        },
-        SET_COMMANDS (state, commands) {
-            state.commands = commands.sort((a, b) => a.name.localeCompare(b.name));
-        },
-        UPDATE_TOKEN (state, token) {
-            state.token = token;
-        },
-        SET_APPLICATION_NAME (state, name) {
-            state.applicationName = name;
-        },
-        UPDATE_DISWHO_TOKEN (state, token) {
-            state.diswhoToken = token;
-        }
-    }
+    commands: null,
+    diswhoToken: null
 });
+
+export default function useGlobalState () {
+
+    const loadCache = () => {
+        const rawState = localStorage.getItem('state');
+        if (rawState) {
+            const credentials = JSON.parse(rawState);
+            state.clientId = credentials.clientId;
+            state.clientName = credentials.clientName;
+            state.guildId = credentials.guildId;
+            state.token.value = credentials.token;
+            state.token.expiresAt = credentials.expiresAt;
+            state.diswhoToken = credentials.diswhoToken;
+        }
+    };
+
+    const updateCredentials = function (clientId, guildId, token) {
+        state.clientId = clientId;
+        state.guildId = guildId;
+        state.token.value = token.value;
+        state.token.expiresAt = Date.now() + token.expires_in * 1000;
+    };
+
+    const updateDiswhoToken = function (token) {
+        state.diswhoToken = token;
+    };
+
+    const updateCommands = function (commands) {
+        state.commands = commands;
+    };
+
+    const updateClientName = function (clientName) {
+        state.clientName = clientName;
+    };
+
+    const isLogged = computed(() => state.clientId && state.token.value && state.token.expiresAt > Date.now());
+
+    return {
+        state: readonly(state),
+        loadCache,
+        updateDiswhoToken,
+        updateCredentials,
+        updateCommands,
+        updateClientName,
+
+        isLogged
+    };
+
+}

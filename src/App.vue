@@ -2,7 +2,7 @@
     <div>
         <NavigationBar />
         <div
-            v-if="!$store.getters.logged && $route.name !== 'Settings'"
+            v-if="!state.isLogged && $route.name !== 'Settings'"
             class="text-center mt-28"
         >
             You are not logged. Go to the <router-link
@@ -17,10 +17,10 @@
             v-else-if="missingScope && $route.name !== 'Settings'"
             class="text-center mt-28"
         >
-            You selected a guild (<code>{{ $store.state.selectedGuildID }}</code>) on which your bot can't create Slash Commands OR the guild doesn't exist.
+            You selected a guild (<code>{{ state.selectedGuildID }}</code>) on which your bot can't create Slash Commands OR the guild doesn't exist.
             <br>
             You can authorize it by clicking <a
-                :href="`https://discord.com/api/oauth2/authorize?client_id=${$store.state.clientID}&scope=applications.commands&guild_id=${$store.state.selectedGuildID}&disable_guild_select=true`"
+                :href="`https://discord.com/api/oauth2/authorize?client_id=${state.clientID}&scope=applications.commands&guild_id=${state.selectedGuildID}&disable_guild_select=true`"
                 class="link"
                 target="_blank"
             >here</a>, then refresh the page.
@@ -69,10 +69,16 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import decodeJwt from 'jwt-decode';
+import { useRouter } from 'vue-router';
+
+import useGlobalState from './store';
 import { fetchApplication, fetchCommands } from './api';
+
 import NavigationBar from './components/NavigationBar.vue';
 import LoadingAnimation from './components/LoadingAnimation.vue';
+
 
 export default {
     name: 'App',
@@ -80,54 +86,71 @@ export default {
         NavigationBar,
         LoadingAnimation
     },
-    data () {
-        return {
-            loading: true,
-            missingScope: false
-        };
-    },
-    created () {
-        this.$store.dispatch('loadSettingsCache');
+    setup () {
 
-        const
-            paramDiswhoJwt = new URLSearchParams(window.location.search).get('diswhoJwt'),
-            storeDiswhoJwt = this.$store.state.diswhoToken;
-        if (paramDiswhoJwt){
-            this.$store.dispatch('saveDiswhoToken', paramDiswhoJwt);
-            this.$router.replace({ path: '/', query: {} })
-        } else if(
-            !storeDiswhoJwt
-            ||
-            storeDiswhoJwt && decodeJwt(storeDiswhoJwt).expirationTimestamp < Date.now()
-        ){
+        const router = useRouter();
+
+        const {
+            state,
+            isLogged,
+            loadCache,
+            updateDiswhoToken,
+            updateClientName,
+            updateCommands
+        } = useGlobalState();
+
+        // retrieve saved state from local storage
+        loadCache();
+
+        // update diswho token if one is sent to the app
+        const diswhoJwt = new URLSearchParams(window.location.search).get('diswhoJwt');
+        if (diswhoJwt) {
+            updateDiswhoToken(diswhoJwt);
+            router.replace({ path: '/', query: {} });
+        } else if (!state.diswhoToken || (state.diswhoToken && decodeJwt(state.diswhoToken.value).expirationTimestamp < Date.now())) {
             return window.location.replace(`https://diswho.androz2091.fr?returnUrl=${window.location.href}`);
         }
 
-        this.loadCommands();
-    },
-    methods: {
-        loadCommands () {
-            this.missingScope = false;
-            this.loading = true;
-            if (!this.$store.getters.logged || !this.$store.getters.isTokenActive) {
-                this.loading = false;
-                this.$router.push('/settings');
-            } else {
-                const startAt = Date.now();
-                fetchCommands(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID).then(async (commands) => {
-                    const app = await fetchApplication(this.$store.state.clientID, this.$store.state.diswhoToken).catch(() => {});
-                    if (app) this.$store.commit('SET_APPLICATION_NAME', app.username + '#' + app.discriminator);
-                    setTimeout(() => {
-                        this.$store.commit('SET_COMMANDS', commands);
-                        this.loading = false;
-                    }, (Date.now() - startAt) + 100);
-                }).catch((err) => {
-                    this.loading = false;
-                    if (err.response.status === 403) this.missingScope = true;
-                    else this.$router.push('/settings');
-                });
+        const loading = ref(false);
+        const missingScope = ref(false);
+
+        function loadCommands () {
+
+            missingScope.value = false;
+            loading.value = true;
+
+            if (!isLogged) {
+                loading.value = false;
+                router.push('/settings');
+                return;
             }
+
+            const startAt = Date.now();
+            fetchCommands(state.clientId, state.token, state.guildId)
+                .then(async (commands) => {
+                    const app = await fetchApplication(state.clientId, state.diswhoToken).catch(() => {});
+                    if (app) updateClientName(app.username + '#' + app.discriminator);
+                    setTimeout(() => {
+                        updateCommands(commands);
+                        loading.value = false;
+                    }, (startAt - Date.now()) + 500); // wait at least 500ms with the loading animation
+                })
+                .catch((err) => {
+                    loading.value = false;
+                    if (err.response.status === 403) missingScope.value = true;
+                    else router.push('/settings');
+                });
         }
+
+        loadCommands();
+
+        return {
+            loading,
+            missingScope,
+            state: useGlobalState(),
+            loadCommands
+        };
+
     }
 };
 </script>
