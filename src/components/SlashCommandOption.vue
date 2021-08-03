@@ -77,17 +77,21 @@ export default {
             this.deleteModalLoading = true;
             const newCommand = cloneObject(this.command);
             const newSubCommand = this.subcommand ? cloneObject(this.subcommand) : null;
-            if (!newSubCommand.options) newSubCommand.options = [];
-            newSubCommand.options = newSubCommand.options.filter((opt) => opt.name !== this.option.name);
+            if (this.subcommand) {
+                if (!newSubCommand.options) newSubCommand.options = [];
+                newSubCommand.options = newSubCommand.options.filter((opt) => opt.name !== this.option.name);
+            }
             if (this.subgroup) {
                 const newGroup = cloneObject(this.subgroup);
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subgroup.name);
                 newGroup.options = newGroup.options.filter((opt) => opt.name !== this.subcommand.name);
                 newGroup.options.push(newSubCommand);
                 newCommand.options.push(newGroup);
-            } else {
+            } else if (this.subcommand) {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
                 newCommand.options.push(newSubCommand);
+            } else {
+                newCommand.options = newCommand.options.filter((opt) => opt.name !== this.option.name);
             }
             updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
