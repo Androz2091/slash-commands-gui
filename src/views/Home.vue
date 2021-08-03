@@ -11,7 +11,7 @@
             {{ $store.state.applicationName }}
         </a> (<a
             class="link inline"
-            @click="this.$root.loadCommands()"
+            @click="$root.loadCommands()"
         >
             refresh commands
         </a>)
