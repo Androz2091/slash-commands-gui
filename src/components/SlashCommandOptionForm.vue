@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div
-                v-if="type === 'String'"
+                v-if="['String', 'Number', 'Integer'].includes(type)"
                 class="space-y-2"
             >
                 <label class="block">Choices</label>
@@ -74,6 +74,7 @@
                     >
                     <input
                         v-model="choice.value"
+                        type="number"
                         placeholder="The value sent to you"
                         class="border inline py-2 px-4 rounded focus:outline-none focus:border-discord text-sm w-4/12 md:w-5/12"
                     >
@@ -262,7 +263,17 @@ export default {
                 name: this.name,
                 description: this.description,
                 type: dataTypes.find((t) => formatString(t.name) === this.type).type,
-                choices: this.type === 'String' ? this.choices : null,
+                choices: ['String', 'Number', 'Integer'].includes(this.type) ? (
+                    this.type === 'Number' ? this.choices.map((c) => ({
+                        value: parseFloat(c.value),
+                        name: c.name
+                    })) : (
+                        this.type === 'Integer' ? this.choices.map((c) => ({
+                            value: parseInt(c.value),
+                            name: c.name
+                        })) : this.choices
+                    )
+                ) : null,
                 required: this.required
             });
         },
