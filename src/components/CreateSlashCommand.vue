@@ -101,7 +101,7 @@ export default {
             if (commandNameMinLength) return 'Name can not be shorter than 3 characters.';
             const commandNameMaxLength = this.name.length > 32;
             if (commandNameMaxLength) return 'Name can not be longer than 32 characters.';
-            const invalidCharacters = !(/^[0-9a-zA-Z_]+$/.test(this.name));
+            const invalidCharacters = !(/^[\w_-]{1,32}$/u.test(this.name));
             if (invalidCharacters) return 'Name contains invalid characters.';
             return null;
         },
