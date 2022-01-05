@@ -58,6 +58,26 @@
                     />
                 </div>
             </div>
+            <div class="space-y-2">
+                <label
+                    for="autocomplete"
+                >Autocomplete</label>
+                <div
+                    class="relative w-10 mr-2 align-middle select-none transition duration-200 ease-in"
+                >
+                    <input
+                        id="autocomplete"
+                        v-model="autocomplete"
+                        type="checkbox"
+                        name="autocomplete"
+                        class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                    >
+                    <label
+                        for="autocomplete"
+                        class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                    />
+                </div>
+            </div>
             <div
                 v-if="type === 'String'"
                 class="space-y-2"
@@ -187,6 +207,7 @@ export default {
             type: 'String',
             choices: [],
             required: false,
+            autocomplete: false,
 
             maxChoicesReached: false,
             emptyChoice: false,
@@ -251,6 +272,7 @@ export default {
             this.choices = this.option.choices || [];
             this.type = formatString(dataTypes.find((t) => t.type === this.option.type).name);
             this.required = this.option.required || false;
+            this.autocomplete = this.option.autocomplete || false;
         }
     },
     methods: {
@@ -263,7 +285,8 @@ export default {
                 description: this.description,
                 type: dataTypes.find((t) => formatString(t.name) === this.type).type,
                 choices: this.type === 'String' ? this.choices : null,
-                required: this.required
+                required: this.required,
+                autocomplete: this.autocomplete
             });
         },
         closeModal () {
