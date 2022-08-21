@@ -21,7 +21,7 @@
             </span>
             <p class="text-gray-400 leading-tight text-xs">
                 The client ID of your application can be found on your <a
-                    href="https://discord.dev/"
+                    href="https://discord.com/developers/applications"
                     class="link"
                     target="_blank"
                 >Discord developer dashboard</a>.
@@ -42,7 +42,7 @@
             </span>
             <p class="text-gray-400 leading-tight text-xs">
                 The client secret of your application can be found on your <a
-                    href="https://discord.dev/"
+                    href="https://discord.com/developers/applications"
                     target="_blank"
                     class="link"
                 >Discord developer dashboard</a>. It won't be stored in your browser and will only be used to generate an OAuth2 token.
