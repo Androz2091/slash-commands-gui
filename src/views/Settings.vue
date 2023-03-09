@@ -7,7 +7,7 @@
             Slash Commands GUI Settings
         </h1>
         <div class="space-y-2">
-            <label for="clientid">Client ID</label>
+            <label for="clientid">Application ID</label>
             <input
                 v-model="clientID"
                 class="border block py-2 px-4 rounded focus:outline-none focus:border-discord"
