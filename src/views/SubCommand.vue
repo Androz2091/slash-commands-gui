@@ -110,7 +110,7 @@ export default {
             if (this.subgroup) {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subgroup.name);
                 const newGroup = cloneObject(this.subgroup);
-                newGroup.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
+                newGroup.options = newGroup.options.filter((opt) => opt.name !== this.subcommand.name);
                 newCommand.options.push(newGroup);
             } else {
                 newCommand.options = newCommand.options.filter((opt) => opt.name !== this.subcommand.name);
@@ -118,7 +118,7 @@ export default {
             updateCommand(this.$store.state.clientID, this.$store.state.token.value, this.$store.state.selectedGuildID, newCommand).then(() => {
                 this.$store.dispatch('updateCommand', newCommand);
                 this.$refs.updateForm.setDeleteLoading(false);
-                this.$router.push(`/command/${this.command.id}${this.subgroup ? `groups/${this.subgroup.name}/` : ''}`);
+                this.$router.push(`/command/${this.command.id}${this.subgroup ? `/groups/${this.subgroup.name}` : ''}`);
             });
         },
         openModal () {
