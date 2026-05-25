@@ -58,7 +58,7 @@
                     />
                 </div>
             </div>
-            <div class="space-y-2" v-if="['String', 'Integer'].includes(type) && choices.length === 0">
+            <div class="space-y-2" v-if="['String', 'Integer', 'Number'].includes(type) && choices.length === 0">
                 <label
                     for="autocomplete"
                 >Autocomplete</label>
