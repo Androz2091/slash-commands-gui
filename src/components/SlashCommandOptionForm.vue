@@ -269,7 +269,7 @@ export default {
         if (this.option) {
             this.name = this.option.name;
             this.description = this.option.description;
-            this.choices = this.option.choices || [];
+            this.choices = (this.option.choices || []).map((c) => ({ ...c }));
             this.type = formatString(dataTypes.find((t) => t.type === this.option.type).name);
             this.required = this.option.required || false;
             this.autocomplete = this.option.autocomplete || false;
@@ -284,10 +284,18 @@ export default {
                 name: this.name,
                 description: this.description,
                 type: dataTypes.find((t) => formatString(t.name) === this.type).type,
-                choices: this.type === 'String' ? this.choices : null,
+                choices: this.type === 'String' ? this.choices.map((c) => ({ name: c.name, value: c.value })) : null,
                 required: this.required,
                 autocomplete: this.autocomplete
             });
+            if (this.action !== 'Update') {
+                this.name = '';
+                this.description = '';
+                this.type = 'String';
+                this.choices = [];
+                this.required = false;
+                this.autocomplete = false;
+            }
         },
         closeModal () {
             this.$emit('close');
