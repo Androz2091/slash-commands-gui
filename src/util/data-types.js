@@ -28,5 +28,20 @@ export default [
         type: 8,
         name: 'role',
         color: 'green'
+    },
+    {
+        type: 9,
+        name: 'mentionable',
+        color: 'pink'
+    },
+    {
+        type: 10,
+        name: 'number',
+        color: 'yellow'
+    },
+    {
+        type: 11,
+        name: 'attachment',
+        color: 'gray'
     }
 ];
