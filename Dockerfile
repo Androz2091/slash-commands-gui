@@ -5,6 +5,6 @@ RUN yarn install
 COPY . .
 RUN yarn build
 
-FROM nginx:alpine
+FROM nginx:1.31.9-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /usr/local/app/dist /usr/share/nginx/html
